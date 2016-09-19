@@ -145,6 +145,66 @@ public class CreateBox {
 		return boarderBox;
 		
 	}
+
+	/**
+	 * This the method that creates the 3D box environment where all the game play occurs
+	 * @return It returns the 3D box created and added to the scene.
+	 */
+	public Group gameBox()
+	{
+		Group boarderGroup = new Group();
+		int[] sequence = {1,2,3,4};  // The sequence of how the box is drawn
+		Box leftBox = new Box(3, 500, 495); // These are the boxes that forms up the 3D box environment
+		Box rightBox = new Box(3, 500, 495);
+		Box topBox = new Box(990, 5, 495);
+		Box groundBox = new Box(990, 5, 495);
+
+		int startZ = (((int)bo.get(4).getZ() - (int)bo.get(0).getZ()) / 2) + (int)bo.get(0).getZ(); // This value is fixed
+		int startX = 0;
+		int startY = 0;
+
+		for(int i = 0; i < 4; i++)
+		{
+			switch(sequence[i])
+			{
+				case 1:
+					startX = (int)bo.get(0).getX();
+					startY = 250; 					// from the World coordination(case(1)-case(0)) / 2
+					leftBox.setTranslateX(startX);  // This is the left side of the box
+					leftBox.setTranslateY(startY);
+					leftBox.setTranslateZ(startZ);
+					boarderGroup.getChildren().add(leftBox);
+					;break;
+				case 2:
+					startX = ((int)bo.get(2).getX()-(int)bo.get(0).getX()) / 2;
+					startY += 250; 					//goes to the ground floor
+					groundBox.setTranslateX(startX);// This is the ground side of the box
+					groundBox.setTranslateY(startY);
+					groundBox.setTranslateZ(startZ);
+					boarderGroup.getChildren().add(groundBox);
+					;break;
+				case 3:
+					startX += ((int)bo.get(2).getX()-(int)bo.get(0).getX()) / 2;
+					startY = startY - 250;
+					rightBox.setTranslateX(startX); // This is the right side of the box
+					rightBox.setTranslateY(startY);
+					rightBox.setTranslateZ(startZ);
+					boarderGroup.getChildren().add(rightBox);
+					;break;
+				case 4:
+					startY = 0;
+					startX = ((int)bo.get(3).getX()- (int)bo.get(0).getX()) / 2;
+					topBox.setTranslateX(startX); // This is the top side of the box
+					topBox.setTranslateY(startY);
+					topBox.setTranslateZ(startZ);
+					boarderGroup.getChildren().add(topBox);
+					;break;
+			}
+
+		}
+		return boarderGroup;
+	}
+
 /**
  * this method allows for different ground textures to used for different games or levels
  * it is hard coded to the size of the 3D box that the games are in	
