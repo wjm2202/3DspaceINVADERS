@@ -1,7 +1,6 @@
-package glen14852903;
+package gameValues;
 
 import java.util.ArrayList;
-import java.util.concurrent.ThreadLocalRandom;
 
 import javafx.geometry.Point3D;
 import operations.Enemy;

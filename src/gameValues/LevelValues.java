@@ -1,4 +1,4 @@
-package glen14852903;
+package gameValues;
 
 /**
  * this class lets you set all the game variables in one place
