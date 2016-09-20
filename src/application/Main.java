@@ -89,8 +89,7 @@ public class Main extends Application{
 	ArrayList<Point3D> bounds = new ArrayList<>();                       //get the 3D world corner points
 	ArrayList<Enemy> enemy = new ArrayList<>();                          //array of current enemies
 	ArrayList<Point3D> startP3d = new ArrayList<>();                     //get pre generated start locations for enemies
-	ArrayList<Node> remove = new ArrayList<>();                          //array of enemies to be removed on the next loop
-	ArrayList<Node> removebomb = new ArrayList<>();                      //array of bombs to remove on the next loop
+
 	BoundsClamp bc = new BoundsClamp();                                  //contain the 3D objects inside the 3D world box
 	Random rand = new Random();                                          //random value used for testing
 	RotateElements re = new RotateElements();                            //rotate transform for 3D objects
