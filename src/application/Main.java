@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import glen14852903.SpawnEnemies;
 import glen14852903.LevelValues;
+import glen14852903.Movement;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
@@ -94,8 +95,7 @@ public class Main extends Application{
 	Random rand = new Random();                                          //random value used for testing
 	RotateElements re = new RotateElements();                            //rotate transform for 3D objects
 	ScaleElements scale = new ScaleElements();                           //scale transform for 3D objects
-	int facing = 0;                                                      //the direction the tank is curruntly facing
-	int moveToFace = 0;                                                  //the direction the tank is about to turn to
+	Movement facing = Movement.forwards;
 	Point3D bulletStart;                                                 //the location of the start of the bullet
 	Point3D bombStart;                                                   //the location of the start of the bomb
 	int trigger=0;                                                       //the limiter to the number of bombs dropped
@@ -156,17 +156,69 @@ public class Main extends Application{
 			mouseOldX = me.getSceneX();                                             //get starting location X
 			mouseOldY = me.getSceneY();                                             //get starting location Y
 		});
-		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {                        //key events handled here
+		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
-				                                           //key imputs here
-				
-				
-				
-				
-				
-				
-				
+				Node tank = tankGroup.getChildren().get(0);
+
+				switch (event.getCode()){
+					case UP:
+						if(bc.tankZClamp(tank)){
+							re.rotateTank(tank, facing, Movement.forwards);
+							tank.setTranslateZ(tank.getTranslateZ()+20);
+							facing=Movement.forwards;
+							event.consume();
+						}else{
+							re.rotateTank(tank, facing, Movement.forwards);
+							tank.setTranslateZ(tank.getTranslateZ()-60);
+							facing=Movement.forwards;
+							event.consume();
+						}
+						break;
+					case DOWN:
+						if(bc.tankZClamp(tank)){
+							re.rotateTank(tank, facing, Movement.backwards);
+							tank.setTranslateZ(tank.getTranslateZ()-20);
+							facing=Movement.backwards;
+							event.consume();
+						}else{
+							re.rotateTank(tank, facing, Movement.backwards);
+							tank.setTranslateZ(tank.getTranslateZ()+60);
+							facing=Movement.backwards;
+							event.consume();
+						}
+						break;
+					case LEFT:
+						if(bc.tankXClamp(tank)){
+							re.rotateTank(tank, facing, Movement.left);
+							tank.setTranslateX(tank.getTranslateX()-20);
+							facing=Movement.left;
+							event.consume();
+						}
+						else{
+							re.rotateTank(tank, facing, Movement.left);
+							tank.setTranslateX(tank.getTranslateX()+60);
+							facing=Movement.left;
+							event.consume();
+						}
+						break;
+					case RIGHT:
+						if(bc.tankXClamp(tank)){
+							re.rotateTank(tank, facing, Movement.right);
+							tank.setTranslateX(tank.getTranslateX()+20);
+							facing=Movement.right;
+							event.consume();
+						}else{
+							re.rotateTank(tank, facing, Movement.right);
+							tank.setTranslateX(tank.getTranslateX()-60);
+							facing=Movement.right;
+							event.consume();
+						}
+						break;
+					default:
+						break;
+				}
+
 			}
 		});
 		scene.setOnMouseClicked((event)->{                                          //make picked objects red
@@ -196,7 +248,15 @@ public class Main extends Application{
 
 			}
 		}.start();
-		                  
+
+		facing = Movement.forwards;
+		gvg.setTankXsize(100); //Stretching sideways (left and right)
+		gvg.setTankYsize(50); //Stretching upwards (up and down)
+		gvg.setTankZsize(50); //Stretching across (towards and away)
+		gvg.setTankPositon(500, 500, 1050);
+		tankGroup.getChildren().add(boxOP.makeTank(gvg.getTankXPosition(), gvg.getTankYPosition(), gvg.getTankZPosition(), gvg.getTankXsize(),gvg.getTankYsize(),gvg.getTankZsize()));
+		root.getChildren().add(tankGroup);
+
 		root.getChildren().add(boxOP.ground());                //add ground to scene
 		root.getChildren().add(boxOP.horizon());               //add background to scene
 		//root.getChildren().add(boxOP.gameBound(root, 0, 0, 800, 5));

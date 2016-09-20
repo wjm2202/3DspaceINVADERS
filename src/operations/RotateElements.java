@@ -3,108 +3,102 @@ package operations;
 import javafx.animation.RotateTransition;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
+import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
-/**
- * this method is used to rotate 3D objects
- * @author Liandri
- *
- */
+import glen14852903.Movement;
+
 public class RotateElements {
-/**
- * this method makes a single 3D box turn 180 degrees
- * just call the method and supply the individual box
- * and it will be rotated 180 degrees once	
- * @param node
- */
-	public void rotateBox(Node node){                                                //make an animation
-		RotateTransition rtrans = new RotateTransition(Duration.millis(250),node);   //make a new rotateTransform 1/20 of a second duration
-		rtrans.setFromAngle(0);                                                  //start angle of rotation
-		rtrans.setToAngle(180);                                                  //angle to rotate to
-		rtrans.setAutoReverse(false);                                            //does not reverse direction of rotation
-		rtrans.setCycleCount(1);                              					//rotate once
-		rtrans.setAxis(new Point3D(0.0,5.0,0.0));                                //rotational axis
-		rtrans.play();                                                           //play the animation
-	}
-/**
- * DO NOT ALTER
- * see glen if you want different behavior for your player	
- * this makes the player tank face the direction of the arrow key press
- * it uses a facing and move to face variable in amin to calculate which way to move
- * if you require different movement for your player see glen for help
- * @param node
- * @param facing
- * @param turnTo
- */
-	public void rotateTank(Node node, int facing, int turnTo){                                                //make an animation
-		//for each in arraylist do
-		RotateTransition rtrans = new RotateTransition(Duration.millis(250),node);   //make a new rotateTransform 1/20 of a second duration
-		rtrans.setFromAngle(0);                                                  //start angle of rotation
+	/**
+	 * This method is used to rotate 3D objects
+	 * @author Inderjit Singh Janjua
+	 *
+	 */
+
+	Rotate r180 = new Rotate(0,0,0,0, Rotate.Y_AXIS);
+	Rotate r90 = new Rotate(0,0,0,0, Rotate.Y_AXIS);
+	Rotate mr90 = new Rotate(0,0,0,0, Rotate.Y_AXIS);
+
+	public void rotateTank(Node node, Movement facing, Movement turnTo){
+		r180.setAngle(180);
+		r90.setAngle(90);
+		mr90.setAngle(-90);
 		switch(facing){
-		case 0:
-			switch(turnTo){
-			case 0:
+			case forwards:
+				switch(turnTo){
+					case right:
+						node.getTransforms().add(r90);
+						break;
+					case backwards:
+						node.getTransforms().add(r180);
+						break;
+					case left:
+						node.getTransforms().add(mr90);
+						break;
+					default:
+						break;
+				}
 				break;
-			case 1:
-				rtrans.setToAngle(-90);
+			case right:
+				switch(turnTo){
+					case forwards:
+						node.getTransforms().add(mr90);
+						break;
+					case backwards:
+						node.getTransforms().add(r90);
+						break;
+					case left:
+						node.getTransforms().add(r180);
+						break;
+					default:
+						break;
+				}
 				break;
-			case 2:
-				rtrans.setToAngle(-180);
+			case backwards:
+				switch(turnTo){
+					case forwards:
+						node.getTransforms().add(r180);
+						break;
+					case right:
+						node.getTransforms().add(r90);
+						break;
+					case left:
+						node.getTransforms().add(mr90);
+						break;
+					default:
+						break;
+				}
 				break;
-			case 3:
-				rtrans.setToAngle(90);
+			case left:
+				switch(turnTo){
+					case forwards:
+						node.getTransforms().add(r90);
+						break;
+					case right:
+						node.getTransforms().add(r180);
+						break;
+					case backwards:
+						node.getTransforms().add(mr90);
+						break;
+					default:
+						break;
+				}
 				break;
-			}
-			break;
-		case 1:
-			switch(turnTo){
-			case 0:
-				rtrans.setToAngle(90);
-				break;
-			case 1:
-				break;
-			case 2:
-				rtrans.setToAngle(90);
-				break;
-			case 3:
-				rtrans.setToAngle(180);
-				break;
-			}
-			break;
-		case 2:
-			switch(turnTo){
-			case 0:
-				rtrans.setToAngle(180);
-				break;
-			case 1:
-				rtrans.setToAngle(90);
-				break;
-			case 2:
-				break;
-			case 3:
-				rtrans.setToAngle(90);
-				break;
-			}
-			break;
-		case 3:
-			switch(turnTo){
-			case 0:
-				rtrans.setToAngle(90);
-				break;
-			case 1:
-				rtrans.setToAngle(180);
-				break;
-			case 2:
-				rtrans.setToAngle(90);
-				break;
-			case 3:
-				break;
-			}
-			break;
-		}                                            //angle to rotate to
-		rtrans.setAutoReverse(false);                                            //does not reverse direction of rotation
-		rtrans.setCycleCount(1);                              					//rotate once
-		rtrans.setAxis(new Point3D(0.0,5.0,0.0));                                //rotational axis
-		rtrans.play();                                                           //play the animation
-		//end the stream
-	}
+		}
+		}
+
+		/**
+		 * this method makes a single 3D box turn 180 degrees
+		 * just call the method and supply the individual box
+		 * and it will be rotated 180 degrees once
+		 * @param node
+		 */
+		public void rotateBox(Node node) {                                                //make an animation
+			RotateTransition rtrans = new RotateTransition(Duration.millis(250), node);   //make a new rotateTransform 1/20 of a second duration
+			rtrans.setFromAngle(0);                                                  //start angle of rotation
+			rtrans.setToAngle(180);                                                  //angle to rotate to
+			rtrans.setAutoReverse(false);                                            //does not reverse direction of rotation
+			rtrans.setCycleCount(1);                                                //rotate once
+			rtrans.setAxis(new Point3D(0.0, 0.0, 0.0));                                //rotational axis
+			rtrans.play();                                                           //play the animation}
+		}
 }

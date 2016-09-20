@@ -30,8 +30,15 @@ public class LevelValues {
     private int tankXsize = 40;                 //the size in width of the tank
     private int tankYsize = 10;                 //the size in height of the tank
     private int tankZsize = 10;                 //the size in depth of the tank
-	
-	
+	private int tankXPosition;
+	private int tankYPosition;
+	private int tankZPosition;
+
+	public void setTankPositon(int x, int y, int z){
+		setTankXPosition(x);
+		setTankYPosition(y);
+		setTankZPosition(z);
+	}
 	
 	public int getNumEnimies(){
 		return numEnemies;
@@ -159,5 +166,29 @@ public class LevelValues {
 
 	public void setTankZsize(int tankZsize) {
 		this.tankZsize = tankZsize;
+	}
+
+	public int getTankXPosition() {
+		return tankXPosition;
+	}
+
+	public void setTankXPosition(int tankXPosition) {
+		this.tankXPosition = tankXPosition;
+	}
+
+	public int getTankYPosition() {
+		return tankYPosition;
+	}
+
+	public void setTankYPosition(int tankYPosition) {
+		this.tankYPosition = tankYPosition;
+	}
+
+	public int getTankZPosition() {
+		return tankZPosition;
+	}
+
+	public void setTankZPosition(int tankZPosition) {
+		this.tankZPosition = tankZPosition;
 	}
 }
