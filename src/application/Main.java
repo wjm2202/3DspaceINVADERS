@@ -82,8 +82,8 @@ public class Main extends Application{
 	CreateCamera perCamera = new CreateCamera();                         //camera
 	CreateBox boxOP = new CreateBox();                                   //box factory
 	PerspectiveCamera camera;                                            //camera variable
-	SpawnEnemies sUpInvader = new SpawnEnemies();                //set up invader variables
-	LevelValues gvg = new LevelValues();                     //get gameVariable for invader game
+	SpawnEnemies sUpInvader = new SpawnEnemies();                        //set up invader variables
+	LevelValues gvg = new LevelValues();                                 //get gameVariable for invader game
 	WorldCoOrdinates loc3D = new WorldCoOrdinates();                     //get preset points important for gaem
 	ArrayList<Point3D> bounds = new ArrayList<>();                       //get the 3D world corner points
 	ArrayList<Enemy> enemy = new ArrayList<>();                          //array of current enemies
@@ -199,7 +199,7 @@ public class Main extends Application{
 		                  
 		root.getChildren().add(boxOP.ground());                //add ground to scene
 		root.getChildren().add(boxOP.horizon());               //add background to scene
-		root.getChildren().add(boxOP.gameBound(root, 0, 0, 800, 5));
+		//root.getChildren().add(boxOP.gameBound(root, 0, 0, 800, 5));
 		root.getChildren().add(boxOP.gameBox());			   //creating the box environment
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());      //add css to ui
 		stage.setScene(scene);                                                     // Add the Scene to the Stage
