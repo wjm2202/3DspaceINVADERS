@@ -2,9 +2,9 @@ package application;
 
 import java.util.ArrayList;
 import java.util.Random;
-import glen14852903.SpawnEnemies;
-import glen14852903.LevelValues;
-import glen14852903.Movement;
+import gameValues.SpawnEnemies;
+import gameValues.LevelValues;
+import gameValues.Movement;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;

@@ -1,4 +1,4 @@
-package glen14852903;
+package gameValues;
 
 /**
  * Created by Inderjit on 20/09/2016.
