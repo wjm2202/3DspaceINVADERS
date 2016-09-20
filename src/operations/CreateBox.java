@@ -524,7 +524,7 @@ public class CreateBox {
 					textbox6.setTranslateZ(currZ-500); 
 					textbox6.setMaterial(img.getTexture(4));               //set light side texture
 					invaderGroup.getChildren().add(textbox6);
-					;break;
+					break;
 				case 0:                                                        //if the array has a 0 do nothing (space)
 					break;
 				}
@@ -534,4 +534,183 @@ public class CreateBox {
 			currY+=10;
 		}
 	}
+
+    /**
+     * OLD UNUSED method for testing
+     * this method generates a single invader from an array pattern
+     * it returns a group to the caller in the shape of a single invader
+     * @param root
+     * @param curZ
+     * @param boxSize
+     * @param curX
+     * @param curY
+     */
+    public Group invader(Group root, int boxSize, int curX, int curY, int curZ){    //make individual invaders
+        Group is = new Group();
+        int[][] shape  = {
+                {0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0},
+                {0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0},
+                {0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0},
+                {0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0},
+                {0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0},
+                {0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0},
+                {0,0,0,1,1,1,1,1,1,1,1,1,1,0,0,0},
+                {0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0},
+                {0,0,1,1,1,0,1,1,1,1,0,1,1,1,0,0},
+                {0,1,1,1,1,0,1,1,1,1,0,1,1,1,1,0},
+                {0,1,1,1,0,0,0,1,1,0,0,0,1,1,1,0},
+                {1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1}};
+
+        int currX = curX;
+        int currY = curY;
+        int currZ = curZ;
+        for(int x =0;x<16;x++){              //rows y down
+            for(int y=0;y<16;y++){           //rows x across
+                switch(shape[x][y]){
+                    case 1:                                                           //if the array has a 1 do this
+                        Box textbox6 = new Box(boxSize, boxSize, boxSize);                  //make 3D box
+                        textbox6.setTranslateX(currX);                            //set x location
+                        textbox6.setTranslateY(currY);                             //set y location
+                        textbox6.setTranslateZ(currZ);
+                        //temp.setDiffuseColor(Color.BEIGE);        //set dark side color
+                        //temp.setDiffuseMap(image4);                //add texture to box on light side
+                        //textbox6.setMaterial(temp);               //set light side texture
+                        is.getChildren().add(textbox6);
+                        break;
+                    case 0:                                                        //if the array has a 0 do nothing (space)
+                        break;
+                }
+                currX+=10;                                                    //move to next block location
+            }
+            currX-=160;                                                        //got to new line of blocks
+            currY+=10;
+            curZ += 10;
+        }
+        return is;
+    }
+    //invader type 2
+    public Group invader2(Group root, int boxSize, int curX, int curY, int curZ){    //make individual invaders
+        Group is = new Group();
+        int[][] shape  = {
+                {0,0,1,1,1,1,1,0,0},
+                {0,1,0,0,1,0,0,1,0},
+                {1,0,0,1,1,1,0,0,1},
+                {1,0,1,0,0,0,1,0,1},
+                {0,1,0,0,0,0,0,1,0},
+                {0,0,0,1,1,1,0,0,0},
+                {0,0,0,0,1,0,0,0,0},
+                {1,0,0,0,0,0,0,0,1},
+                {1,1,0,0,0,0,0,1,1}};
+
+        int currX = curX;
+        int currY = curY;
+        int currZ = curZ;
+        for(int x =0;x<9;x++){              //rows y down
+            for(int y=0;y<9;y++){           //rows x across
+                switch(shape[x][y]){
+                    case 1:                                                           //if the array has a 1 do this
+                        Box textbox6 = new Box(boxSize, boxSize, boxSize);                  //make 3D box
+                        textbox6.setTranslateX(currX);                            //set x location
+                        textbox6.setTranslateY(currY);                             //set y location
+                        textbox6.setTranslateZ(currZ);
+                        //temp.setDiffuseColor(Color.BEIGE);        //set dark side color
+                        //temp.setDiffuseMap(image4);                //add texture to box on light side
+                        //textbox6.setMaterial(temp);               //set light side texture
+                        is.getChildren().add(textbox6);
+                        break;
+                    case 0:                                                        //if the array has a 0 do nothing (space)
+                        break;
+                }
+                currX+=10;                                                    //move to next block location
+            }
+            currX-=90;                                                        //got to new line of blocks
+            currY+=10;
+            curZ += 10;
+        }
+        return is;
+    }
+    //invader type 3
+    public Group invader3(Group root, int boxSize, int curX, int curY, int curZ){    //make individual invaders
+        Group is = new Group();
+        int[][] shape  = {
+                {0,1,0,0,0,1,1,0,0,0,1,0},
+                {1,0,0,0,1,0,0,1,0,0,0,1},
+                {1,1,1,1,1,0,0,1,1,1,1,1},
+                {1,0,0,0,1,0,0,1,0,0,0,1},
+                {0,1,0,0,0,1,1,0,0,0,1,0}};
+
+        int currX = curX;
+        int currY = curY;
+        int currZ = curZ;
+        for(int x =0;x<5;x++){              //rows y down
+            for(int y=0;y<12;y++){           //rows x across
+                switch(shape[x][y]){
+                    case 1:                                                           //if the array has a 1 do this
+                        Box textbox6 = new Box(boxSize, boxSize, boxSize);                  //make 3D box
+                        textbox6.setTranslateX(currX);                            //set x location
+                        textbox6.setTranslateY(currY);                             //set y location
+                        textbox6.setTranslateZ(currZ);
+                        //temp.setDiffuseColor(Color.BEIGE);        //set dark side color
+                        //temp.setDiffuseMap(image4);                //add texture to box on light side
+                        //textbox6.setMaterial(temp);               //set light side texture
+                        is.getChildren().add(textbox6);
+                        break;
+                    case 0:                                                        //if the array has a 0 do nothing (space)
+                        break;
+                }
+                currX+=10;                                                    //move to next block location
+            }
+            currX-=120;                                                        //got to new line of blocks
+            currY+=10;
+            curZ += 10;
+        }
+        return is;
+    }
+
+    //invader type 4
+    public Group invader4(Group root, int boxSize, int curX, int curY, int curZ){    //make individual invaders
+        Group is = new Group();
+        int[][] shape  = {
+                {0,0,0,1,1,0,0,0},
+                {0,0,0,1,1,0,0,0},
+                {0,0,1,0,0,1,0,0},
+                {0,1,0,1,1,0,1,0},
+                {0,0,1,0,0,1,0,0},
+                {1,0,0,1,1,0,0,1},
+                {1,1,0,1,1,0,1,1},
+                {0,0,1,0,0,1,0,0},
+                {0,0,0,1,1,0,0,0}};
+
+        int currX = curX;
+        int currY = curY;
+        int currZ = curZ;
+        for(int x =0;x<9;x++){              //rows y down
+            for(int y=0;y<8;y++){           //rows x across
+                switch(shape[x][y]){
+                    case 1:                                                           //if the array has a 1 do this
+                        Box textbox6 = new Box(boxSize, boxSize, boxSize);                  //make 3D box
+                        textbox6.setTranslateX(currX);                            //set x location
+                        textbox6.setTranslateY(currY);                             //set y location
+                        textbox6.setTranslateZ(currZ);
+                        //temp.setDiffuseColor(Color.BEIGE);        //set dark side color
+                        //temp.setDiffuseMap(image4);                //add texture to box on light side
+                        //textbox6.setMaterial(temp);               //set light side texture
+                        is.getChildren().add(textbox6);
+                        break;
+                    case 0:                                                        //if the array has a 0 do nothing (space)
+                        break;
+                }
+                currX+=10;                                                    //move to next block location
+            }
+            currX-=80;                                                        //got to new line of blocks
+            currY+=10;
+            curZ += 10;
+        }
+        return is;
+    }
+
 }

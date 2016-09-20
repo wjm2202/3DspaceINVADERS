@@ -128,6 +128,75 @@ public class Main extends Application{
 		camera.setNearClip(0.4);
 		camera.setFarClip(4000.0);
 		camera.setFieldOfView(45);
+
+		//create 3d invader
+		int zCount = 1200;
+		int dSize = 10;
+		//loop that creates multiple invader of the same type but moves along Z axis to create the 3D affect
+		for(int i = 0; i < 9; i++){
+			if(i == 0){
+				root.getChildren().add(boxOP.invader(root, dSize, 0, 30, zCount));
+			}
+			else if (i > 0 && i < 5){
+				zCount = zCount + 10; //move back on the axis and creating another replica of the invader to create 3D affect
+				dSize = dSize + 3;
+				root.getChildren().add(boxOP.invader(root, dSize, 0, 30, zCount));
+			}
+			else{
+				zCount = zCount + 10;
+				dSize = dSize - 3;
+				root.getChildren().add(boxOP.invader(root, dSize, 0, 30, zCount));
+			}
+		}
+		zCount = 1200; //Goes back to where it started
+		for(int i = 0; i < 9; i++){
+			if(i == 0){
+				root.getChildren().add(boxOP.invader2(root, dSize, 150, 30, zCount));
+			}
+			else if (i > 0 && i < 5){
+				zCount = zCount + 10;
+				dSize = dSize + 3;
+				root.getChildren().add(boxOP.invader2(root, dSize, 150, 30, zCount));
+			}
+			else{
+				zCount = zCount + 10;
+				dSize = dSize - 3;
+				root.getChildren().add(boxOP.invader2(root, dSize, 150, 30, zCount));
+			}
+		}
+		zCount = 1200;//Goes back to where it started
+		for(int i = 0; i < 9; i++){
+			if(i == 0){
+				root.getChildren().add(boxOP.invader3(root, dSize, 300, 30, zCount));
+			}
+			else if (i > 0 && i < 5){
+				zCount = zCount + 10;
+				dSize = dSize + 3;
+				root.getChildren().add(boxOP.invader3(root, dSize, 300, 30, zCount));
+			}
+			else{
+				zCount = zCount + 10;
+				dSize = dSize - 3;
+				root.getChildren().add(boxOP.invader3(root, dSize, 300, 30, zCount));
+			}
+		}
+		zCount = 1200;//Goes back to where it started
+		for(int i = 0; i < 9; i++){
+			if(i == 0){
+				root.getChildren().add(boxOP.invader4(root, dSize, 450, 30, zCount));
+			}
+			else if (i > 0 && i < 5){
+				zCount = zCount + 10;
+				dSize = dSize + 3;
+				root.getChildren().add(boxOP.invader4(root, dSize, 450, 30, zCount));
+			}
+			else{
+				zCount = zCount + 10;
+				dSize = dSize - 3;
+				root.getChildren().add(boxOP.invader4(root, dSize, 450, 30, zCount));
+			}
+		}
+
 		//create sub scene for tool bar             
 		SubScene subScene = new SubScene(root, sW, sH-100,true,SceneAntialiasing.DISABLED);                           //make sub scene add group
 		subScene.setFill(Color.BLACK);                                          //fill scene with color
@@ -249,6 +318,7 @@ public class Main extends Application{
 			}
 		}.start();
 
+
 		facing = Movement.forwards;
 		gvg.setTankXsize(100); //Stretching sideways (left and right)
 		gvg.setTankYsize(50); //Stretching upwards (up and down)
@@ -256,7 +326,6 @@ public class Main extends Application{
 		gvg.setTankPositon(500, 500, 1050);
 		tankGroup.getChildren().add(boxOP.makeTank(gvg.getTankXPosition(), gvg.getTankYPosition(), gvg.getTankZPosition(), gvg.getTankXsize(),gvg.getTankYsize(),gvg.getTankZsize()));
 		root.getChildren().add(tankGroup);
-
 		root.getChildren().add(boxOP.ground());                //add ground to scene
 		root.getChildren().add(boxOP.horizon());               //add background to scene
 		//root.getChildren().add(boxOP.gameBound(root, 0, 0, 800, 5));
