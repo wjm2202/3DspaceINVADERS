@@ -2,6 +2,7 @@ package operations;
 
 import gameValues.LevelValues;
 import javafx.geometry.Point3D;
+import javafx.scene.Group;
 import javafx.scene.Node;
 
 import java.util.ArrayList;
@@ -25,13 +26,23 @@ public class Enemy {
 	private double zOffset=0.0;                                                          //the amount the enemy moves in the Z direction each loop (up/down)
 	private Node node;                                                                   //node is the 3D box that is an enemy on screen
 	ArrayList<Node> bombs = new ArrayList<>();                                           //arrayList of bombs dropped by enemy that are unexploded
-	CreateBox cb = new CreateBox();                                                      //make a box for this enemy to control 
+
+	public Group getMinv() {
+		return Minv;
+	}
+
+	public void setMinv(Group minv) {
+		Minv = minv;
+	}
+
+	Group Minv = new Group();
+	CreateBox cb = new CreateBox();                                                      //make a box for this enemy to control
 /**
  * constructor creates a 3D box and sets fields for location and size	
  * @param loc       Point3D location of box (future multi-player use)
- * @param xO        preset in GameValuesYOURNAME
- * @param yO        preset in GameValuesYOURNAME
- * @param zO        preset in GameValuesYOURNAME
+ * @param xO        preset in LEVELVALUES
+ * @param yO        preset in LEVELVALUES
+ * @param zO        preset in LEVELVALUES
  * @param eType     to be used in future multi-player mode
  * @param boxS      size of box x,y,z
  */

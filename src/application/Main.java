@@ -79,6 +79,7 @@ public class Main extends Application{
 	PerspectiveCamera camera;                                            //camera variable
 	SpawnEnemies sUpInvader = new SpawnEnemies();                        //set up invader variables
 	LevelValues gvg = new LevelValues();                                 //get gameVariable for invader game
+	MegaInvader inv = new MegaInvader();                                 //mega invader creation
 	WorldCoOrdinates loc3D = new WorldCoOrdinates();                     //get preset points important for gaem
 	ArrayList<Point3D> bounds = new ArrayList<>();                       //get the 3D world corner points
 	ArrayList<Enemy> enemy = new ArrayList<>();                          //array of current enemies
@@ -96,6 +97,7 @@ public class Main extends Application{
 	int health=100;                                                      //the player health
 	boolean gameIsRunning = false;                                       //game state started or stoped
 	int currHitsOnTank =0;                                               //the amount of hits on the tank since last update
+	int gameLevel = 0;
 
 	public static void main(String[] args)//DO NOT CODE HERE
 	{                                     //DO NOT CODE HERE
@@ -122,14 +124,7 @@ public class Main extends Application{
 		camera.setFarClip(4000.0);
 		camera.setFieldOfView(45);
 
-		//johno this is a game inititation function move to start button click///////////////////////below
-		//Creating the invader with the 3D effect
-        MegaInvader inv = new MegaInvader();
-        startP3d = loc3D.getStartLocationsInvaders(gvg.getNumEnimies());
-        for(int i = 0; i < gvg.getNumEnimies(); i++)
-        {
-            root.getChildren().add(inv.makeMega(10, (int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ()));
-        }
+
 		//create sub scene for tool bar             
 		SubScene subScene = new SubScene(root, sW, sH-100,true,SceneAntialiasing.DISABLED);                           //make sub scene add group
 		subScene.setFill(Color.BLACK);                                          //fill scene with color
@@ -146,8 +141,18 @@ public class Main extends Application{
 
 		Button start = new Button("Start game");           //Start game                  
 		start.setOnAction(e->{
-			//JOHNO  the make invaders stuff goes here///////////////////////////////////////////////////
-			//code set up here
+			gameIsRunning=true;
+			//johno this is a game inititation function move to start button click///////////////////////below
+			//Creating the invader with the 3D effect
+
+			startP3d = loc3D.getStartLocationsInvaders(gvg.getNumEnimies());
+			for(int i = 0; i < gvg.getNumEnimies(); i++)
+			{//ENEMY CLASS NEEDS A GROUP TO HOLD INVADERS
+				Enemy Menemy = new Enemy(startP3d.get(i),(int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ(),10,10);
+				Menemy.setMinv(inv.makeMega(10, (int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ()));
+				root.getChildren().add(Menemy.getMinv());
+			//ADD TO ENEMY FIRST THEN ADD FROM ENEMY TO ROOT
+			}
 		});
 		toolBar = new ToolBar(start,tfs,tfh);                                       //tool bar add button and box
 
@@ -239,23 +244,38 @@ public class Main extends Application{
 			public void handle(long currentNanoTime)           //Default method as inner class
 			{
 				double time = (currentNanoTime - startNanoTime) / 1000000000.0;      //USED TO UPDATE LOCATIONS ECT
-			    //GAME LOOP 
-				//if game is !running do nothing, and change level values if game number is above game 1 and not paused
-				//call health reset shield reset and premake invaders but dont place on screen
-				//splash screen is shown
+			    //GAME LOOP
+				if(gameIsRunning){
+					//else update entities scores health ect.
+					//call update Point3D for each entity
+					//random bomb drop, random reward drop, update counter for reward is alive
+					//reward collision, shield collision,
+					//game box timer world damage label(if game time is up release the enemies they damage the world)
+					//level label
 
-				//else update entities scores health ect.
-				//call update Point3D for each entity
-				//random bomb drop, random reward drop, update counter for reward is alive
-				//reward collision, shield collision,
-				//game box timer world damage label(if game time is up release the enemies they damage the world)
-				//level label
-				
-				
-				
-				
-				
-				
+
+					//test if level is finished
+
+				}else{
+					//if game is !running do nothing, and change level values if game number is above game 1 and not paused
+					//call health reset shield reset and premake invaders but dont place on screen
+					//splash screen is shown
+					if(gameLevel<1){
+						//do setup for game initial (dont show game ground or horizon yet)
+						//set splash as background
+					}else{
+						//remove old objects and splash stuff
+						//set up next level
+						//show game ground and horizon
+						//update level counter
+					}
+
+
+
+
+
+				}
+
 
 			}
 		}.start();
