@@ -246,7 +246,7 @@ public class Main extends Application{
 				double time = (currentNanoTime - startNanoTime) / 1000000000.0;      //USED TO UPDATE LOCATIONS ECT
 			    //GAME LOOP
 				if(gameIsRunning){
-					//else update entities scores health ect.
+
 					//call update Point3D for each entity
 					//random bomb drop, random reward drop, update counter for reward is alive
 					//reward collision, shield collision,
@@ -254,39 +254,27 @@ public class Main extends Application{
 					//level label
 
 
+					// update entities scores health ect.
 					//test if level is finished
 
 				}else{
-					//if game is !running do nothing, and change level values if game number is above game 1 and not paused
-					//call health reset shield reset and premake invaders but dont place on screen
+					//if game is !running do nothing
 					//splash screen is shown
 					if(gameLevel<1){
 						//do setup for game initial (dont show game ground or horizon yet)
 						//set splash as background
-					}else{
-						//remove old objects and splash stuff
-						//set up next level
-						//show game ground and horizon
-						//update level counter
 					}
-
-
-
-
-
 				}
-
-
 			}
 		}.start();
 
-		//INDY   these values are set in Level values class///////////////////////////////////////////////////////
+
 		facing = Movement.forwards;	//This makes the tank currently face forwards.
+		//INDY   these values are set in Level values class/////////////////////////////////
 		gvg.setTankXsize(50); //Stretching sideways (left and right)
 		gvg.setTankYsize(50); //Stretching upwards (up and down)
 		gvg.setTankZsize(50); //Stretching across (towards and away)
 		gvg.setTankPositon(500, 500, 1050);	//Setting the position of the tank in the middle.
-
 
 
 		tankGroup.getChildren().add(boxOP.makeTank(gvg.getTankXPosition(), gvg.getTankYPosition(), gvg.getTankZPosition(), gvg.getTankXsize(),gvg.getTankYsize(),gvg.getTankZsize()));	//This makes the tank
