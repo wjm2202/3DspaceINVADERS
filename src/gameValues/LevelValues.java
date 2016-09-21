@@ -24,6 +24,8 @@ public class LevelValues {
 	private double spinDrop = 5.0;              //the amount the enemies drop each time they hit a wall and turn around
 	
 	//player values
+	//score
+	//health
 	private int pointsPerKill = 10;             //the amount of points the player get for an ememy kill
 	private int playerHealth =100;              //the starting amount of health of the player
 	private double bulletSpeed = 10.0;          //the speed of the tanks bullets
