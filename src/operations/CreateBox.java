@@ -1,7 +1,5 @@
 package operations;
 
-import java.util.ArrayList;
-import java.util.Random;
 import javafx.geometry.Point3D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -11,6 +9,9 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Cylinder;
 import javafx.stage.Screen;
+
+import java.util.ArrayList;
+import java.util.Random;
 /**
  * this class is the class that creates 3D object for use in your games
  * the classes are called from the Main class or internally to make larger 
@@ -53,6 +54,7 @@ public class CreateBox {
 	static PhongMaterial tankTex;
 	static PhongMaterial groundTex;
 	static PhongMaterial bullColor;                    */
+
 	static WorldCoOrdinates wc;                                         //get world co-ordinate system
 	static ArrayList<Point3D> bo = new ArrayList<>();                       //ArrayList of points of world boundary
 	Random rand = new Random();
@@ -539,13 +541,12 @@ public class CreateBox {
      * OLD UNUSED method for testing
      * this method generates a single invader from an array pattern
      * it returns a group to the caller in the shape of a single invader
-     * @param root
      * @param curZ
      * @param boxSize
      * @param curX
      * @param curY
      */
-    public Group invader(Group root, int boxSize, int curX, int curY, int curZ){    //make individual invaders
+    public Group invader(int boxSize, int curX, int curY, int curZ){    //make individual invaders
         Group is = new Group();
         int[][] shape  = {
                 {0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0},

@@ -1,10 +1,10 @@
 package operations;
 
-import java.util.ArrayList;
-
 import gameValues.LevelValues;
 import javafx.geometry.Point3D;
 import javafx.scene.Node;
+
+import java.util.ArrayList;
 /**
  * this method is a wrapper class for the enemies you want to place on the screen
  * this class allows you to track and to update the location and state of the enemy
@@ -42,7 +42,7 @@ public class Enemy {
 		setzOffset(zO);
 		setEnemyType(eType);
 		setBoxSize(boxS);
-		node = cb.singleEnemyBox((int)currLoc.getX(), (int)currLoc.getY(), (int)currLoc.getZ(), gvg.getEnemyXsize(), gvg.getEnemyYsize(),gvg.getEnemyZsize());
+		//node = cb.singleEnemyBox((int)currLoc.getX(), (int)currLoc.getY(), (int)currLoc.getZ(), gvg.getEnemyXsize(), gvg.getEnemyYsize(),gvg.getEnemyZsize());
 	}
 /**
  * 	
@@ -51,6 +51,7 @@ public class Enemy {
 	public Node getNode(){
 		return node;
 	}
+	public void setNode(Node node){this.node=node;}
 /**
  * 	
  * @return ArrayList of bombs (future multi-player use)
