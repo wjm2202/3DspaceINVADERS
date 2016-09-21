@@ -122,6 +122,7 @@ public class Main extends Application{
 		camera.setFarClip(4000.0);
 		camera.setFieldOfView(45);
 
+		//johno this is a game inititation function move to start button click///////////////////////below
 		//Creating the invader with the 3D effect
         MegaInvader inv = new MegaInvader();
         startP3d = loc3D.getStartLocationsInvaders(gvg.getNumEnimies());
@@ -145,6 +146,7 @@ public class Main extends Application{
 
 		Button start = new Button("Start game");           //Start game                  
 		start.setOnAction(e->{
+			//JOHNO  the make invaders stuff goes here///////////////////////////////////////////////////
 			//code set up here
 		});
 		toolBar = new ToolBar(start,tfs,tfh);                                       //tool bar add button and box
@@ -238,8 +240,16 @@ public class Main extends Application{
 			{
 				double time = (currentNanoTime - startNanoTime) / 1000000000.0;      //USED TO UPDATE LOCATIONS ECT
 			    //GAME LOOP 
-				
-				
+				//if game is !running do nothing, and change level values if game number is above game 1 and not paused
+				//call health reset shield reset and premake invaders but dont place on screen
+				//splash screen is shown
+
+				//else update entities scores health ect.
+				//call update Point3D for each entity
+				//random bomb drop, random reward drop, update counter for reward is alive
+				//reward collision, shield collision,
+				//game box timer world damage label(if game time is up release the enemies they damage the world)
+				//level label
 				
 				
 				
@@ -250,12 +260,15 @@ public class Main extends Application{
 			}
 		}.start();
 
-
+		//INDY   these values are set in Level values class///////////////////////////////////////////////////////
 		facing = Movement.forwards;	//This makes the tank currently face forwards.
 		gvg.setTankXsize(50); //Stretching sideways (left and right)
 		gvg.setTankYsize(50); //Stretching upwards (up and down)
 		gvg.setTankZsize(50); //Stretching across (towards and away)
 		gvg.setTankPositon(500, 500, 1050);	//Setting the position of the tank in the middle.
+
+
+
 		tankGroup.getChildren().add(boxOP.makeTank(gvg.getTankXPosition(), gvg.getTankYPosition(), gvg.getTankZPosition(), gvg.getTankXsize(),gvg.getTankYsize(),gvg.getTankZsize()));	//This makes the tank
 		root.getChildren().add(tankGroup);
 		root.getChildren().add(boxOP.ground());                //add ground to scene
