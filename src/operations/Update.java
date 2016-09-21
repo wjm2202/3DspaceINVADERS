@@ -38,7 +38,7 @@ public class Update {
             inv =invader.get(i).getNode();
             for(int j=0;j<bullet.getChildren().size();j++){
                 bull = bullet.getChildren().get(i);
-                if(inv.getBoundsInParent().intersects(bull.getBoundsInParent())) {
+                if(inv.getBoundsInParent().intersects(bull.getBoundsInParent())) {//collision detection
                     remove.add(inv);
                 }
             }
