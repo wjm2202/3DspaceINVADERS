@@ -23,6 +23,8 @@ public class Img {
 	static Image tanktex;
 	static Image groundtex;
 	static Image bullcolor;
+	static Image groundGrid;
+	static Image ship;
 	static PhongMaterial textureMaterial;                                   //images use this to paste texture to box
 	static PhongMaterial textureMaterial2;
 	static PhongMaterial textureMaterial3;
@@ -39,6 +41,7 @@ public class Img {
 	static PhongMaterial tankTex;
 	static PhongMaterial groundTex;
 	static PhongMaterial bullColor;
+	static PhongMaterial groundGridph;
 	
 	public void setupTextures(){
 		boarderGroup = new Group();                                         //make group able to hold boarder boxes
@@ -57,6 +60,9 @@ public class Img {
 		tanktex = new Image("/pics/tanktex.png");    //get image to wrap cube in
 		groundtex = new Image("/pics/ground.jpg");    //get image to wrap cube in
 		bullcolor = new Image("/pics/bullcolor.jpg");    //get image to wrap cube in
+		groundGrid = new Image("/pics/greenGrid.jpg");	//get image for ground box
+
+
 		textureMaterial = new PhongMaterial();  //texture material
 		textureMaterial2 = new PhongMaterial();  //texture material
 		textureMaterial3 = new PhongMaterial();  //texture material
@@ -66,6 +72,9 @@ public class Img {
 		textureMaterial7 = new PhongMaterial();  //texture material
 		textureMaterial8 = new PhongMaterial();  //texture material
 		textureMaterial9 = new PhongMaterial();  //texture material
+		groundGridph = new PhongMaterial();
+
+
 		temp = new PhongMaterial();  //texture material
 		horizonTex = new PhongMaterial();  //texture material
 		tankTex = new PhongMaterial();  //texture material
@@ -97,6 +106,9 @@ public class Img {
 		groundTex.setDiffuseMap(groundtex);
 		bullColor.setDiffuseColor(Color.BEIGE);        //set dark side color
 		bullColor.setDiffuseMap(bullcolor);
+		groundGridph.setDiffuseColor(Color.BEIGE);        //set dark side color
+		groundGridph.setDiffuseMap(groundGrid);                //set light side texture
+
 		
 	}
 	public PhongMaterial getTexture(int textNum){
@@ -130,6 +142,8 @@ public class Img {
 			getTextureMaterial = groundTex;break;
 		case 14:
 			getTextureMaterial = bullColor;break;
+			case 15:
+				getTextureMaterial = groundGridph;break;
 		default:
 			getTextureMaterial = textureMaterial;break;
 			
