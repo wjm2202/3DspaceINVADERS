@@ -283,6 +283,9 @@ public class Main extends Application{
 							event.consume();
 						}
 						break;
+					case COMMA://When user press Comma button to shoot the bullet
+						//tank
+						break;
 					default:
 						break;
 				}
