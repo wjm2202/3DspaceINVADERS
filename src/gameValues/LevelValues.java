@@ -30,10 +30,16 @@ public class LevelValues {
     private int tankXsize = 40;                 //the size in width of the tank
     private int tankYsize = 10;                 //the size in height of the tank
     private int tankZsize = 10;                 //the size in depth of the tank
-	private int tankXPosition;
-	private int tankYPosition;
-	private int tankZPosition;
+	private int tankXPosition;					//this is the x position of the tank
+	private int tankYPosition;					//this is the y position of the tank
+	private int tankZPosition;					//this is the z position of the tank
 
+	/**
+	 * This method sets the x, y and z position of the tank.
+	 * @param x
+	 * @param y
+	 * @param z
+	 */
 	public void setTankPositon(int x, int y, int z){
 		setTankXPosition(x);
 		setTankYPosition(y);
@@ -168,6 +174,11 @@ public class LevelValues {
 		this.tankZsize = tankZsize;
 	}
 
+
+	/**
+	 * Below are getters and setters of the tank position variables.
+	 * @return
+	 */
 	public int getTankXPosition() {
 		return tankXPosition;
 	}

@@ -1,8 +1,10 @@
 package application;
 
+import java.util.ArrayList;
+import java.util.Random;
+import gameValues.SpawnEnemies;
 import gameValues.LevelValues;
 import gameValues.Movement;
-import gameValues.SpawnEnemies;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
@@ -11,7 +13,12 @@ import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.geometry.Point3D;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.*;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.PerspectiveCamera;
+import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
+import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
@@ -25,10 +32,14 @@ import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import operations.*;
-
-import java.util.ArrayList;
-import java.util.Random;
+import operations.BoundsClamp;
+import operations.CreateBox;
+import operations.CreateCamera;
+import operations.Enemy;
+import operations.LightingElements;
+import operations.RotateElements;
+import operations.ScaleElements;
+import operations.WorldCoOrdinates;
 /**
  * This is where the control logic goes for the main flow of the Model Veiw Controller
  * most of this code is to set up the environment 
@@ -117,12 +128,72 @@ public class Main extends Application{
 		camera.setFarClip(4000.0);
 		camera.setFieldOfView(45);
 
-		//Creating the invader with the 3D effect
-		MegaInvader inv = new MegaInvader();
-		startP3d = loc3D.getStartLocationsInvaders(gvg.getNumEnimies()); //get an array of start points for enemies to spawn at
-		for(int i = 0; i < gvg.getNumEnimies(); i++)
-		{
-			root.getChildren().add(inv.makeMega(10,(int)startP3d.get(i).getX(), (int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ())); // This is calling the invader WITH the 3d affect
+		//create 3d invader
+		int zCount = 1200;
+		int dSize = 10;
+		//loop that creates multiple invader of the same type but moves along Z axis to create the 3D affect
+		for(int i = 0; i < 9; i++){
+			if(i == 0){
+				root.getChildren().add(boxOP.invader(root, dSize, 0, 30, zCount));
+			}
+			else if (i > 0 && i < 5){
+				zCount = zCount + 10; //move back on the axis and creating another replica of the invader to create 3D affect
+				dSize = dSize + 3;
+				root.getChildren().add(boxOP.invader(root, dSize, 0, 30, zCount));
+			}
+			else{
+				zCount = zCount + 10;
+				dSize = dSize - 3;
+				root.getChildren().add(boxOP.invader(root, dSize, 0, 30, zCount));
+			}
+		}
+		zCount = 1200; //Goes back to where it started
+		for(int i = 0; i < 9; i++){
+			if(i == 0){
+				root.getChildren().add(boxOP.invader2(root, dSize, 150, 30, zCount));
+			}
+			else if (i > 0 && i < 5){
+				zCount = zCount + 10;
+				dSize = dSize + 3;
+				root.getChildren().add(boxOP.invader2(root, dSize, 150, 30, zCount));
+			}
+			else{
+				zCount = zCount + 10;
+				dSize = dSize - 3;
+				root.getChildren().add(boxOP.invader2(root, dSize, 150, 30, zCount));
+			}
+		}
+		zCount = 1200;//Goes back to where it started
+		for(int i = 0; i < 9; i++){
+			if(i == 0){
+				root.getChildren().add(boxOP.invader3(root, dSize, 300, 30, zCount));
+			}
+			else if (i > 0 && i < 5){
+				zCount = zCount + 10;
+				dSize = dSize + 3;
+				root.getChildren().add(boxOP.invader3(root, dSize, 300, 30, zCount));
+			}
+			else{
+				zCount = zCount + 10;
+				dSize = dSize - 3;
+				root.getChildren().add(boxOP.invader3(root, dSize, 300, 30, zCount));
+			}
+		}
+		zCount = 1200;//Goes back to where it started
+		for(int i = 0; i < 9; i++){
+			if(i == 0){
+				root.getChildren().add(boxOP.invader4(root, dSize, 450, 30, zCount));
+			}
+			else if (i > 0 && i < 5){
+				zCount = zCount + 10;
+				dSize = dSize + 3;
+				root.getChildren().add(boxOP.invader4(root, dSize, 450, 30, zCount));
+			}
+			else{
+				zCount = zCount + 10;
+				dSize = dSize - 3;
+				root.getChildren().add(boxOP.invader4(root, dSize, 450, 30, zCount));
+			}
 		}
 
 		//create sub scene for tool bar             
@@ -159,7 +230,7 @@ public class Main extends Application{
 				Node tank = tankGroup.getChildren().get(0);
 
 				switch (event.getCode()){
-					case UP:
+					case UP:	//This case executes when the up key is pressed on the keyboard.
 						if(bc.tankZClamp(tank)){
 							re.rotateTank(tank, facing, Movement.forwards);
 							tank.setTranslateZ(tank.getTranslateZ()+20);
@@ -172,7 +243,7 @@ public class Main extends Application{
 							event.consume();
 						}
 						break;
-					case DOWN:
+					case DOWN:	//This case executes when the down key is pressed on the keyboard.
 						if(bc.tankZClamp(tank)){
 							re.rotateTank(tank, facing, Movement.backwards);
 							tank.setTranslateZ(tank.getTranslateZ()-20);
@@ -185,7 +256,7 @@ public class Main extends Application{
 							event.consume();
 						}
 						break;
-					case LEFT:
+					case LEFT:	//This case executes when the left key is pressed on the keyboard.
 						if(bc.tankXClamp(tank)){
 							re.rotateTank(tank, facing, Movement.left);
 							tank.setTranslateX(tank.getTranslateX()-20);
@@ -199,7 +270,7 @@ public class Main extends Application{
 							event.consume();
 						}
 						break;
-					case RIGHT:
+					case RIGHT:	//This case executes when the right key is pressed on the keyboard.
 						if(bc.tankXClamp(tank)){
 							re.rotateTank(tank, facing, Movement.right);
 							tank.setTranslateX(tank.getTranslateX()+20);
@@ -211,9 +282,6 @@ public class Main extends Application{
 							facing=Movement.right;
 							event.consume();
 						}
-						break;
-					case COMMA://When user press Comma button to shoot the bulletyytcytcttctc
-						//tank
 						break;
 					default:
 						break;
@@ -250,13 +318,12 @@ public class Main extends Application{
 		}.start();
 
 
-		facing = Movement.forwards;
-		gvg.setTankXsize(100); //Stretching sideways (left and right)
+		facing = Movement.forwards;	//This makes the tank currently face forwards.
+		gvg.setTankXsize(50); //Stretching sideways (left and right)
 		gvg.setTankYsize(50); //Stretching upwards (up and down)
 		gvg.setTankZsize(50); //Stretching across (towards and away)
-		gvg.setTankPositon(500, 500, 1050);
-		tankGroup.getChildren().add(boxOP.makeTank(gvg.getTankXPosition(), gvg.getTankYPosition(), gvg.getTankZPosition(), gvg.getTankXsize(),gvg.getTankYsize(),gvg.getTankZsize()));
-		root.getChildren().add(bombGroup);
+		gvg.setTankPositon(500, 500, 1050);	//Setting the position of the tank in the middle.
+		tankGroup.getChildren().add(boxOP.makeTank(gvg.getTankXPosition(), gvg.getTankYPosition(), gvg.getTankZPosition(), gvg.getTankXsize(),gvg.getTankYsize(),gvg.getTankZsize()));	//This makes the tank
 		root.getChildren().add(tankGroup);
 		root.getChildren().add(boxOP.ground());                //add ground to scene
 		root.getChildren().add(boxOP.horizon());               //add background to scene
@@ -267,6 +334,5 @@ public class Main extends Application{
 		stage.setTitle("3D Libary Development");                                   // Set the Title of the Stage
 		stage.show();                                                              // show to user
 	}
-
 
 }

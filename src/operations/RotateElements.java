@@ -14,76 +14,76 @@ public class RotateElements {
 	 *
 	 */
 
-	Rotate r180 = new Rotate(0,0,0,0, Rotate.Y_AXIS);
-	Rotate r90 = new Rotate(0,0,0,0, Rotate.Y_AXIS);
-	Rotate mr90 = new Rotate(0,0,0,0, Rotate.Y_AXIS);
+	Rotate r180 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 180 degrees
+	Rotate r90 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 90 degrees
+	Rotate mr90 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
 
 	public void rotateTank(Node node, Movement facing, Movement turnTo){
-		r180.setAngle(180);
-		r90.setAngle(90);
-		mr90.setAngle(-90);
+		r180.setAngle(180);	//This sets the variable value so the Node will rotate 180 degrees
+		r90.setAngle(90);	//This sets the variable value so the Node will rotate 90 degrees
+		mr90.setAngle(-90);	//This sets the variable value so the Node will rotate -90 degrees
 		switch(facing){
-			case forwards:
+			case forwards:	//This means the current position must be forwards for this switch case to run.
 				switch(turnTo){
 					case right:
-						node.getTransforms().add(r90);
+						node.getTransforms().add(r90);	//This rotates the node 90 degrees to end up right.
 						break;
 					case backwards:
-						node.getTransforms().add(r180);
+						node.getTransforms().add(r180); //This rotates the node 180 degrees to end up backwards.
 						break;
 					case left:
-						node.getTransforms().add(mr90);
+						node.getTransforms().add(mr90); //This rotates the node -90 degrees to end up left.
 						break;
 					default:
 						break;
 				}
 				break;
-			case right:
+			case right:		//This means the current position must be right for this switch case to run.
 				switch(turnTo){
 					case forwards:
-						node.getTransforms().add(mr90);
+						node.getTransforms().add(mr90); //This rotates the node -90 degrees to end up forwards.
 						break;
 					case backwards:
-						node.getTransforms().add(r90);
+						node.getTransforms().add(r90); //This rotates the node 90 degrees to end up backwards.
 						break;
 					case left:
-						node.getTransforms().add(r180);
+						node.getTransforms().add(r180); //This rotates the node 180 degrees to end up left.
 						break;
 					default:
 						break;
 				}
 				break;
-			case backwards:
+			case backwards:		//This means the current position must be backwards for this switch case to run.
 				switch(turnTo){
 					case forwards:
-						node.getTransforms().add(r180);
+						node.getTransforms().add(r180); //This rotates the node 180 degrees to end up forwards.
 						break;
 					case right:
-						node.getTransforms().add(r90);
+						node.getTransforms().add(r90); //This rotates the node 90 degrees to end up right.
 						break;
 					case left:
-						node.getTransforms().add(mr90);
+						node.getTransforms().add(mr90); //This rotates the node -90 degrees to end up left.
 						break;
 					default:
 						break;
 				}
 				break;
-			case left:
+			case left:		//This means the current position must be left for this switch case to run.
 				switch(turnTo){
 					case forwards:
-						node.getTransforms().add(r90);
+						node.getTransforms().add(r90); //This rotates the node 90 degrees to end up forwards.
 						break;
 					case right:
-						node.getTransforms().add(r180);
+						node.getTransforms().add(r180); //This rotates the node 180 degrees to end up right.
 						break;
 					case backwards:
-						node.getTransforms().add(mr90);
+						node.getTransforms().add(mr90); //This rotates the node -90 degrees to end up backwards.
 						break;
 					default:
 						break;
 				}
 				break;
-		}
+			}
 		}
 
 		/**

@@ -10,7 +10,7 @@ import javafx.scene.Node;
 /**
  * Bounds clamp keeps everything inside the 3D box 
  * it accepts a node(3d object) or a group (group of 3d objects) and
- * changes the velocity in a negitive direction to switch direction of travel
+ * changes the velocity in a negative direction to switch direction of travel
  * every node or group created should be clamped to ensure they stay inside the box
  * i will be helping you to create custom clamps depending on what game you want to build
  * @author Liandri
