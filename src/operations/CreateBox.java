@@ -152,6 +152,7 @@ public class CreateBox {
 	 * This the method that creates the 3D box environment where all the game play occurs
 	 * @return It returns the 3D box created and added to the scene.
 	 */
+
 	public Group gameBox()
 	{
 		Group boarderGroup = new Group();
@@ -180,7 +181,8 @@ public class CreateBox {
 				case 2:
 					startX = ((int)bo.get(2).getX()-(int)bo.get(0).getX()) / 2;
 					startY += 250; 					//goes to the ground floor
-					groundBox.setTranslateX(startX);// This is the ground side of the box
+					groundBox.setMaterial(img.getTexture(15)); //pasting the image on the ground 3D box
+                    groundBox.setTranslateX(startX);// This is the ground side of the box
 					groundBox.setTranslateY(startY);
 					groundBox.setTranslateZ(startZ);
 					boarderGroup.getChildren().add(groundBox);
@@ -577,6 +579,7 @@ public class CreateBox {
                         textbox6.setTranslateX(currX);                            //set x location
                         textbox6.setTranslateY(currY);                             //set y location
                         textbox6.setTranslateZ(currZ);
+                        textbox6.setMaterial(img.getTexture(15));   //pasting image to the 3D box created
                         //temp.setDiffuseColor(Color.BEIGE);        //set dark side color
                         //temp.setDiffuseMap(image4);                //add texture to box on light side
                         //textbox6.setMaterial(temp);               //set light side texture
