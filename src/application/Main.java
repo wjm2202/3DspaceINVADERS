@@ -32,14 +32,8 @@ import javafx.scene.shape.Box;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import operations.BoundsClamp;
-import operations.CreateBox;
-import operations.CreateCamera;
-import operations.Enemy;
-import operations.LightingElements;
-import operations.RotateElements;
-import operations.ScaleElements;
-import operations.WorldCoOrdinates;
+import operations.*;
+
 /**
  * This is where the control logic goes for the main flow of the Model Veiw Controller
  * most of this code is to set up the environment 
@@ -128,74 +122,13 @@ public class Main extends Application{
 		camera.setFarClip(4000.0);
 		camera.setFieldOfView(45);
 
-		//create 3d invader
-		int zCount = 1200;
-		int dSize = 10;
-		//loop that creates multiple invader of the same type but moves along Z axis to create the 3D affect
-		for(int i = 0; i < 9; i++){
-			if(i == 0){
-				root.getChildren().add(boxOP.invader(root, dSize, 0, 30, zCount));
-			}
-			else if (i > 0 && i < 5){
-				zCount = zCount + 10; //move back on the axis and creating another replica of the invader to create 3D affect
-				dSize = dSize + 3;
-				root.getChildren().add(boxOP.invader(root, dSize, 0, 30, zCount));
-			}
-			else{
-				zCount = zCount + 10;
-				dSize = dSize - 3;
-				root.getChildren().add(boxOP.invader(root, dSize, 0, 30, zCount));
-			}
-		}
-		zCount = 1200; //Goes back to where it started
-		for(int i = 0; i < 9; i++){
-			if(i == 0){
-				root.getChildren().add(boxOP.invader2(root, dSize, 150, 30, zCount));
-			}
-			else if (i > 0 && i < 5){
-				zCount = zCount + 10;
-				dSize = dSize + 3;
-				root.getChildren().add(boxOP.invader2(root, dSize, 150, 30, zCount));
-			}
-			else{
-				zCount = zCount + 10;
-				dSize = dSize - 3;
-				root.getChildren().add(boxOP.invader2(root, dSize, 150, 30, zCount));
-			}
-		}
-		zCount = 1200;//Goes back to where it started
-		for(int i = 0; i < 9; i++){
-			if(i == 0){
-				root.getChildren().add(boxOP.invader3(root, dSize, 300, 30, zCount));
-			}
-			else if (i > 0 && i < 5){
-				zCount = zCount + 10;
-				dSize = dSize + 3;
-				root.getChildren().add(boxOP.invader3(root, dSize, 300, 30, zCount));
-			}
-			else{
-				zCount = zCount + 10;
-				dSize = dSize - 3;
-				root.getChildren().add(boxOP.invader3(root, dSize, 300, 30, zCount));
-			}
-		}
-		zCount = 1200;//Goes back to where it started
-		for(int i = 0; i < 9; i++){
-			if(i == 0){
-				root.getChildren().add(boxOP.invader4(root, dSize, 450, 30, zCount));
-			}
-			else if (i > 0 && i < 5){
-				zCount = zCount + 10;
-				dSize = dSize + 3;
-				root.getChildren().add(boxOP.invader4(root, dSize, 450, 30, zCount));
-			}
-			else{
-				zCount = zCount + 10;
-				dSize = dSize - 3;
-				root.getChildren().add(boxOP.invader4(root, dSize, 450, 30, zCount));
-			}
-		}
-
+		//Creating the invader with the 3D effect
+        MegaInvader inv = new MegaInvader();
+        startP3d = loc3D.getStartLocationsInvaders(gvg.getNumEnimies());
+        for(int i = 0; i < gvg.getNumEnimies(); i++)
+        {
+            root.getChildren().add(inv.makeMega(10, (int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ()));
+        }
 		//create sub scene for tool bar             
 		SubScene subScene = new SubScene(root, sW, sH-100,true,SceneAntialiasing.DISABLED);                           //make sub scene add group
 		subScene.setFill(Color.BLACK);                                          //fill scene with color
