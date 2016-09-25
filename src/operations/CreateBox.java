@@ -90,7 +90,7 @@ public class CreateBox {
  * @return Cylinder object for tank to fire
  */
 	public Cylinder bullet(Point3D start){
-		Cylinder bull = new Cylinder(20,10,10);
+		Cylinder bull = new Cylinder(30,10,10);
 		bull.setTranslateX(start.getX());                            //set x location
 		bull.setTranslateY(start.getY());                             //set y location
 		bull.setTranslateZ(start.getZ());

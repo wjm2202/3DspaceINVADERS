@@ -80,7 +80,8 @@ public class Main extends Application{
 	SpawnEnemies sUpInvader = new SpawnEnemies();                        //set up invader variables
 	LevelValues gvg = new LevelValues();                                 //get gameVariable for invader game
 	MegaInvader inv = new MegaInvader();                                 //mega invader creation
-	WorldCoOrdinates loc3D = new WorldCoOrdinates();                     //get preset points important for gaem
+	Update update = new Update();                                        //update all elements locations and detect collisions
+	WorldCoOrdinates loc3D = new WorldCoOrdinates();                     //get preset points important for game
 	ArrayList<Point3D> bounds = new ArrayList<>();                       //get the 3D world corner points
 	ArrayList<Enemy> enemy = new ArrayList<>();                          //array of current enemies
 	ArrayList<Point3D> startP3d = new ArrayList<>();                     //get pre generated start locations for enemies
@@ -90,7 +91,7 @@ public class Main extends Application{
 	RotateElements re = new RotateElements();                            //rotate transform for 3D objects
 	ScaleElements scale = new ScaleElements();                           //scale transform for 3D objects
 	Movement facing = Movement.forwards;
-	Point3D bulletStart;                                                 //the location of the start of the bullet
+	Point3D bulletStart = new Point3D(0.0,0.0,0.0);                      //the location of the start of the bullet
 	Point3D bombStart;                                                   //the location of the start of the bomb
 	int trigger=0;                                                       //the limiter to the number of bombs dropped
 	int score=0;                                                         //the player score
@@ -142,17 +143,19 @@ public class Main extends Application{
 		Button start = new Button("Start game");           //Start game                  
 		start.setOnAction(e->{
 			gameIsRunning=true;
-			//johno this is a game inititation function move to start button click///////////////////////below
-			//Creating the invader with the 3D effect
 
 			startP3d = loc3D.getStartLocationsInvaders(gvg.getNumEnimies());
 			for(int i = 0; i < gvg.getNumEnimies(); i++)
-			{//ENEMY CLASS NEEDS A GROUP TO HOLD INVADERS
-				Enemy Menemy = new Enemy(startP3d.get(i),(int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ(),10,10);
-				Menemy.setMinv(inv.makeMega(10, (int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ()));
-				root.getChildren().add(Menemy.getMinv());
-			//ADD TO ENEMY FIRST THEN ADD FROM ENEMY TO ROOT
+			{
+				Enemy Menemy = new Enemy(startP3d.get(i),gvg.getXvelocity(),gvg.getYvelocity(), gvg.getZvelocity(),10,10);
+				//Menemy.setMinv(inv.makeMega(10, (int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ()));
+				Menemy.setMinv(inv.testMega(startP3d.get(i)));
+				enemy.add(Menemy);
+				invaderGroup.getChildren().add(Menemy.getGroup());
+
 			}
+			//System.out.println("invader group.size "+invaderGroup.getChildren().size());
+			root.getChildren().add(invaderGroup);
 		});
 		toolBar = new ToolBar(start,tfs,tfh);                                       //tool bar add button and box
 
@@ -223,6 +226,14 @@ public class Main extends Application{
 							event.consume();
 						}
 						break;
+					case COMMA:	//This case executes when the right key is pressed on the keyboard.
+						//System.out.println("tank X: "+tank.getTranslateX()+" tank Y: "+tank.getTranslateY()+" tank Y: "+tank.getTranslateZ());
+						Point3D bulletStart =  new Point3D(tank.getTranslateX(),tank.getTranslateY(),tank.getTranslateZ());
+						//System.out.println("bullet start: X: "+tank.getTranslateX()+" Y: "+tank.getTranslateY()+ " Z: "+tank.getTranslateZ());
+						Node bull = boxOP.bullet(bulletStart);
+						bulletGroup.getChildren().add(bull);
+						event.consume();
+						break;
 					default:
 						break;
 				}
@@ -245,16 +256,39 @@ public class Main extends Application{
 			{
 				double time = (currentNanoTime - startNanoTime) / 1000000000.0;      //USED TO UPDATE LOCATIONS ECT
 			    //GAME LOOP
+				update.updateBullets(bulletGroup);
+
 				if(gameIsRunning){
 
+
+					bc.clamp(enemy);
+					update.bulletColision(enemy, bulletGroup);
+					for(int i =0;i<enemy.size();i++){
+						if(!enemy.get(i).isAlive()){
+							if(invaderGroup.getChildren().contains(enemy.get(i).getGroup())){     //test if in ivader group
+								invaderGroup.getChildren().remove(enemy.get(i).getGroup());
+								score+= gvg.getPointsPerKill();
+							}
+						}
+					}
+					tfs.setText(""+score);
+
+
+					//System.out.println("num of bullets on screen "+bulletGroup.getChildren().size());
+
+
 					//call update Point3D for each entity
+
 					//random bomb drop, random reward drop, update counter for reward is alive
+
 					//reward collision, shield collision,
+
 					//game box timer world damage label(if game time is up release the enemies they damage the world)
+
 					//level label
 
-
 					// update entities scores health ect.
+
 					//test if level is finished
 
 				}else{
@@ -279,13 +313,14 @@ public class Main extends Application{
 
 		tankGroup.getChildren().add(boxOP.makeTank(gvg.getTankXPosition(), gvg.getTankYPosition(), gvg.getTankZPosition(), gvg.getTankXsize(),gvg.getTankYsize(),gvg.getTankZsize()));	//This makes the tank
 		root.getChildren().add(tankGroup);
+		root.getChildren().add(bulletGroup);
 		root.getChildren().add(boxOP.ground());                //add ground to scene
 		root.getChildren().add(boxOP.horizon());               //add background to scene
 		//root.getChildren().add(boxOP.gameBound(root, 0, 0, 800, 5));
 		root.getChildren().add(boxOP.gameBox());			   //creating the box environment
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());      //add css to ui
 		stage.setScene(scene);                                                     // Add the Scene to the Stage
-		stage.setTitle("3D Libary Development");                                   // Set the Title of the Stage
+		stage.setTitle("3D Boxed Invaders");                                   // Set the Title of the Stage
 		stage.show();                                                              // show to user
 	}
 

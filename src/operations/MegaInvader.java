@@ -1,5 +1,6 @@
 package operations;
 
+import javafx.geometry.Point3D;
 import javafx.scene.Group;
 
 /**
@@ -7,6 +8,14 @@ import javafx.scene.Group;
  * Created by Jonathan on 20/09/2016.
  */
 public class MegaInvader {
+
+    CreateBox boxOP = new CreateBox();// needed in order to create the box
+
+    public Group testMega(Point3D poi){
+        Group testGroup = new Group();
+        testGroup.getChildren().add(boxOP.bullet(poi));
+        return testGroup;
+    }
 
     public Group makeMega(int dSize, int xLocation, int yLocation, int zLocation) {
 

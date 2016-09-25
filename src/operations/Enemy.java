@@ -26,8 +26,10 @@ public class Enemy {
 	private double zOffset=0.0;                                                          //the amount the enemy moves in the Z direction each loop (up/down)
 	private Node node;                                                                   //node is the 3D box that is an enemy on screen
 	ArrayList<Node> bombs = new ArrayList<>();                                           //arrayList of bombs dropped by enemy that are unexploded
+	Group Minv = new Group();
+	CreateBox cb = new CreateBox();                                                      //make a box for this enemy to control
 
-	public Group getMinv() {
+	public Group getGroup() {
 		return Minv;
 	}
 
@@ -35,8 +37,7 @@ public class Enemy {
 		Minv = minv;
 	}
 
-	Group Minv = new Group();
-	CreateBox cb = new CreateBox();                                                      //make a box for this enemy to control
+
 /**
  * constructor creates a 3D box and sets fields for location and size	
  * @param loc       Point3D location of box (future multi-player use)
@@ -55,6 +56,7 @@ public class Enemy {
 		setBoxSize(boxS);
 		//node = cb.singleEnemyBox((int)currLoc.getX(), (int)currLoc.getY(), (int)currLoc.getZ(), gvg.getEnemyXsize(), gvg.getEnemyYsize(),gvg.getEnemyZsize());
 	}
+
 /**
  * 	
  * @return node(3D box) to update remove or move

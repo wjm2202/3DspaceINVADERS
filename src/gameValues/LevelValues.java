@@ -19,9 +19,9 @@ public class LevelValues {
 	private int enemyYsize = 15;                //the size in height of the enemies
 	private int enemyZsize = 40;                //the size in depth of the enemies
 	private double Xvelocity = 5.0;             //the speed the enemy moves left/right
-	private double Yvelocity = 0.2;             //the speed the enemy moves up/down
+	private double Yvelocity = 0.0;             //the speed the enemy moves up/down
 	private double Zvelocity = 5.0;             //the speed the enemy moves front/back
-	private double spinDrop = 5.0;              //the amount the enemies drop each time they hit a wall and turn around
+	private double spinDrop = 5.2;              //the amount the enemies drop each time they hit a wall and turn around
 	
 	//player values
 	//score
