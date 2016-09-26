@@ -81,7 +81,7 @@ public class ModelImporter {
             sample.setSpecularPower(16);
             meshViews[i].setMaterial(sample);
 
-            meshViews[i].getTransforms().setAll(new Rotate(38, Rotate.Z_AXIS), new Rotate(20, Rotate.X_AXIS));
+            //meshViews[i].getTransforms().setAll(new Rotate(38, Rotate.Z_AXIS), new Rotate(20, Rotate.X_AXIS));
         }
         return new Group(meshViews);
     }

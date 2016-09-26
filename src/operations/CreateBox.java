@@ -27,38 +27,7 @@ import java.util.Random;
 public class CreateBox {
 	
 	static Group invaderGroup;                                               //group invaders together 
-/*	static Group boarderGroup;                                               //group boarders together
-	static Group groundGroup;                                                //group tanks together
-	static Image image;                                                      //images used in box texture
-	static Image image2;
-	static Image image3;
-	static Image image4;
-	static Image image5;
-	static Image image6;
-	static Image image7;
-	static Image image8;
-	static Image image9;
-	static Image image10;
-	static Image horizon;
-	static Image tanktex;
-	static Image groundtex;
-	static Image bullcolor;
-	static PhongMaterial textureMaterial;                                   //images use this to paste texture to box
-	static PhongMaterial textureMaterial2;
-	static PhongMaterial textureMaterial3;
-	static PhongMaterial textureMaterial4;
-	static PhongMaterial textureMaterial5;
-	static PhongMaterial textureMaterial6;
-	static PhongMaterial textureMaterial7;
-	static PhongMaterial textureMaterial8;
-	static PhongMaterial textureMaterial9;
-	static PhongMaterial textureMaterial100;
-	static PhongMaterial textureMaterial101;
-	static PhongMaterial temp;
-	static PhongMaterial horizonTex;
-	static PhongMaterial tankTex;
-	static PhongMaterial groundTex;
-	static PhongMaterial bullColor;                    */
+	RotateElements re = new RotateElements();
 	ModelImporter mi = new ModelImporter();
 	static WorldCoOrdinates wc;                                         //get world co-ordinate system
 	static ArrayList<Point3D> bo = new ArrayList<>();                       //ArrayList of points of world boundary
@@ -154,16 +123,9 @@ public class CreateBox {
 			sample.setSpecularPower(16);
 			mv[i].setMaterial(img.getTexture(12));
 			beast.getChildren().add(mv[i]);
-			//beast.getTransforms().add(new Rotate(45,0,0)); //
-			//Rotate r180 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 180 degrees
-			//r180.setAngle(22.5);	//This sets the variable value so the Node will rotate 180 degrees
-			//beast.getTransforms().add(r180);
-
 
 		}
-		//Rotate rotate = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 90 degrees
-		//rotate.setAngle(35.0);	//This sets the variable value so the Node will rotate 90 degrees
-		//beast.getTransforms().add(rotate);
+		re.rotateLeft(beast,135.0);
 		return beast;
 	}
 
