@@ -12,6 +12,7 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.geometry.Point3D;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -21,18 +22,26 @@ import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ToolBar;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.scene.shape.MeshView;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import operations.*;
+import tests.TestBoundries;
 
 /**
  * This is where the control logic goes for the main flow of the Model Veiw Controller
@@ -43,7 +52,7 @@ import operations.*;
  *
  */
 public class Main extends Application{
-	
+
 	Group root;                                                  //array that holds all objects on screen
 	Label tfs;                                                   //label on tool bar that displays score
 	Label tfh;                                                   //label on tool bar that displays health
@@ -51,6 +60,7 @@ public class Main extends Application{
 	PickResult selectedNode;                                     //mouse has clicked this object
 	Node node;                                                   //a single 3D object
 	ToolBar toolBar;                                             //the button bar at the bottom of scene
+//GROUPS
 	static Group invaderGroup = new Group();                     //a group of 3D objects of type invader
 	static Group boarderGroup = new Group();                     //a group of 3D objects that make up the world box
 	static Group cameraGroup = new Group();                      //a group of view objects that give you a scene to look at
@@ -73,6 +83,7 @@ public class Main extends Application{
 	private final Rotate rotateX = new Rotate(0, Rotate.X_AXIS);         //rotate transform X
 	private final Rotate rotateY = new Rotate(20, Rotate.Y_AXIS);        //rotate transform Y
 	private final Rotate rotateZ = new Rotate(0, Rotate.Z_AXIS);         //rotate transform Z
+//OBJECTS
 	LightingElements lightEle = new LightingElements();                  //lighting
 	CreateCamera perCamera = new CreateCamera();                         //camera
 	CreateBox boxOP = new CreateBox();                                   //box factory
@@ -81,29 +92,47 @@ public class Main extends Application{
 	LevelValues gvg = new LevelValues();                                 //get gameVariable for invader game
 	MegaInvader inv = new MegaInvader();                                 //mega invader creation
 	Update update = new Update();                                        //update all elements locations and detect collisions
+	TestBoundries tb = new TestBoundries();                              //test Class
 	WorldCoOrdinates loc3D = new WorldCoOrdinates();                     //get preset points important for game
 	ArrayList<Point3D> bounds = new ArrayList<>();                       //get the 3D world corner points
 	ArrayList<Enemy> enemy = new ArrayList<>();                          //array of current enemies
 	ArrayList<Point3D> startP3d = new ArrayList<>();                     //get pre generated start locations for enemies
-
 	BoundsClamp bc = new BoundsClamp();                                  //contain the 3D objects inside the 3D world box
 	Random rand = new Random();                                          //random value used for testing
 	RotateElements re = new RotateElements();                            //rotate transform for 3D objects
 	ScaleElements scale = new ScaleElements();                           //scale transform for 3D objects
-	Movement facing = Movement.forwards;
+	Img img = new Img();                                                 //image class to get images
+	Movement facing = Movement.forwards;                                 //ENUM starting value
 	Point3D bulletStart = new Point3D(0.0,0.0,0.0);                      //the location of the start of the bullet
 	Point3D bombStart;                                                   //the location of the start of the bomb
+	ModelImporter mi = new ModelImporter();
+//VARIABLES
 	int trigger=0;                                                       //the limiter to the number of bombs dropped
 	int score=0;                                                         //the player score
 	int health=100;                                                      //the player health
 	boolean gameIsRunning = false;                                       //game state started or stoped
 	int currHitsOnTank =0;                                               //the amount of hits on the tank since last update
-	int gameLevel = 0;
+	int gameLevel = 0;                                                   //track the game level
+	double moveX = 0.5;
+	double moveZ = 0.5;
+
+
+	@Override
+	public void stop(){                                                  //if the game stops or window is closed these methods will be called
+		String ERRORS = tb.boundryTests();                               //string for error messages
+		if(ERRORS!=""){     //change to !=                               //if there are errors
+			System.out.print(ERRORS);                                    //print the errors
+			//save game to DB
+			System.exit(0);
+		}
+	}
+
 
 	public static void main(String[] args)//DO NOT CODE HERE
 	{                                     //DO NOT CODE HERE
 		Application.launch(args);         //DO NOT CODE HERE
 	}                                     //DO NOT CODE HERE
+
 	@Override
 	public void start(Stage stage)        //TREAT THIS AS MAIN
 	{		
@@ -112,7 +141,7 @@ public class Main extends Application{
 		System.out.println(
 				  "3D supported? " + 
 				  Platform.isSupported(ConditionalFeature.SCENE3D)        //3d effects supported check
-				);
+		);
 		root = lightEle.getLights();                                       //add the lights
 		// Create a Camera to view the 3D Shapes
 		camera = perCamera.getCamera();                                    //add the camera
@@ -139,17 +168,34 @@ public class Main extends Application{
 		tfs = new Label("SCORE: "+score);                                           //add the score to tool bar
 		tfh = new Label("Health: "+health);                                         //add the score to tool bar
 
+		Button exit = new Button("Exit game");           //Exit game
+		exit.setOnAction(e->{
+			gameIsRunning=false;
+			Platform.exit();
+		});
+		Button pause = new Button("Pause/Un-Pause");           //Pause game
+		pause.setOnAction(e->{
+			if(gameIsRunning==true){
+				gameIsRunning=false;
+			}else{
+				gameIsRunning=true;
+			}
 
+		});
 		Button start = new Button("Start game");           //Start game                  
 		start.setOnAction(e->{
 			gameIsRunning=true;
-
 			startP3d = loc3D.getStartLocationsInvaders(gvg.getNumEnimies());
 			for(int i = 0; i < gvg.getNumEnimies(); i++)
 			{
 				Enemy Menemy = new Enemy(startP3d.get(i),gvg.getXvelocity(),gvg.getYvelocity(), gvg.getZvelocity(),10,10);
 				//Menemy.setMinv(inv.makeMega(10, (int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ()));
-				Menemy.setMinv(inv.testMega(startP3d.get(i)));
+				//Enemy Menemy = new Enemy(startP3d.get(i),startP3d.get(i).getX(),startP3d.get(i).getY(),startP3d.get(i).getZ(),10,10);
+				//Menemy.setMinv(boxOP.invader(root,img.getImg(5),10,(int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ()));
+				//Menemy.setMinv(boxOP.singleEnemyBox((int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ(),40,20,10));
+				//Menemy.setMinv(mi.buildScene());
+				Menemy.setMinv(boxOP.poly(startP3d.get(i).getX(),startP3d.get(i).getY(), startP3d.get(i).getZ()));
+
 				enemy.add(Menemy);
 				invaderGroup.getChildren().add(Menemy.getGroup());
 
@@ -157,7 +203,8 @@ public class Main extends Application{
 			//System.out.println("invader group.size "+invaderGroup.getChildren().size());
 			root.getChildren().add(invaderGroup);
 		});
-		toolBar = new ToolBar(start,tfs,tfh);                                       //tool bar add button and box
+
+		toolBar = new ToolBar(start,pause,exit,tfs,tfh);                                       //tool bar add button and box
 
 		toolBar.setOrientation(Orientation.HORIZONTAL);                             //set tool bar horizontal
 		pane.setBottom(toolBar);                                                    //put tool bar in bottom pane
@@ -174,71 +221,84 @@ public class Main extends Application{
 
 				switch (event.getCode()){
 					case UP:	//This case executes when the up key is pressed on the keyboard.
-						if(bc.tankZClamp(tank)){
-							re.rotateTank(tank, facing, Movement.forwards);
-							tank.setTranslateZ(tank.getTranslateZ()+20);
+						if(bc.tankZClamp(tankGroup)){
+							//re.rotateTank(tankGroup, facing, Movement.forwards);
+							//tankGroup.setTranslateZ(tankGroup.getTranslateZ()+20);
+							moveZ = -gvg.getTankSpeedZ();
+							//System.out.println("up: "+ gvg.getTankSpeedZ());
 							facing=Movement.forwards;
 							event.consume();
 						}else{
-							re.rotateTank(tank, facing, Movement.forwards);
-							tank.setTranslateZ(tank.getTranslateZ()-60);
+							//re.rotateTank(tankGroup, facing, Movement.forwards);
+							//tankGroup.setTranslateZ(tankGroup.getTranslateZ()-60);
+							moveZ = gvg.getTankSpeedY();
 							facing=Movement.forwards;
 							event.consume();
 						}
 						break;
 					case DOWN:	//This case executes when the down key is pressed on the keyboard.
-						if(bc.tankZClamp(tank)){
-							re.rotateTank(tank, facing, Movement.backwards);
-							tank.setTranslateZ(tank.getTranslateZ()-20);
+						if(bc.tankZClamp(tankGroup)){
+							//re.rotateTank(tankGroup, facing, Movement.backwards);
+							//tankGroup.setTranslateZ(tankGroup.getTranslateZ()-20);
+							moveZ = gvg.getTankSpeedY();
 							facing=Movement.backwards;
 							event.consume();
 						}else{
-							re.rotateTank(tank, facing, Movement.backwards);
-							tank.setTranslateZ(tank.getTranslateZ()+60);
+							//re.rotateTank(tankGroup, facing, Movement.backwards);
+							//tankGroup.setTranslateZ(tankGroup.getTranslateZ()+60);
+							moveZ = -gvg.getTankSpeedY();
 							facing=Movement.backwards;
 							event.consume();
 						}
 						break;
 					case LEFT:	//This case executes when the left key is pressed on the keyboard.
-						if(bc.tankXClamp(tank)){
-							re.rotateTank(tank, facing, Movement.left);
-							tank.setTranslateX(tank.getTranslateX()-20);
+						if(bc.tankXClamp(tankGroup)){
+							//re.rotateTank(tankGroup, facing, Movement.left);
+							//tankGroup.setTranslateX(tankGroup.getTranslateX()-20);
+							moveX = -gvg.getTankSpeedX();
 							facing=Movement.left;
 							event.consume();
 						}
 						else{
-							re.rotateTank(tank, facing, Movement.left);
-							tank.setTranslateX(tank.getTranslateX()+60);
+							//re.rotateTank(tankGroup, facing, Movement.left);
+							//tankGroup.setTranslateX(tankGroup.getTranslateX()+60);
+							moveX = -gvg.getTankSpeedX();
 							facing=Movement.left;
 							event.consume();
 						}
 						break;
 					case RIGHT:	//This case executes when the right key is pressed on the keyboard.
-						if(bc.tankXClamp(tank)){
-							re.rotateTank(tank, facing, Movement.right);
-							tank.setTranslateX(tank.getTranslateX()+20);
+						if(bc.tankXClamp(tankGroup)){
+							//re.rotateTank(tankGroup, facing, Movement.right);
+							//tankGroup.setTranslateX(tankGroup.getTranslateX()+20);
+							moveX = gvg.getTankSpeedX();
 							facing=Movement.right;
 							event.consume();
 						}else{
-							re.rotateTank(tank, facing, Movement.right);
-							tank.setTranslateX(tank.getTranslateX()-60);
+							//re.rotateTank(tankGroup, facing, Movement.right);
+							//tankGroup.setTranslateX(tankGroup.getTranslateX()-60);
+							moveX = -gvg.getTankSpeedX();
 							facing=Movement.right;
 							event.consume();
 						}
 						break;
 					case COMMA:	//This case executes when the right key is pressed on the keyboard.
-						//System.out.println("tank X: "+tank.getTranslateX()+" tank Y: "+tank.getTranslateY()+" tank Y: "+tank.getTranslateZ());
-						Point3D bulletStart =  new Point3D(tank.getTranslateX(),tank.getTranslateY(),tank.getTranslateZ());
-						//System.out.println("bullet start: X: "+tank.getTranslateX()+" Y: "+tank.getTranslateY()+ " Z: "+tank.getTranslateZ());
-						Node bull = boxOP.bullet(bulletStart);
-						bulletGroup.getChildren().add(bull);
+						if(gameIsRunning){
+							//System.out.println("tank X: "+tank.getTranslateX()+" tank Y: "+tank.getTranslateY()+" tank Y: "+tank.getTranslateZ());
+							bulletStart =  new Point3D((tankGroup.getTranslateX()+500.0),(tankGroup.getTranslateY()+500),(tankGroup.getTranslateZ()+1100.0));
+							System.out.println("bullet start: X: "+bulletStart.getX()+" Y: "+bulletStart.getY()+ " Z: "+bulletStart.getZ());
+							Node bull = boxOP.bullet(bulletStart);
+							bulletGroup.getChildren().add(bull);
+						}
 						event.consume();
 						break;
 					default:
 						break;
 				}
-
+				//moveX =0.0;
+				//moveZ =0.0;
 			}
+
 		});
 		scene.setOnMouseClicked((event)->{                                          //make picked objects red
 			PickResult res = event.getPickResult();                                 //pick 3d object
@@ -252,27 +312,38 @@ public class Main extends Application{
 
 		new AnimationTimer()                                    //make animation timer
 		{
+
 			public void handle(long currentNanoTime)           //Default method as inner class
 			{
-				double time = (currentNanoTime - startNanoTime) / 1000000000.0;      //USED TO UPDATE LOCATIONS ECT
+
+				double time = (currentNanoTime - startNanoTime) / 1000000000.0;                   //USED TO UPDATE LOCATIONS ECT
 			    //GAME LOOP
-				update.updateBullets(bulletGroup);
 
 				if(gameIsRunning){
-
-
-					bc.clamp(enemy);
-					update.bulletColision(enemy, bulletGroup);
+					//System.out.println("movetimer : "+moveTimer);
+					tankGroup.setTranslateX((tankGroup.getTranslateX()+moveX));
+					tankGroup.setTranslateZ((tankGroup.getTranslateZ()+moveZ));
+					bc.clamp(enemy, tb);                                                          //trap invaders in bounds and move them
+					update.updateBullets(bulletGroup);                                            //make bullets move
+					update.bulletColision(enemy, bulletGroup);                                    //test bullets for collision with invaders
 					for(int i =0;i<enemy.size();i++){
-						if(!enemy.get(i).isAlive()){
-							if(invaderGroup.getChildren().contains(enemy.get(i).getGroup())){     //test if in ivader group
-								invaderGroup.getChildren().remove(enemy.get(i).getGroup());
-								score+= gvg.getPointsPerKill();
+						if(!enemy.get(i).isAlive()){                                              //if enemies have been hit
+							if(invaderGroup.getChildren().contains(enemy.get(i).getGroup())){     //test if in invader hit is in invadergroup
+								invaderGroup.getChildren().remove(enemy.get(i).getGroup());       //remove hit invader from group
+								score+= gvg.getPointsPerKill();                                   //add points to score
 							}
 						}
 					}
-					tfs.setText(""+score);
+					tfs.setText("SCORE: "+score);                                                        //display new score
+					moveX=0;
+					moveZ=0;
 
+					////////////////////////TESTING////////////////////////////
+
+					//tankGroup.setTranslateY(tankGroup.getTranslateY()+5);
+
+					//System.out.println("tank X: "+tankGroup.getTranslateX()+" tank Y: "+tankGroup.getTranslateY()+" tank Y: "+tankGroup.getTranslateZ());
+					///////////////////////TESTING////////////////////////////
 
 					//System.out.println("num of bullets on screen "+bulletGroup.getChildren().size());
 
@@ -291,13 +362,6 @@ public class Main extends Application{
 
 					//test if level is finished
 
-				}else{
-					//if game is !running do nothing
-					//splash screen is shown
-					if(gameLevel<1){
-						//do setup for game initial (dont show game ground or horizon yet)
-						//set splash as background
-					}
 				}
 			}
 		}.start();
@@ -311,7 +375,9 @@ public class Main extends Application{
 		gvg.setTankPositon(500, 500, 1050);	//Setting the position of the tank in the middle.
 
 
-		tankGroup.getChildren().add(boxOP.makeTank(gvg.getTankXPosition(), gvg.getTankYPosition(), gvg.getTankZPosition(), gvg.getTankXsize(),gvg.getTankYsize(),gvg.getTankZsize()));	//This makes the tank
+		//tankGroup.getChildren().add(boxOP.tank3D());	//This makes the tank
+		tankGroup = boxOP.makeModel(0);
+		System.out.println("tankgroup size: "+tankGroup.getChildren().size());
 		root.getChildren().add(tankGroup);
 		root.getChildren().add(bulletGroup);
 		root.getChildren().add(boxOP.ground());                //add ground to scene

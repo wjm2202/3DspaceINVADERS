@@ -21,7 +21,7 @@ public class LevelValues {
 	private double Xvelocity = 5.0;             //the speed the enemy moves left/right
 	private double Yvelocity = 0.0;             //the speed the enemy moves up/down
 	private double Zvelocity = 5.0;             //the speed the enemy moves front/back
-	private double spinDrop = 5.2;              //the amount the enemies drop each time they hit a wall and turn around
+	private double spinDrop = 1.0;              //the amount the enemies drop each time they hit a wall and turn around
 	
 	//player values
 	//score
@@ -32,8 +32,37 @@ public class LevelValues {
     private int tankXsize = 40;                 //the size in width of the tank
     private int tankYsize = 10;                 //the size in height of the tank
     private int tankZsize = 10;                 //the size in depth of the tank
+	private double tankSpeedX = 10.0;
+	private double tankSpeedY = 10.0;
+
+	public double getTankSpeedZ() {
+		return tankSpeedZ;
+	}
+
+	public void setTankSpeedZ(double tankSpeedZ) {
+		this.tankSpeedZ = tankSpeedZ;
+	}
+
+	private double tankSpeedZ = 5.0;
 	private int tankXPosition;					//this is the x position of the tank
 	private int tankYPosition;					//this is the y position of the tank
+
+	public double getTankSpeedX() {
+		return tankSpeedX;
+	}
+
+	public void setTankSpeedX(double tankSpeedX) {
+		this.tankSpeedX = tankSpeedX;
+	}
+
+	public double getTankSpeedY() {
+		return tankSpeedY;
+	}
+
+	public void setTankSpeedY(double tankSpeedY) {
+		this.tankSpeedY = tankSpeedY;
+	}
+
 	private int tankZPosition;					//this is the z position of the tank
 
 	/**

@@ -1,5 +1,6 @@
 package operations;
 
+import javafx.animation.RotateTransition;
 import javafx.geometry.Point3D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -8,7 +9,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Cylinder;
+import javafx.scene.shape.MeshView;
+import javafx.scene.shape.Polygon;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -54,7 +59,7 @@ public class CreateBox {
 	static PhongMaterial tankTex;
 	static PhongMaterial groundTex;
 	static PhongMaterial bullColor;                    */
-
+	ModelImporter mi = new ModelImporter();
 	static WorldCoOrdinates wc;                                         //get world co-ordinate system
 	static ArrayList<Point3D> bo = new ArrayList<>();                       //ArrayList of points of world boundary
 	Random rand = new Random();
@@ -127,8 +132,56 @@ public class CreateBox {
 		boarderBox.setTranslateY(y);                             //set y location
 		boarderBox.setTranslateZ(z); 
 		boarderBox.setMaterial(img.getTexture(12));               //set light side texture
+
 		return boarderBox;
 		
+	}
+	public Group makeModel(int modelNumber){
+		Group beast = new Group();
+		MeshView[] mv = mi.makeMesh(modelNumber);
+		System.out.println("before test object mi.size "+mv.length);
+
+		for (int i = 0; i < mv.length; i++) {
+			mv[i].setTranslateX(500);
+			mv[i].setTranslateY(500);
+			mv[i].setTranslateZ(1050);
+			mv[i].setScaleX(2.0);
+			mv[i].setScaleY(2.0);
+			mv[i].setScaleZ(2.0);
+
+			PhongMaterial sample = new PhongMaterial(Color.BEIGE);
+			sample.setSpecularColor(Color.ALICEBLUE);
+			sample.setSpecularPower(16);
+			mv[i].setMaterial(img.getTexture(12));
+			beast.getChildren().add(mv[i]);
+			//beast.getTransforms().add(new Rotate(45,0,0)); //
+			//Rotate r180 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 180 degrees
+			//r180.setAngle(22.5);	//This sets the variable value so the Node will rotate 180 degrees
+			//beast.getTransforms().add(r180);
+
+
+		}
+		//Rotate rotate = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 90 degrees
+		//rotate.setAngle(35.0);	//This sets the variable value so the Node will rotate 90 degrees
+		//beast.getTransforms().add(rotate);
+		return beast;
+	}
+
+
+	public Group poly(double xloc, double yloc, double zloc){
+
+		Group g = new Group();
+
+		Polygon polygon = new Polygon();
+		polygon.getPoints().addAll(new Double[]{
+				0.0, 0.0,
+				20.0, 10.0,
+				10.0, 20.0 });
+		polygon.setTranslateX(xloc);
+		polygon.setTranslateY(yloc);
+		polygon.setTranslateZ(zloc);
+		g.getChildren().add(polygon);
+		return g;
 	}
 /**
  * make a single square box and return to caller (make tank)	
@@ -270,7 +323,8 @@ public class CreateBox {
  * @param bZ            predefined in GameValuesInvader class
  * @return              3D box to add to enemy ArrayList
  */
-	public Box singleEnemyBox(int x, int y, int z, int bX, int bY, int bZ){
+	public Group singleEnemyBox(int x, int y, int z, int bX, int bY, int bZ){
+		Group boxHolder = new Group();
 		Box boarderBox = new Box(bX, bY, bZ);                  //make 3D box
 		boarderBox.setTranslateX(x);                            //set x location
 		boarderBox.setTranslateY(y);                             //set y location
@@ -303,7 +357,8 @@ public class CreateBox {
 		}
 		pm3.setDiffuseMap(imgcurr);                //add texture to box on light side
 		boarderBox.setMaterial(pm3);               //set light side texture
-		return boarderBox;
+		boxHolder.getChildren().add(boarderBox);
+		return boxHolder;
 		
 	}
 /**
@@ -448,7 +503,7 @@ public class CreateBox {
  * @param root
  * @return group of invaders in a patttern
  */
-	public Group invaderSwarm(Group root){            //make a group of invaders in a pattern of an invader
+/*	public Group invaderSwarm(Group root){            //make a group of invaders in a pattern of an invader
 		int posInvaders = 0;
 		int posY = 0;
 		int[][] shape  = {{0,0,0,1,1,0,0,0}          //array of switches to make differnt invaders for different places
@@ -495,7 +550,7 @@ public class CreateBox {
 			posY+=100;
 		}
 		return invaderGroup;                                                   //return finished group of invaders
-	}
+*	}
 /**
  * OLD UNUSED method for testing
  * this method generates a single invader from an array pattern
@@ -506,7 +561,8 @@ public class CreateBox {
  * @param curX
  * @param curY
  */
-	public void invader(Group root, Image image5,int boxSize, int curX, int curY){    //make individual invaders
+	public Group invader(Group root, Image image5,int boxSize, int curX, int curY, int curZ){    //make individual invaders
+		Group invaderGroup = new Group();
 		int[][] shape  = {{0,0,0,0,0,0,0,0}                                           //pattern for switch to make each invader
 		                 ,{0,0,0,0,0,0,0,0}
 		                 ,{0,0,0,0,0,0,0,0}
@@ -517,7 +573,7 @@ public class CreateBox {
 		                 ,{1,0,0,0,0,0,0,1}};
 		int currX = curX;
 		int currY = curY;
-		int currZ = 1200;
+		int currZ = curZ;
 		for(int x =0;x<8;x++){              //rows y down
 			for(int y=0;y<8;y++){           //rows x across
 				switch(shape[x][y]){
@@ -537,6 +593,7 @@ public class CreateBox {
 			currX-=80;                                                        //got to new line of blocks
 			currY+=10;
 		}
+		return invaderGroup;
 	}
 
     /**

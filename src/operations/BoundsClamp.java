@@ -7,6 +7,8 @@ import gameValues.LevelValues;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import tests.TestBoundries;
+
 /**
  * Bounds clamp keeps everything inside the 3D box 
  * it accepts a node(3d object) or a group (group of 3d objects) and
@@ -43,44 +45,39 @@ public class BoundsClamp {
 	 * if the enemy hits the ground they are removed
 	 * @param e
 	 */
-	public void clamp(ArrayList<Enemy> e){                                          //ensure enemies are within world bounds
+	public void clamp(ArrayList<Enemy> e, TestBoundries tb){                                            //ensure enemies are within world bounds
 		for(int j=0;j<e.size();j++){
-			Enemy ef = e.get(j);                                                    //get the enemy class holding the node
-			Group test = ef.getGroup();
-
+			Enemy ef = e.get(j);                                                                        //get the enemy class holding the group
+			Group test = ef.getGroup();                                                                 //get each megaInvader
 			for(int i=0;i<test.getChildren().size();i++){                                                //loop for the number of enemies in arraylist
-				//test = inv.getChildren().get(i);                                              //get the current node (enemies store the box node)
-			//	System.out.println("x: "+test.getTranslateX()+ef.getxOffset());
-			//System.out.println("y: "+test.getTranslateY()+ef.getyOffset());
 				eachNode = test.getChildren().get(i);
 				eachNode.setTranslateX(eachNode.getTranslateX()+ef.getxOffset());
 				eachNode.setTranslateY(eachNode.getTranslateY()+ef.getyOffset());
 				eachNode.setTranslateZ(eachNode.getTranslateZ()+ef.getzOffset());
-				if((eachNode.getTranslateX()<=wc.case0.getX())                              //if the enemy is to far left
-				||(eachNode.getTranslateX()>=wc.case3.getX())){                             //or if the enemy is to far right
-					//System.out.println("X bounds hit");
+				if((eachNode.getTranslateX()<=wc.case0.getX())                                           //if the enemy is to far left
+				||(eachNode.getTranslateX()>=wc.case3.getX())){                                          //or if the enemy is to far right
+					tb.setXhit(new Point3D(eachNode.getTranslateX(),eachNode.getTranslateY(),eachNode.getTranslateZ()));    //log position
 					//offset is the amount of movement the enemy will move, negitive to left positive to right
-					ef.setxOffset(-(ef.getxOffset()));                                  //change the offset to the opposite value (negative value becomes positive value or positive value becomes negative value)
-					eachNode.setTranslateX(eachNode.getTranslateX()+ef.getxOffset());           //set the x location (using the current x location + the Xoffset)
-					eachNode.setTranslateY(eachNode.getTranslateY()+gvg.getSpinDrop());
-					//test.setTranslateY(test.getTranslateY()+ef.getyOffset());           //make the enemy move down the amount of the y offset (hit the wall move down)
-					re.rotateBox(eachNode);
+					ef.setxOffset(-(ef.getxOffset()));                                                   //change the offset to the opposite value (negative value becomes positive value or positive value becomes negative value)
+					eachNode.setTranslateX(eachNode.getTranslateX()+ef.getxOffset());                    //set the x location (using the current x location + the Xoffset)
+					eachNode.setTranslateY(eachNode.getTranslateY()+gvg.getSpinDrop());                  //make the enemy move down the amount of the y offset (hit the wall move down)
+					re.rotateBox(eachNode);                                                              //rotate each group
+
 				}
-				if((eachNode.getTranslateZ()<=wc.getCase1().getZ())                              //if the enemy is too far forward
-				||(eachNode.getTranslateZ()>=wc.case5.getZ())){                             //or if the enemy is too far back
-					//System.out.println("Z bounds hit");
-					//System.out.println("z: "+(eachNode.getTranslateZ()));
-					ef.setzOffset(-(ef.getzOffset()));                                  //change the offset to the opposite value (negative value becomes positive value or positive value becomes negative value)
-					eachNode.setTranslateZ(eachNode.getTranslateZ()+ef.getzOffset());           //set the z location (using the current z location + the Zoffset)
-					eachNode.setTranslateY(eachNode.getTranslateY()+gvg.getSpinDrop());           //make the enemy move down the amount of the y offset (hit the wall move down)
-					re.rotateBox(test);
+				if((eachNode.getTranslateZ()<=wc.getCase1().getZ())                                      //if the enemy is too far forward
+				||(eachNode.getTranslateZ()>=wc.case5.getZ())){                                          //or if the enemy is too far back
+					tb.setZhit(new Point3D(eachNode.getTranslateX(),eachNode.getTranslateY(),eachNode.getTranslateZ()));        //log position
+					ef.setzOffset(-(ef.getzOffset()));                                                   //change the offset to the opposite value (negative value becomes positive value or positive value becomes negative value)
+					eachNode.setTranslateZ(eachNode.getTranslateZ()+ef.getzOffset());                    //set the z location (using the current z location + the Zoffset)
+					eachNode.setTranslateY(eachNode.getTranslateY()+gvg.getSpinDrop());                  //make the enemy move down the amount of the y offset (hit the wall move down)
+					re.rotateBox(eachNode);                                                                  //rotate the group
 				}
-				if(eachNode.getTranslateY()>=wc.getCase1().getY()-15){                     //if the enemy hits the floor
-					//System.out.println("Y bounds hit");
-					ef.setxOffset(0);                                                  //change the Xoffset to zero to stop moving left/right
-					ef.setyOffset(0);                                                  //change the Yoffset to zero to stop moving forward/back
-					ef.setzOffset(0);                                                  //change the Zoffset to zero to stop moving down
-					ef.setLanded(true);                                                //set the landed boolean to true
+				if(eachNode.getTranslateY()>=wc.getCase1().getY()-15){                                   //if the enemy hits the floor
+					tb.setYhit(new Point3D(eachNode.getTranslateX(),eachNode.getTranslateY(),eachNode.getTranslateZ()));        //log position
+					ef.setxOffset(0);                                                                    //change the Xoffset to zero to stop moving left/right
+					ef.setyOffset(0);                                                                    //change the Yoffset to zero to stop moving forward/back
+					ef.setzOffset(0);                                                                    //change the Zoffset to zero to stop moving down
+					ef.setLanded(true);                                                                  //set the landed boolean to true
 				}
 			}
 		}
@@ -160,7 +157,7 @@ public class BoundsClamp {
 	 * @param tank
 	 * @return boolean
 	 */
-	public boolean tankZClamp(Node tank){                                           //ensure tank is within the world X bounds            
+	public boolean tankZClamp(Group tank){                                           //ensure tank is within the world X bounds
 		boolean canMove = true;                                                     //boolean test
 		if((tank.getTranslateZ()<wc.case0.getZ()+20)                                 //if the tank is touching the left Z boundary + box width               
 		||(tank.getTranslateZ()>wc.case4.getZ()-20)){                                //or if the tank is touching the right Y boundary - box width

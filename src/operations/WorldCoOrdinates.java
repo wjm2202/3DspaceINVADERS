@@ -115,4 +115,68 @@ public class WorldCoOrdinates {
 	public int getWorldDepth() {
 		return WORLD_DEPTH;
 	}
+
+	public Point3D getCase0() {
+		return case0;
+	}
+
+	public void setCase0(Point3D case0) {
+		this.case0 = case0;
+	}
+
+	public Point3D getCase2() {
+		return case2;
+	}
+
+	public void setCase2(Point3D case2) {
+		this.case2 = case2;
+	}
+
+	public Point3D getCase3() {
+		return case3;
+	}
+
+	public void setCase3(Point3D case3) {
+		this.case3 = case3;
+	}
+
+	public Point3D getCase4() {
+		return case4;
+	}
+
+	public void setCase4(Point3D case4) {
+		this.case4 = case4;
+	}
+
+	public Point3D getCase5() {
+		return case5;
+	}
+
+	public void setCase5(Point3D case5) {
+		this.case5 = case5;
+	}
+
+	public Point3D getCase6() {
+		return case6;
+	}
+
+	public void setCase6(Point3D case6) {
+		this.case6 = case6;
+	}
+
+	public Point3D getCase7() {
+		return case7;
+	}
+
+	public void setCase7(Point3D case7) {
+		this.case7 = case7;
+	}
+
+	public Point3D getStart() {
+		return start;
+	}
+
+	public void setStart(Point3D start) {
+		this.start = start;
+	}
 }
