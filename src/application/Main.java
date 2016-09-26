@@ -53,6 +53,7 @@ import tests.TestBoundries;
  */
 public class Main extends Application{
 
+	Label isAlive;
 	Group root;                                                  //array that holds all objects on screen
 	Label tfs;                                                   //label on tool bar that displays score
 	Label tfh;                                                   //label on tool bar that displays health
@@ -113,6 +114,7 @@ public class Main extends Application{
 	boolean gameIsRunning = false;                                       //game state started or stoped
 	int currHitsOnTank =0;                                               //the amount of hits on the tank since last update
 	int gameLevel = 0;                                                   //track the game level
+	boolean alive = true;
 	double moveX = 0.5;
 	double moveZ = 0.5;
 
@@ -167,6 +169,7 @@ public class Main extends Application{
 
 		tfs = new Label("SCORE: "+score);                                           //add the score to tool bar
 		tfh = new Label("Health: "+health);                                         //add the score to tool bar
+		isAlive = new Label("Alive: "+alive);
 
 		Button exit = new Button("Exit game");           //Exit game
 		exit.setOnAction(e->{
@@ -204,7 +207,7 @@ public class Main extends Application{
 			root.getChildren().add(invaderGroup);
 		});
 
-		toolBar = new ToolBar(start,pause,exit,tfs,tfh);                                       //tool bar add button and box
+		toolBar = new ToolBar(start,pause,exit,tfs,tfh,isAlive);                                       //tool bar add button and box
 
 		toolBar.setOrientation(Orientation.HORIZONTAL);                             //set tool bar horizontal
 		pane.setBottom(toolBar);                                                    //put tool bar in bottom pane
@@ -332,6 +335,11 @@ public class Main extends Application{
 								invaderGroup.getChildren().remove(enemy.get(i).getGroup());       //remove hit invader from group
 								score+= gvg.getPointsPerKill();                                   //add points to score
 							}
+						}
+
+						if(enemy.get(i).isLanded()){                                               //if invader is landed
+							alive=false;                                                           //change alive flag
+							isAlive.setText("Alive: "+alive);                                      //temp display of state
 						}
 					}
 					tfs.setText("SCORE: "+score);                                                        //display new score
