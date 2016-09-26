@@ -68,6 +68,7 @@ public class Main extends Application{
 	static Group tankGroup = new Group();                        //a group of tanks 
 	static Group bulletGroup = new Group();                      //a group of bullets
 	static Group bombGroup = new Group();                        //a group of bombs
+//CAMERA stuff
 	static boolean picked;                                       //is an object selected
 	double centX = screen.getMaxX()/2;                           //location of center of the screen width
 	double centY = screen.getMaxY()/2;                           //location of center of the screem height
@@ -129,7 +130,6 @@ public class Main extends Application{
 		}
 	}
 
-//helllooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo//
 	public static void main(String[] args)//DO NOT CODE HERE
 	{                                     //DO NOT CODE HERE
 		Application.launch(args);         //DO NOT CODE HERE
@@ -156,7 +156,6 @@ public class Main extends Application{
 		camera.setFarClip(4000.0);
 		camera.setFieldOfView(45);
 
-
 		//create sub scene for tool bar             
 		SubScene subScene = new SubScene(root, sW, sH-100,true,SceneAntialiasing.DISABLED);                           //make sub scene add group
 		subScene.setFill(Color.BLACK);                                          //fill scene with color
@@ -165,7 +164,6 @@ public class Main extends Application{
 		root.getChildren().add(cameraGroup);
 		BorderPane pane = new BorderPane();                                         //make outer display
 		pane.setCenter(subScene);
-		
 
 		tfs = new Label("SCORE: "+score);                                           //add the score to tool bar
 		tfh = new Label("Health: "+health);                                         //add the score to tool bar
@@ -289,7 +287,7 @@ public class Main extends Application{
 						if(gameIsRunning){
 							//System.out.println("tank X: "+tank.getTranslateX()+" tank Y: "+tank.getTranslateY()+" tank Y: "+tank.getTranslateZ());
 							bulletStart =  new Point3D((tankGroup.getTranslateX()+500.0),(tankGroup.getTranslateY()+500),(tankGroup.getTranslateZ()+1100.0));
-							System.out.println("bullet start: X: "+bulletStart.getX()+" Y: "+bulletStart.getY()+ " Z: "+bulletStart.getZ());
+							//System.out.println("bullet start: X: "+bulletStart.getX()+" Y: "+bulletStart.getY()+ " Z: "+bulletStart.getZ());
 							Node bull = boxOP.bullet(bulletStart);
 							bulletGroup.getChildren().add(bull);
 						}
@@ -298,10 +296,7 @@ public class Main extends Application{
 					default:
 						break;
 				}
-				//moveX =0.0;
-				//moveZ =0.0;
 			}
-
 		});
 		scene.setOnMouseClicked((event)->{                                          //make picked objects red
 			PickResult res = event.getPickResult();                                 //pick 3d object
@@ -323,7 +318,6 @@ public class Main extends Application{
 			    //GAME LOOP
 
 				if(gameIsRunning){
-					//System.out.println("movetimer : "+moveTimer);
 					tankGroup.setTranslateX((tankGroup.getTranslateX()+moveX));
 					tankGroup.setTranslateZ((tankGroup.getTranslateZ()+moveZ));
 					bc.clamp(enemy, tb);                                                          //trap invaders in bounds and move them
@@ -373,19 +367,8 @@ public class Main extends Application{
 				}
 			}
 		}.start();
-
-
 		facing = Movement.forwards;	//This makes the tank currently face forwards.
-		//INDY   these values are set in Level values class/////////////////////////////////
-		gvg.setTankXsize(50); //Stretching sideways (left and right)
-		gvg.setTankYsize(50); //Stretching upwards (up and down)
-		gvg.setTankZsize(50); //Stretching across (towards and away)
-		gvg.setTankPositon(500, 500, 1050);	//Setting the position of the tank in the middle.
-
-
-		//tankGroup.getChildren().add(boxOP.tank3D());	//This makes the tank
 		tankGroup = boxOP.makeModel(0);
-		System.out.println("tankgroup size: "+tankGroup.getChildren().size());
 		root.getChildren().add(tankGroup);
 		root.getChildren().add(bulletGroup);
 		root.getChildren().add(boxOP.ground());                //add ground to scene
@@ -397,5 +380,4 @@ public class Main extends Application{
 		stage.setTitle("3D Boxed Invaders");                                   // Set the Title of the Stage
 		stage.show();                                                              // show to user
 	}
-
 }
