@@ -15,11 +15,11 @@ public class RotateElements {
 	 *
 	 */
 
-	Rotate r180 = new Rotate(0,0,0,55, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 180 degrees
-	Rotate r90 = new Rotate(0,0,0,55, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 90 degrees
-	Rotate mr90 = new Rotate(0,0,0,55, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
-	Rotate rLeft = new Rotate(0,0,0,55, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
-	Rotate rRight = new Rotate(0,0,0,55, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	Rotate r180 = new Rotate(0,0,0,50, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 180 degrees
+	Rotate r90 = new Rotate(0,0,0,50, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 90 degrees
+	Rotate mr90 = new Rotate(0,0,0,50, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	Rotate rLeft = new Rotate(0,0,0,50, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	Rotate rRight = new Rotate(0,0,0,50, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
 
 	/**
 	 * this method will rotate the tank around its Y axis the amount of the amount argument
