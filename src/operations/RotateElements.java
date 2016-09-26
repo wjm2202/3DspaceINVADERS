@@ -15,11 +15,43 @@ public class RotateElements {
 	 *
 	 */
 
-	Rotate r180 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 180 degrees
-	Rotate r90 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 90 degrees
-	Rotate mr90 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	Rotate r180 = new Rotate(0,0,0,55, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 180 degrees
+	Rotate r90 = new Rotate(0,0,0,55, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 90 degrees
+	Rotate mr90 = new Rotate(0,0,0,55, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	Rotate rLeft = new Rotate(0,0,0,55, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	Rotate rRight = new Rotate(0,0,0,55, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
 
-	public void rotateTank(Group node, Movement facing, Movement turnTo){
+	/**
+	 * this method will rotate the tank around its Y axis the amount of the amount argument
+	 *
+	 * @param group
+	 * @param amountLeftRotate
+	 */
+	public void rotateLeft(Group group, double amountLeftRotate){
+		rLeft.setAngle(amountLeftRotate);
+		for(int i =0;i<group.getChildren().size();i++) {
+			Node node = group.getChildren().get(i);
+			node.getTransforms().add(rLeft);    //This rotates the node amount degrees to end up right.
+		}
+	}
+
+	/**
+	 * this method will rotate the tank around its y axis the amount of the amount argument
+	 *
+	 * @param group
+	 * @param amountRightRotate
+	 */
+	public void rotateRight(Group group, double amountRightRotate){
+		rRight.setAngle(amountRightRotate);
+		for(int i =0;i<group.getChildren().size();i++) {
+			Node node = group.getChildren().get(i);
+			node.getTransforms().add(rRight);    //This rotates the node amount degrees to end up right.
+		}
+	}
+
+	public void rotateTank(Group group, Movement facing, Movement turnTo, Point3D axis){
+		//testing rotate method with tank generated point
+		//Rotate test = new Rotate(90,0,0,55,Rotate.Y_AXIS);
 		r180.setAngle(180);	//This sets the variable value so the Node will rotate 180 degrees
 		r90.setAngle(90);	//This sets the variable value so the Node will rotate 90 degrees
 		mr90.setAngle(-90);	//This sets the variable value so the Node will rotate -90 degrees
@@ -27,15 +59,25 @@ public class RotateElements {
 			case forwards:	//This means the current position must be forwards for this switch case to run.
 				switch(turnTo){
 					case right:
-
+						for(int i =0;i<group.getChildren().size();i++) {
+							Node node = group.getChildren().get(i);
 							node.getTransforms().add(r90);    //This rotates the node 90 degrees to end up right.
-
+							//node.getTransforms().add(test);    //This rotates the node 90 degrees to end up right.
+						}
 						break;
 					case backwards:
-						node.getTransforms().add(r180); //This rotates the node 180 degrees to end up backwards.
+						for(int i =0;i<group.getChildren().size();i++) {
+							Node node = group.getChildren().get(i);
+							node.getTransforms().add(r180); //This rotates the node 180 degrees to end up backwards.
+							//node.getTransforms().add(test);    //This rotates the node 90 degrees to end up right.
+						}
 						break;
 					case left:
-						node.getTransforms().add(mr90); //This rotates the node -90 degrees to end up left.
+						for(int i =0;i<group.getChildren().size();i++) {
+							Node node = group.getChildren().get(i);
+							node.getTransforms().add(mr90); //This rotates the node -90 degrees to end up left.
+							//node.getTransforms().add(test);    //This rotates the node 90 degrees to end up right.
+						}
 						break;
 					default:
 						break;
@@ -44,13 +86,25 @@ public class RotateElements {
 			case right:		//This means the current position must be right for this switch case to run.
 				switch(turnTo){
 					case forwards:
-						node.getTransforms().add(mr90); //This rotates the node -90 degrees to end up forwards.
+						for(int i =0;i<group.getChildren().size();i++) {
+							Node node = group.getChildren().get(i);
+							node.getTransforms().add(mr90); //This rotates the node -90 degrees to end up forwards.
+							//node.getTransforms().add(test);    //This rotates the node 90 degrees to end up right.
+						}
 						break;
 					case backwards:
-						node.getTransforms().add(r90); //This rotates the node 90 degrees to end up backwards.
+						for(int i =0;i<group.getChildren().size();i++) {
+							Node node = group.getChildren().get(i);
+							node.getTransforms().add(r90); //This rotates the node 90 degrees to end up backwards.
+							//node.getTransforms().add(test);    //This rotates the node 90 degrees to end up right.
+						}
 						break;
 					case left:
-						node.getTransforms().add(r180); //This rotates the node 180 degrees to end up left.
+						for(int i =0;i<group.getChildren().size();i++) {
+							Node node = group.getChildren().get(i);
+							node.getTransforms().add(r180); //This rotates the node 180 degrees to end up left.
+							//node.getTransforms().add(test);    //This rotates the node 90 degrees to end up right.
+						}
 						break;
 					default:
 						break;
@@ -59,13 +113,25 @@ public class RotateElements {
 			case backwards:		//This means the current position must be backwards for this switch case to run.
 				switch(turnTo){
 					case forwards:
-						node.getTransforms().add(r180); //This rotates the node 180 degrees to end up forwards.
+						for(int i =0;i<group.getChildren().size();i++) {
+							Node node = group.getChildren().get(i);
+							node.getTransforms().add(r180); //This rotates the node 180 degrees to end up forwards.
+							//node.getTransforms().add(test);    //This rotates the node 90 degrees to end up right.
+						}
 						break;
 					case right:
-						node.getTransforms().add(r90); //This rotates the node 90 degrees to end up right.
+						for(int i =0;i<group.getChildren().size();i++) {
+							Node node = group.getChildren().get(i);
+							node.getTransforms().add(r90); //This rotates the node 90 degrees to end up right.
+							//node.getTransforms().add(test);    //This rotates the node 90 degrees to end up right.
+						}
 						break;
 					case left:
-						node.getTransforms().add(mr90); //This rotates the node -90 degrees to end up left.
+						for(int i =0;i<group.getChildren().size();i++) {
+							Node node = group.getChildren().get(i);
+							node.getTransforms().add(mr90); //This rotates the node -90 degrees to end up left.
+							//node.getTransforms().add(test);    //This rotates the node 90 degrees to end up right.
+						}
 						break;
 					default:
 						break;
@@ -74,13 +140,25 @@ public class RotateElements {
 			case left:		//This means the current position must be left for this switch case to run.
 				switch(turnTo){
 					case forwards:
-						node.getTransforms().add(r90); //This rotates the node 90 degrees to end up forwards.
+						for(int i =0;i<group.getChildren().size();i++) {
+							Node node = group.getChildren().get(i);
+							node.getTransforms().add(r90); //This rotates the node 90 degrees to end up forwards.
+							//node.getTransforms().add(test);    //This rotates the node 90 degrees to end up right.
+						}
 						break;
 					case right:
-						node.getTransforms().add(r180); //This rotates the node 180 degrees to end up right.
+						for(int i =0;i<group.getChildren().size();i++) {
+							Node node = group.getChildren().get(i);
+							node.getTransforms().add(r180); //This rotates the node 180 degrees to end up right.
+							//node.getTransforms().add(test);    //This rotates the node 90 degrees to end up right.
+						}
 						break;
 					case backwards:
-						node.getTransforms().add(mr90); //This rotates the node -90 degrees to end up backwards.
+						for(int i =0;i<group.getChildren().size();i++) {
+							Node node = group.getChildren().get(i);
+							node.getTransforms().add(mr90); //This rotates the node -90 degrees to end up backwards.
+							//node.getTransforms().add(test);    //This rotates the node 90 degrees to end up right.
+						}
 						break;
 					default:
 						break;

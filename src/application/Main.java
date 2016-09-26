@@ -107,6 +107,7 @@ public class Main extends Application{
 	Movement facing = Movement.forwards;                                 //ENUM starting value
 	Point3D bulletStart = new Point3D(0.0,0.0,0.0);                      //the location of the start of the bullet
 	Point3D bombStart;                                                   //the location of the start of the bomb
+	Point3D tankLocation;
 	ModelImporter mi = new ModelImporter();
 //VARIABLES
 	int trigger=0;                                                       //the limiter to the number of bombs dropped
@@ -219,19 +220,16 @@ public class Main extends Application{
 			@Override
 			public void handle(KeyEvent event) {
 				Node tank = tankGroup.getChildren().get(0);
-
+				tankLocation = new Point3D((tankGroup.getTranslateX()+500.0),(tankGroup.getTranslateY()+500),(tankGroup.getTranslateZ()+1100.0));
 				switch (event.getCode()){
 					case UP:	//This case executes when the up key is pressed on the keyboard.
 						if(bc.tankZClamp(tankGroup)){
-							//re.rotateTank(tankGroup, facing, Movement.forwards);
-							//tankGroup.setTranslateZ(tankGroup.getTranslateZ()+20);
+							re.rotateTank(tankGroup, facing, Movement.forwards, tankLocation);
 							moveZ = -gvg.getTankSpeedZ();
-							//System.out.println("up: "+ gvg.getTankSpeedZ());
 							facing=Movement.forwards;
 							event.consume();
 						}else{
-							//re.rotateTank(tankGroup, facing, Movement.forwards);
-							//tankGroup.setTranslateZ(tankGroup.getTranslateZ()-60);
+							re.rotateTank(tankGroup, facing, Movement.forwards, tankLocation);
 							moveZ = gvg.getTankSpeedY();
 							facing=Movement.forwards;
 							event.consume();
@@ -239,14 +237,12 @@ public class Main extends Application{
 						break;
 					case DOWN:	//This case executes when the down key is pressed on the keyboard.
 						if(bc.tankZClamp(tankGroup)){
-							//re.rotateTank(tankGroup, facing, Movement.backwards);
-							//tankGroup.setTranslateZ(tankGroup.getTranslateZ()-20);
+							re.rotateTank(tankGroup, facing, Movement.backwards, tankLocation);
 							moveZ = gvg.getTankSpeedY();
 							facing=Movement.backwards;
 							event.consume();
 						}else{
-							//re.rotateTank(tankGroup, facing, Movement.backwards);
-							//tankGroup.setTranslateZ(tankGroup.getTranslateZ()+60);
+							re.rotateTank(tankGroup, facing, Movement.backwards, tankLocation);
 							moveZ = -gvg.getTankSpeedY();
 							facing=Movement.backwards;
 							event.consume();
@@ -254,15 +250,13 @@ public class Main extends Application{
 						break;
 					case LEFT:	//This case executes when the left key is pressed on the keyboard.
 						if(bc.tankXClamp(tankGroup)){
-							//re.rotateTank(tankGroup, facing, Movement.left);
-							//tankGroup.setTranslateX(tankGroup.getTranslateX()-20);
+							re.rotateTank(tankGroup, facing, Movement.left, tankLocation);
 							moveX = -gvg.getTankSpeedX();
 							facing=Movement.left;
 							event.consume();
 						}
 						else{
-							//re.rotateTank(tankGroup, facing, Movement.left);
-							//tankGroup.setTranslateX(tankGroup.getTranslateX()+60);
+							re.rotateTank(tankGroup, facing, Movement.left, tankLocation);
 							moveX = -gvg.getTankSpeedX();
 							facing=Movement.left;
 							event.consume();
@@ -270,14 +264,12 @@ public class Main extends Application{
 						break;
 					case RIGHT:	//This case executes when the right key is pressed on the keyboard.
 						if(bc.tankXClamp(tankGroup)){
-							//re.rotateTank(tankGroup, facing, Movement.right);
-							//tankGroup.setTranslateX(tankGroup.getTranslateX()+20);
+							re.rotateTank(tankGroup, facing, Movement.right, tankLocation);
 							moveX = gvg.getTankSpeedX();
 							facing=Movement.right;
 							event.consume();
 						}else{
-							//re.rotateTank(tankGroup, facing, Movement.right);
-							//tankGroup.setTranslateX(tankGroup.getTranslateX()-60);
+							re.rotateTank(tankGroup, facing, Movement.right, tankLocation);
 							moveX = -gvg.getTankSpeedX();
 							facing=Movement.right;
 							event.consume();
