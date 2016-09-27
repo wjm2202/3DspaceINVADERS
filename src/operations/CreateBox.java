@@ -92,7 +92,7 @@ public class CreateBox {
 		ground.setTranslateX(480);                            //set x location
 		ground.setTranslateY(800);                             //set y location
 		ground.setTranslateZ(1300);
-		ground.setMaterial(img.getTexture(13));   
+		ground.setMaterial(img.getTexture(13));
 		return ground;
 	}
 	public Box makeTank(int x, int y, int z, int sizeX, int sizeY, int sizeZ){
@@ -105,7 +105,7 @@ public class CreateBox {
 		return boarderBox;
 		
 	}
-	public Group makeModel(int modelNumber){
+	public Group makeModel(int modelNumber, int skinNum){
 		Group beast = new Group();
 		MeshView[] mv = mi.makeMesh(modelNumber);
 		System.out.println("before test object mi.size "+mv.length);
@@ -121,7 +121,7 @@ public class CreateBox {
 			PhongMaterial sample = new PhongMaterial(Color.BEIGE);
 			sample.setSpecularColor(Color.ALICEBLUE);
 			sample.setSpecularPower(16);
-			mv[i].setMaterial(img.getTexture(12));
+			mv[i].setMaterial(img.getTexture(skinNum));
 			beast.getChildren().add(mv[i]);
 
 		}
@@ -135,10 +135,9 @@ public class CreateBox {
 		Group g = new Group();
 
 		Polygon polygon = new Polygon();
-		polygon.getPoints().addAll(new Double[]{
-				0.0, 0.0,
+		polygon.getPoints().addAll(0.0, 0.0,
 				20.0, 10.0,
-				10.0, 20.0 });
+				10.0, 20.0);
 		polygon.setTranslateX(xloc);
 		polygon.setTranslateY(yloc);
 		polygon.setTranslateZ(zloc);
@@ -192,16 +191,16 @@ public class CreateBox {
 					leftBox.setTranslateY(startY);
 					leftBox.setTranslateZ(startZ);
 					boarderGroup.getChildren().add(leftBox);
-					;break;
+					break;
 				case 2:
 					startX = ((int)bo.get(2).getX()-(int)bo.get(0).getX()) / 2;
 					startY += 250; 					//goes to the ground floor
-					groundBox.setMaterial(img.getTexture(15)); //pasting the image on the ground 3D box
+					//groundBox.setMaterial(img.getTexture(15)); //pasting the image on the ground 3D box
                     groundBox.setTranslateX(startX);// This is the ground side of the box
 					groundBox.setTranslateY(startY);
 					groundBox.setTranslateZ(startZ);
 					boarderGroup.getChildren().add(groundBox);
-					;break;
+					break;
 				case 3:
 					startX += ((int)bo.get(2).getX()-(int)bo.get(0).getX()) / 2;
 					startY = startY - 250;
@@ -209,7 +208,7 @@ public class CreateBox {
 					rightBox.setTranslateY(startY);
 					rightBox.setTranslateZ(startZ);
 					boarderGroup.getChildren().add(rightBox);
-					;break;
+					break;
 				case 4:
 					startY = 0;
 					startX = ((int)bo.get(3).getX()- (int)bo.get(0).getX()) / 2;
@@ -217,7 +216,7 @@ public class CreateBox {
 					topBox.setTranslateY(startY);
 					topBox.setTranslateZ(startZ);
 					boarderGroup.getChildren().add(topBox);
-					;break;
+					break;
 			}
 
 		}
@@ -364,7 +363,7 @@ public class CreateBox {
 				startX = (int)bo.get(1).getX();
 				startY = (int)bo.get(1).getY();
 				startZ = (int)bo.get(1).getZ();
-				;break;
+				break;
 			case 2:                                                                  //move to bottom right front corner
 				startX = (int)bo.get(2).getX();
 				startY = (int)bo.get(2).getY();

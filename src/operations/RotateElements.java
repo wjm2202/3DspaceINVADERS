@@ -20,6 +20,15 @@ public class RotateElements {
 	Rotate mr90 = new Rotate(0,0,0,50, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
 	Rotate rLeft = new Rotate(0,0,0,50, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
 	Rotate rRight = new Rotate(0,0,0,50, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	Rotate rVert = new Rotate(90,0,0,50, Rotate.Z_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+
+	public void rotateVert(Group group, double amountVertRotate){
+		rLeft.setAngle(amountVertRotate);
+		for(int i =0;i<group.getChildren().size();i++) {
+			Node node = group.getChildren().get(i);
+			node.getTransforms().add(rVert);    //This rotates the node amount degrees to end up right.
+		}
+	}
 
 	/**
 	 * this method will rotate the tank around its Y axis the amount of the amount argument

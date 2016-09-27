@@ -46,7 +46,7 @@ public class ModelImporter {
             ObjModelImporter objImporter = new ObjModelImporter();
             objImporter.read("C:\\Users\\Liandri\\workspace - Copy\\Box\\src\\models\\apc\\Aliens_APC.obj");
             // C:\Users\Liandri\workspace - Copy\Box\src\models\apc\Aliens_APC.obj
-            objMesh = (Node[]) objImporter.getImport();
+            objMesh = objImporter.getImport();
             objImporter.close();
             System.out.println("import success");
         } catch (Exception e) {
@@ -95,13 +95,13 @@ public class ModelImporter {
                     modelUrl = this.getClass().getResource("/models/aliens_apc.obj");      //battle tank
                     break;
                 case 1:
-                    modelUrl = this.getClass().getResource("/models/bmo.obj");   //bmo
+                    modelUrl = this.getClass().getResource("/models/tank.obj");         //tank
                     break;
                 case 2:
-                    modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
+                    modelUrl = this.getClass().getResource("/models/avmt300.obj");      //missle
                     break;
                 case 3:
-                    modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
+                    modelUrl = this.getClass().getResource("/models/space_invader.obj");   //invaer 1
                     break;
                 case 4:
                     modelUrl = this.getClass().getResource("/models/aliens_apc.obj");

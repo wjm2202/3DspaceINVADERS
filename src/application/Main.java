@@ -107,8 +107,10 @@ public class Main extends Application{
 	Movement facing = Movement.forwards;                                 //ENUM starting value
 	Point3D bulletStart = new Point3D(0.0,0.0,0.0);                      //the location of the start of the bullet
 	Point3D bombStart;                                                   //the location of the start of the bomb
+	Point3D invaderStart;
 	Point3D tankLocation;
 	ModelImporter mi = new ModelImporter();
+	MakeAssets ma = new MakeAssets();
 //VARIABLES
 	int trigger=0;                                                       //the limiter to the number of bombs dropped
 	int score=0;                                                         //the player score
@@ -177,11 +179,7 @@ public class Main extends Application{
 		});
 		Button pause = new Button("Pause/Un-Pause");           //Pause game
 		pause.setOnAction(e->{
-			if(gameIsRunning==true){
-				gameIsRunning=false;
-			}else{
-				gameIsRunning=true;
-			}
+			gameIsRunning = gameIsRunning != true;
 
 		});
 		Button start = new Button("Start game");           //Start game                  
@@ -194,10 +192,10 @@ public class Main extends Application{
 				//Menemy.setMinv(inv.makeMega(10, (int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ()));
 				//Enemy Menemy = new Enemy(startP3d.get(i),startP3d.get(i).getX(),startP3d.get(i).getY(),startP3d.get(i).getZ(),10,10);
 				//Menemy.setMinv(boxOP.invader(root,img.getImg(5),10,(int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ()));
-				//Menemy.setMinv(boxOP.singleEnemyBox((int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ(),40,20,10));
+				Menemy.setMinv(boxOP.singleEnemyBox((int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ(),60,20,10));
 				//Menemy.setMinv(mi.buildScene());
-				Menemy.setMinv(boxOP.poly(startP3d.get(i).getX(),startP3d.get(i).getY(), startP3d.get(i).getZ()));
-
+				//Menemy.setMinv(ma.makeInvader1(startP3d.get(i)));
+				//Menemy.setMinv(boxOP.poly(startP3d.get(i).getX(),startP3d.get(i).getY(), startP3d.get(i).getZ()));
 				enemy.add(Menemy);
 				invaderGroup.getChildren().add(Menemy.getGroup());
 
@@ -278,9 +276,10 @@ public class Main extends Application{
 					case COMMA:	//This case executes when the right key is pressed on the keyboard.
 						if(gameIsRunning){
 							//System.out.println("tank X: "+tank.getTranslateX()+" tank Y: "+tank.getTranslateY()+" tank Y: "+tank.getTranslateZ());
-							bulletStart =  new Point3D((tankGroup.getTranslateX()+500.0),(tankGroup.getTranslateY()+500),(tankGroup.getTranslateZ()+1100.0));
+							//bulletStart =  new Point3D((tankGroup.getTranslateX()+500.0),(tankGroup.getTranslateY()+500),(tankGroup.getTranslateZ()+1100.0));
+							bulletStart =  new Point3D((tankGroup.getTranslateX()-50.0),(tankGroup.getTranslateY()-50.0),(tankGroup.getTranslateZ()-100.0));
 							//System.out.println("bullet start: X: "+bulletStart.getX()+" Y: "+bulletStart.getY()+ " Z: "+bulletStart.getZ());
-							Node bull = boxOP.bullet(bulletStart);
+							Node bull = ma.makeMissle(bulletStart);
 							bulletGroup.getChildren().add(bull);
 						}
 						event.consume();
@@ -360,7 +359,8 @@ public class Main extends Application{
 			}
 		}.start();
 		facing = Movement.forwards;	//This makes the tank currently face forwards.
-		tankGroup = boxOP.makeModel(0);
+		tankGroup = boxOP.makeModel(0, 12);         //first int is model number second int is skin number
+		tankGroup.setTranslateY(tankGroup.getTranslateY()-40);
 		root.getChildren().add(tankGroup);
 		root.getChildren().add(bulletGroup);
 		root.getChildren().add(boxOP.ground());                //add ground to scene
