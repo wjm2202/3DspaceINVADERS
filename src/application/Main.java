@@ -126,7 +126,7 @@ public class Main extends Application{
 	@Override
 	public void stop(){                                                  //if the game stops or window is closed these methods will be called
 		String ERRORS = tb.boundryTests();                               //string for error messages
-		if(ERRORS!=""){     //change to !=                               //if there are errors
+		if(ERRORS==""){     //change to !=                               //if there are errors
 			System.out.print(ERRORS);                                    //print the errors
 			//save game to DB
 			System.exit(0);
@@ -196,6 +196,7 @@ public class Main extends Application{
 				//Menemy.setMinv(mi.buildScene());
 				//Menemy.setMinv(ma.makeInvader1(startP3d.get(i)));
 				//Menemy.setMinv(boxOP.poly(startP3d.get(i).getX(),startP3d.get(i).getY(), startP3d.get(i).getZ()));
+				//Menemy.setMinv(boxOP.makeInvader(4, 3,startP3d.get(i)));
 				enemy.add(Menemy);
 				invaderGroup.getChildren().add(Menemy.getGroup());
 
@@ -277,7 +278,7 @@ public class Main extends Application{
 						if(gameIsRunning){
 							//System.out.println("tank X: "+tank.getTranslateX()+" tank Y: "+tank.getTranslateY()+" tank Y: "+tank.getTranslateZ());
 							//bulletStart =  new Point3D((tankGroup.getTranslateX()+500.0),(tankGroup.getTranslateY()+500),(tankGroup.getTranslateZ()+1100.0));
-							bulletStart =  new Point3D((tankGroup.getTranslateX()-50.0),(tankGroup.getTranslateY()-50.0),(tankGroup.getTranslateZ()-100.0));
+							bulletStart =  new Point3D((tankGroup.getTranslateX()+10.0),(tankGroup.getTranslateY()-40.0),(tankGroup.getTranslateZ()-80.0));
 							//System.out.println("bullet start: X: "+bulletStart.getX()+" Y: "+bulletStart.getY()+ " Z: "+bulletStart.getZ());
 							Node bull = ma.makeMissle(bulletStart);
 							bulletGroup.getChildren().add(bull);
@@ -359,13 +360,14 @@ public class Main extends Application{
 			}
 		}.start();
 		facing = Movement.forwards;	//This makes the tank currently face forwards.
-		tankGroup = boxOP.makeModel(0, 12);         //first int is model number second int is skin number
+		tankGroup = boxOP.makeModel(1, 12);         //first int is model number second int is skin number
+		//scale.scaleAll(tankGroup,0.2);
 		tankGroup.setTranslateY(tankGroup.getTranslateY()-40);
 		root.getChildren().add(tankGroup);
 		root.getChildren().add(bulletGroup);
 		root.getChildren().add(boxOP.ground());                //add ground to scene
 		root.getChildren().add(boxOP.horizon());               //add background to scene
-		//root.getChildren().add(boxOP.gameBound(root, 0, 0, 800, 5));
+		root.getChildren().add(boxOP.gameBound(root, 0, 0, 800, 5));
 		root.getChildren().add(boxOP.gameBox());			   //creating the box environment
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());      //add css to ui
 		stage.setScene(scene);                                                     // Add the Scene to the Stage

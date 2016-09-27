@@ -27,6 +27,7 @@ import java.net.URL;
  */
 public class ModelImporter {
 
+    TdsModelImporter tmi = new TdsModelImporter();
     private static final String MESH_FILENAME =
             "/Users/lilyshard/Downloads/Perfect Diamond/Perfect Diamond.STL";
 
@@ -69,16 +70,16 @@ public class ModelImporter {
 
         MeshView[] meshViews = loadMeshViews();
         for (int i = 0; i < meshViews.length; i++) {
-            meshViews[i].setTranslateX(VIEWPORT_SIZE / 2 + MODEL_X_OFFSET);
-            meshViews[i].setTranslateY(VIEWPORT_SIZE / 2 + MODEL_Y_OFFSET);
-            meshViews[i].setTranslateZ(VIEWPORT_SIZE / 2);
-            meshViews[i].setScaleX(MODEL_SCALE_FACTOR);
-            meshViews[i].setScaleY(MODEL_SCALE_FACTOR);
-            meshViews[i].setScaleZ(MODEL_SCALE_FACTOR);
+            //meshViews[i].setTranslateX(VIEWPORT_SIZE / 2 + MODEL_X_OFFSET);
+            //meshViews[i].setTranslateY(VIEWPORT_SIZE / 2 + MODEL_Y_OFFSET);
+            //meshViews[i].setTranslateZ(VIEWPORT_SIZE / 2);
+           // meshViews[i].setScaleX(MODEL_SCALE_FACTOR);
+            //meshViews[i].setScaleY(MODEL_SCALE_FACTOR);
+            //meshViews[i].setScaleZ(MODEL_SCALE_FACTOR);
 
             PhongMaterial sample = new PhongMaterial(jewelColor);
-            sample.setSpecularColor(lightColor);
-            sample.setSpecularPower(16);
+            //sample.setSpecularColor(lightColor);
+            //sample.setSpecularPower(16);
             meshViews[i].setMaterial(sample);
 
             //meshViews[i].getTransforms().setAll(new Rotate(38, Rotate.Z_AXIS), new Rotate(20, Rotate.X_AXIS));
@@ -104,7 +105,7 @@ public class ModelImporter {
                     modelUrl = this.getClass().getResource("/models/space_invader.obj");   //invaer 1
                     break;
                 case 4:
-                    modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
+                    modelUrl = this.getClass().getResource("/models/UFO.obj");      //ufo
                     break;
                 case 5:
                     modelUrl = this.getClass().getResource("/models/aliens_apc.obj");

@@ -4,6 +4,7 @@ import javafx.animation.RotateTransition;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import gameValues.Movement;
@@ -15,11 +16,11 @@ public class RotateElements {
 	 *
 	 */
 
-	Rotate r180 = new Rotate(0,0,0,50, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 180 degrees
-	Rotate r90 = new Rotate(0,0,0,50, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 90 degrees
-	Rotate mr90 = new Rotate(0,0,0,50, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
-	Rotate rLeft = new Rotate(0,0,0,50, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
-	Rotate rRight = new Rotate(0,0,0,50, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	Rotate r180 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 180 degrees
+	Rotate r90 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 90 degrees
+	Rotate mr90 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	Rotate rLeft = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	Rotate rRight = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
 	Rotate rVert = new Rotate(90,0,0,50, Rotate.Z_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
 
 	public void rotateVert(Group group, double amountVertRotate){

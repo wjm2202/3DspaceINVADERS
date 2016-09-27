@@ -5,6 +5,7 @@ import javafx.geometry.Point3D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
@@ -125,10 +126,33 @@ public class CreateBox {
 			beast.getChildren().add(mv[i]);
 
 		}
-		re.rotateLeft(beast,135.0);
+		//re.rotateLeft(beast,90.0);
 		return beast;
 	}
+	public Group makeInvader(int modelNumber, int skinNum, Point3D start){
+		Group beast = new Group();
+		MeshView[] mv = mi.makeMesh(modelNumber);
+		System.out.println("before test object mi.size "+mv.length);
 
+		for (int i = 0; i < mv.length; i++) {
+			mv[i].setTranslateX(start.getX());
+			mv[i].setTranslateY(start.getY());
+			mv[i].setTranslateZ(start.getZ());
+			mv[i].setScaleX(2.0);
+			mv[i].setScaleY(2.0);
+			mv[i].setScaleZ(2.0);
+
+			PhongMaterial sample = new PhongMaterial(Color.BEIGE);
+			sample.setSpecularColor(Color.ALICEBLUE);
+			sample.setSpecularPower(16);
+			mv[i].setMaterial(img.getTexture(skinNum));
+			beast.getChildren().add(mv[i]);
+
+		}
+		re.rotateLeft(beast,135.0);
+		//System.out.println(beast.getRotationAxis());
+		return beast;
+	}
 
 	public Group poly(double xloc, double yloc, double zloc){
 
@@ -180,7 +204,7 @@ public class CreateBox {
 		int startX = 0;
 		int startY = 0;
 
-		for(int i = 0; i < 4; i++)
+		for(int i = 0; i < 3; i++)                    //changes for testing from 4 t0 3
 		{
 			switch(sequence[i])
 			{

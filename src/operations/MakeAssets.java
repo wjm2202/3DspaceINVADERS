@@ -30,7 +30,21 @@ public class MakeAssets {
         invader1Group.setTranslateX(location.getX());
         invader1Group.setTranslateY(location.getY());
         invader1Group.setTranslateZ(location.getZ());
+        //System.out.println(invader1Group.getRotationAxis());
+
         //se.scaleAll(invader1Group,0.5);
         return invader1Group;
+    }
+    public Group makeTank(Point3D location){
+        Group tGroup = boxOP.makeModel(1, 12);
+        re.rotateLeft(tGroup,45);
+        //re.rotateVert(invader1Group, 100);
+        tGroup.setTranslateX(location.getX());
+        tGroup.setTranslateY(location.getY());
+        tGroup.setTranslateZ(location.getZ());
+        //System.out.println(invader1Group.getRotationAxis());
+
+        //se.scaleAll(invader1Group,0.5);
+        return tGroup;
     }
 }
