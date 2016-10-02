@@ -42,9 +42,6 @@ public class MakeAssets {
         tGroup.setTranslateX(location.getX());
         tGroup.setTranslateY(location.getY());
         tGroup.setTranslateZ(location.getZ());
-        //System.out.println(invader1Group.getRotationAxis());
-
-        //se.scaleAll(invader1Group,0.5);
         return tGroup;
     }
 }

@@ -139,7 +139,7 @@ public class BoundsClamp {
 	}
 	/**
 	 * this method stops the tank from going outside the x 
-	 * it returns a boolean to block movement in the Main class
+	 * it returns a boolean to block movement in the MainView class
 	 * @param tank
 	 * @return boolean
 	 */
@@ -153,7 +153,7 @@ public class BoundsClamp {
 	}
 	/**
 	 * this method stops the tank from going outside the z 
-	 * it returns a boolean to block movement in the Main class
+	 * it returns a boolean to block movement in the MainView class
 	 * @param tank
 	 * @return boolean
 	 */
@@ -189,7 +189,7 @@ public class BoundsClamp {
 	 * return to main to actually remove from screen the dead enemy
 	 * @param bulletGroup
 	 * @param invaderGroup
-	 * @return ArrayList<Node> to be removed from observable list in Main
+	 * @return ArrayList<Node> to be removed from observable list in MainView
 	 */
 	public ArrayList<Node> bulletEnemyHit(Group bulletGroup, Group invaderGroup){
 		for(int i =0;i<bulletGroup.getChildren().size();i++){
@@ -223,7 +223,7 @@ public class BoundsClamp {
  * the box around the bombs	
  * @param tankGroup
  * @param bulletGroup
- * @return number of hits to Main to be deducted from health
+ * @return number of hits to MainView to be deducted from health
  */
 	public int tankIsHit(Group tankGroup, Group bulletGroup){
 		int hitsOnTank =0;

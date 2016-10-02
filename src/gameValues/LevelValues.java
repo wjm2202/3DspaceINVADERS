@@ -12,7 +12,7 @@ package gameValues;
 public class LevelValues {
 
 	//enemy values
-	private int numEnemies = 20;                //total number of enemies (auto generated)
+	private int numEnemies = 1;                //total number of enemies (auto generated)
 	private int enemyBombDamage = 5;            //amount each bomb hit hurts the tank
 	private int enemyBombSpeed = 5;             //the speed the enemy bombs fall
 	private int enemyXsize = 40;                //the size in width of the enemies
@@ -22,6 +22,7 @@ public class LevelValues {
 	private double Yvelocity = 0.0;             //the speed the enemy moves up/down
 	private double Zvelocity = 5.0;             //the speed the enemy moves front/back
 	private double spinDrop = 1.0;              //the amount the enemies drop each time they hit a wall and turn around
+	private int dropsPerSecond = 60;         //60 means 1 bomb dropped per second if less than 60 more bombs drop
 	
 	//player values
 	//score
@@ -34,6 +35,36 @@ public class LevelValues {
     private int tankZsize = 10;                 //the size in depth of the tank
 	private double tankSpeedX = 10.0;
 	private double tankSpeedY = 10.0;
+	private double tankSpeedZ = 5.0;
+	private int tankXPosition;					//this is the x position of the tank
+	private int tankYPosition;					//this is the y position of the tank
+	private double gameDiffucultyIncrease =0.5;
+
+
+	public int getDropsPerSecond() {
+		return dropsPerSecond;
+	}
+
+	public void setDropsPerSecond(int getDropsPerSecond) {
+		this.dropsPerSecond = getDropsPerSecond;
+	}
+
+	public double getGameDiffucultyIncrease() {
+		return gameDiffucultyIncrease;
+	}
+	public void setGameDiffucultyIncrease(double gameDiffucultyIncrease) {
+		this.gameDiffucultyIncrease = gameDiffucultyIncrease;
+	}
+	public void levelUP(double up){
+		this.numEnemies = numEnemies +1;
+		this.enemyBombDamage = enemyBombDamage +1;
+		this.enemyBombSpeed = enemyBombSpeed +1;
+		this.Xvelocity = Xvelocity + up;
+		//this.Yvelocity = Yvelocity + up;
+		this.Zvelocity = Zvelocity + up;
+		this.spinDrop = spinDrop + 0.2;
+		setDropsPerSecond(dropsPerSecond-2);
+	}
 
 	public double getTankSpeedZ() {
 		return tankSpeedZ;
@@ -42,10 +73,6 @@ public class LevelValues {
 	public void setTankSpeedZ(double tankSpeedZ) {
 		this.tankSpeedZ = tankSpeedZ;
 	}
-
-	private double tankSpeedZ = 5.0;
-	private int tankXPosition;					//this is the x position of the tank
-	private int tankYPosition;					//this is the y position of the tank
 
 	public double getTankSpeedX() {
 		return tankSpeedX;

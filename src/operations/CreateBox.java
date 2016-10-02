@@ -1,26 +1,22 @@
 package operations;
 
-import javafx.animation.RotateTransition;
 import javafx.geometry.Point3D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
 import javafx.scene.shape.Cylinder;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.Polygon;
-import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
-import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.Random;
 /**
  * this class is the class that creates 3D object for use in your games
- * the classes are called from the Main class or internally to make larger 
+ * the classes are called from the MainView class or internally to make larger
  * groups of 3D objects as groups
  * @author Liandri
  *
@@ -113,7 +109,7 @@ public class CreateBox {
 
 		for (int i = 0; i < mv.length; i++) {
 			mv[i].setTranslateX(500);
-			mv[i].setTranslateY(500);
+			mv[i].setTranslateY(535);
 			mv[i].setTranslateZ(1050);
 			mv[i].setScaleX(2.0);
 			mv[i].setScaleY(2.0);

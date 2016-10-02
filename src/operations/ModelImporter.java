@@ -133,7 +133,7 @@ public class ModelImporter {
                     break;
             }
             objImporter.read(modelUrl);
-            System.out.println("obj import success!!!!!!!");
+            //System.out.println("obj import success!!!!!!!");
         }
         catch (ImportException e) {
 

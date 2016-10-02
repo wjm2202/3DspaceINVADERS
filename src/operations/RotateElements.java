@@ -4,7 +4,6 @@ import javafx.animation.RotateTransition;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.layout.Pane;
 import javafx.scene.transform.Rotate;
 import javafx.util.Duration;
 import gameValues.Movement;
@@ -188,12 +187,12 @@ public class RotateElements {
 			//for(int i=0;i<group.getChildren().size();i++){
 				//Node node = group.getChildren().get(i);
 
-			RotateTransition rtrans = new RotateTransition(Duration.millis(1000), node);   //make a new rotateTransform 1/20 of a second duration
+			RotateTransition rtrans = new RotateTransition(Duration.millis(250), node);   //make a new rotateTransform 1/20 of a second duration
 			rtrans.setFromAngle(0);                                                  //start angle of rotation
 			rtrans.setToAngle(180);                                                  //angle to rotate to
 			rtrans.setAutoReverse(false);                                            //does not reverse direction of rotation
 			rtrans.setCycleCount(1);                                                //rotate once
-			rtrans.setAxis(new Point3D(0.0, 0.0, 0.0));                                //rotational axis
+			rtrans.setAxis(new Point3D(0.0, 0.2, 0.0));                                //rotational axis
 			rtrans.play();                                                           //play the animation}
 			//}
 

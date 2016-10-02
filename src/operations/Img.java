@@ -60,7 +60,7 @@ public class Img {
 		tanktex = new Image("/pics/tanktex.png");    //get image to wrap cube in
 		groundtex = new Image("/pics/ground.jpg");    //get image to wrap cube in
 		bullcolor = new Image("/pics/bullcolor.jpg");    //get image to wrap cube in
-		groundGrid = new Image("/pics/greenGrid.jpg");	//get image for ground box
+		//groundGrid = new Image("/pics/greenGrid.jpg");	//get image for ground box
 
 
 		textureMaterial = new PhongMaterial();  //texture material
@@ -143,7 +143,7 @@ public class Img {
 		case 14:
 			getTextureMaterial = bullColor;break;
 			case 15:
-				getTextureMaterial = groundGridph;break;
+				//getTextureMaterial = groundGridph;break;
 		default:
 			getTextureMaterial = textureMaterial;break;
 			
