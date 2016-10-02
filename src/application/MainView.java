@@ -67,6 +67,7 @@ public class MainView extends Application{
 	static Group bulletGroup = new Group();                      //a group of bullets
 	static Group bombGroup = new Group();                        //a group of bombs
 	static Group homingGroup = new Group();
+	static Group explosionGroup = new Group();
 //CAMERA stuff
 	static boolean picked;                                       //is an object selected
 	double centX = screen.getMaxX()/2;                           //location of center of the screen width
@@ -94,7 +95,7 @@ public class MainView extends Application{
 	//MegaInvader inv = new MegaInvader();                                 //mega invader creation
 	Update update = new Update();                                        //update all elements locations and detect collisions
 	TestBoundries tb = new TestBoundries();                              //test Class
-	WorldCoOrdinates loc3D = new WorldCoOrdinates();                     //get preset points important for game
+	public static WorldCoOrdinates loc3D = new WorldCoOrdinates();                     //get preset points important for game
 	ArrayList<Point3D> bounds = new ArrayList<>();                       //get the 3D world corner points
 	ArrayList<Enemy> enemy = new ArrayList<>();                          //array of current enemies
 	ArrayList<Point3D> startP3d = new ArrayList<>();                     //get pre generated start locations for enemies
@@ -113,6 +114,8 @@ public class MainView extends Application{
 	MakeAssets ma = new MakeAssets();
 	Homing homing = new Homing();
 	NewLevelStart nls = new NewLevelStart();
+	SoundEffects se = new SoundEffects();
+	Node grnd;
 //VARIABLES
 	int trigger=0;                                                       //the limiter to the number of bombs dropped
 	int score=0;                                                         //the player score
@@ -271,7 +274,7 @@ public class MainView extends Application{
 						if(gameIsRunning){
 							//System.out.println("tank X: "+tank.getTranslateX()+" tank Y: "+tank.getTranslateY()+" tank Y: "+tank.getTranslateZ());
 							//bulletStart =  new Point3D((tankGroup.getTranslateX()+500.0),(tankGroup.getTranslateY()+500),(tankGroup.getTranslateZ()+1100.0));
-							bulletStart =  new Point3D((tankGroup.getTranslateX()+10.0),(tankGroup.getTranslateY()-40.0),(tankGroup.getTranslateZ()-80.0));
+							bulletStart =  new Point3D((tankGroup.getTranslateX()+10.0),(tankGroup.getTranslateY()-70.0),(tankGroup.getTranslateZ()-80.0));
 							//System.out.println("bullet start: X: "+bulletStart.getX()+" Y: "+bulletStart.getY()+ " Z: "+bulletStart.getZ());
 							Node bull = ma.makeMissle(bulletStart);
 							bulletGroup.getChildren().add(bull);
@@ -318,7 +321,9 @@ public class MainView extends Application{
 					update.updateBullets(bulletGroup);                                            //make bullets move
 					update.bulletColision(enemy, bulletGroup);                                    //test bullets for collision with invaders
 					update.homingColision(enemy, homingGroup);
+					health -= update.bombColision(tankGroup, bombGroup);
 					update.updateBombs(bombGroup);
+					explosionGroup.getChildren().add(update.bombColisionGround(bombGroup));
 					for(int i =0;i<enemy.size();i++){
 						if(!enemy.get(i).isAlive()){                                              //if enemies have been hit
 							if(invaderGroup.getChildren().contains(enemy.get(i).getGroup())){     //test if in invader hit is in invadergroup
@@ -333,15 +338,23 @@ public class MainView extends Application{
 						}
 					}
 					tfs.setText("SCORE: "+score);                                                        //display new score
+					tfh.setText("Health: "+health);
 					trigger++;
 					bombStart = update.dropBombLocation(enemy);
 					if(trigger==gvg.getDropsPerSecond()){
 						trigger=0;
-						Node bomb = ma.makeMissle(bombStart);    //CHANGE FOR 3D BOMB
+						Node bomb = ma.makeBomb(bombStart);    //CHANGE FOR 3D BOMB
 						bombGroup.getChildren().add(bomb);
 
 					}
-
+					if(((trigger%5)==0)&&(explosionGroup.getChildren().size()>0)){
+						for(int i =0;i<explosionGroup.getChildren().size();i++){
+							se.playBlast();
+							explosionGroup.getChildren().remove(i);
+						}
+					}
+					//scale.scaleAll(explosionGroup, 2.0);
+					//explosionGroup.getChildren().remove(0);
 					//System.out.println(bombGroup.getChildren().size());
 
 
@@ -376,6 +389,7 @@ public class MainView extends Application{
 		root.getChildren().add(bulletGroup);
 		root.getChildren().add(bombGroup);
 		root.getChildren().add(homingGroup);
+		root.getChildren().add(explosionGroup);
 		root.getChildren().add(boxOP.ground());                //add ground to scene
 		root.getChildren().add(boxOP.horizon());               //add background to scene
 		root.getChildren().add(boxOP.gameBound(root, 0, 0, 800, 5));

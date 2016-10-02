@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static application.MainView.gvg;
+import static application.MainView.main;
 
 
 /**
@@ -20,6 +21,7 @@ public class Update {
     ArrayList<Group> remove = new ArrayList<>();                          //array of enemies to be removed on the next loop
     ArrayList<Node> removebomb = new ArrayList<>();                      //array of bombs to remove on the next loop
     Random rand = new Random();
+    MakeAssets ma = new MakeAssets();
 
     public void updateBombs(Group bombGroup){
         for(int i =0;i<bombGroup.getChildren().size();i++){
@@ -97,6 +99,30 @@ public class Update {
         }
         return enemies;
     }
+    public int bombColision(Group tank, Group bombs){
+        int damage =0;
+        for(int i =0;i<bombs.getChildren().size();i++){                                                    //loop size of enemy array
+            Node bomb = bombs.getChildren().get(i);                                                    //get group from each enemy
 
+            if(bomb.getBoundsInParent().intersects(tank.getBoundsInParent())) {       //collision detection
+                damage +=gvg.getEnemyBombDamage();
+                bombs.getChildren().remove(bomb);
+            }
+        }
+        return damage;
+    }
+    public Group bombColisionGround(Group bombs){
+        int damage =0;
+        Group explosion = new Group();
+        for(int i =0;i<bombs.getChildren().size();i++){                                                    //loop size of enemy array
+            Node bomb = bombs.getChildren().get(i);                                                    //get group from each enemy
 
+            if(bomb.getTranslateY()>MainView.loc3D.getCase1().getY()-555) {
+                Point3D expLoc = new Point3D(bombs.getChildren().get(i).getTranslateX(),bombs.getChildren().get(i).getTranslateY(),bombs.getChildren().get(i).getTranslateZ());
+                bombs.getChildren().remove(bomb);
+                explosion = ma.makeBombExplosion(expLoc);
+            }
+        }
+        return explosion;
+    }
 }

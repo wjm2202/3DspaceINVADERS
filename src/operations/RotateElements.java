@@ -197,4 +197,19 @@ public class RotateElements {
 			//}
 
 		}
+	public void rotateBombDown(Node node) {                                                //make an animation
+
+		//for(int i=0;i<group.getChildren().size();i++){
+		//Node node = group.getChildren().get(i);
+
+		RotateTransition rtrans = new RotateTransition(Duration.millis(250), node);   //make a new rotateTransform 1/20 of a second duration
+		rtrans.setFromAngle(0);                                                  //start angle of rotation
+		rtrans.setToAngle(180);                                                  //angle to rotate to
+		rtrans.setAutoReverse(false);                                            //does not reverse direction of rotation
+		rtrans.setCycleCount(1);                                                //rotate once
+		rtrans.setAxis(new Point3D(0.0, 0.0, 0.2));                                //rotational axis
+		rtrans.play();                                                           //play the animation}
+		//}
+
+	}
 }

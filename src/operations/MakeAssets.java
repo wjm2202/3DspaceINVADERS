@@ -12,6 +12,22 @@ public class MakeAssets {
     RotateElements re = new RotateElements();
     ScaleElements se = new ScaleElements();
 
+    public Group makeBomb(Point3D location){
+        Group missleGroup = boxOP.makeModel(5, 14);
+        missleGroup.setTranslateX(location.getX());
+        missleGroup.setTranslateY(location.getY());
+        missleGroup.setTranslateZ(location.getZ());
+        se.scaleAll(missleGroup,4.0);
+        return missleGroup;
+    }
+    public Group makeBombExplosion(Point3D location){
+        Group explosionGroup = boxOP.makeModel(6, 15);
+        explosionGroup.setTranslateX(location.getX());
+        explosionGroup.setTranslateY(location.getY());
+        explosionGroup.setTranslateZ(location.getZ());
+        se.scaleAll(explosionGroup,40.0);
+        return explosionGroup;
+    }
 
     public Group makeMissle(Point3D location){
         Group missleGroup = boxOP.makeModel(2, 7);
@@ -20,7 +36,7 @@ public class MakeAssets {
         missleGroup.setTranslateX(location.getX());
         missleGroup.setTranslateY(location.getY());
         missleGroup.setTranslateZ(location.getZ());
-        se.scaleAll(missleGroup,0.9);
+        se.scaleAll(missleGroup,1.5);
         return missleGroup;
     }
     public Group makeInvader1(Point3D location){

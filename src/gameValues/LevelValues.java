@@ -22,7 +22,7 @@ public class LevelValues {
 	private double Yvelocity = 0.0;             //the speed the enemy moves up/down
 	private double Zvelocity = 5.0;             //the speed the enemy moves front/back
 	private double spinDrop = 1.0;              //the amount the enemies drop each time they hit a wall and turn around
-	private int dropsPerSecond = 60;         //60 means 1 bomb dropped per second if less than 60 more bombs drop
+	private int dropsPerSecond = 10;         //60 means 1 bomb dropped per second if less than 60 more bombs drop
 	
 	//player values
 	//score

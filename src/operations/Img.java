@@ -24,6 +24,7 @@ public class Img {
 	static Image groundtex;
 	static Image bullcolor;
 	static Image groundGrid;
+	static Image explosion;
 	static Image ship;
 	static PhongMaterial textureMaterial;                                   //images use this to paste texture to box
 	static PhongMaterial textureMaterial2;
@@ -42,6 +43,7 @@ public class Img {
 	static PhongMaterial groundTex;
 	static PhongMaterial bullColor;
 	static PhongMaterial groundGridph;
+	static PhongMaterial expPH;
 	
 	public void setupTextures(){
 		boarderGroup = new Group();                                         //make group able to hold boarder boxes
@@ -60,7 +62,7 @@ public class Img {
 		tanktex = new Image("/pics/tanktex.png");    //get image to wrap cube in
 		groundtex = new Image("/pics/ground.jpg");    //get image to wrap cube in
 		bullcolor = new Image("/pics/bullcolor.jpg");    //get image to wrap cube in
-		//groundGrid = new Image("/pics/greenGrid.jpg");	//get image for ground box
+		explosion = new Image("/pics/impact Sparks.png");	//get image for explosion
 
 
 		textureMaterial = new PhongMaterial();  //texture material
@@ -73,7 +75,7 @@ public class Img {
 		textureMaterial8 = new PhongMaterial();  //texture material
 		textureMaterial9 = new PhongMaterial();  //texture material
 		groundGridph = new PhongMaterial();
-
+		expPH = new PhongMaterial();  //texture material
 
 		temp = new PhongMaterial();  //texture material
 		horizonTex = new PhongMaterial();  //texture material
@@ -108,7 +110,8 @@ public class Img {
 		bullColor.setDiffuseMap(bullcolor);
 		groundGridph.setDiffuseColor(Color.BEIGE);        //set dark side color
 		groundGridph.setDiffuseMap(groundGrid);                //set light side texture
-
+		expPH.setDiffuseColor(Color.BEIGE);        //set dark side color
+		expPH.setDiffuseMap(explosion);                //set light side texture
 		
 	}
 	public PhongMaterial getTexture(int textNum){
@@ -143,7 +146,7 @@ public class Img {
 		case 14:
 			getTextureMaterial = bullColor;break;
 			case 15:
-				//getTextureMaterial = groundGridph;break;
+				getTextureMaterial = expPH;break;
 		default:
 			getTextureMaterial = textureMaterial;break;
 			
