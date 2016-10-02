@@ -13,19 +13,19 @@ import java.net.URL;
  */
 public class SoundEffects {
 
-    String musicFile1 = "C:\\Users\\Liandri\\workspac\\Box\\src\\Sounds\\blast3.wav";
+    String musicFile1 = "src/sounds/blast3.wav";
     Media sound1 = new Media(new File(musicFile1).toURI().toString());
 
 
-    String musicFile2 = "C:\\Users\\Liandri\\workspac\\Box\\src\\Sounds\\launch.wav";
+    String musicFile2 = "src/sounds/launch.wav";
     Media sound2 = new Media(new File(musicFile2).toURI().toString());
 
 
-    String musicFile3 = "C:\\Users\\Liandri\\workspac\\Box\\src\\Sounds\\smallexplosion.wav";
+    String musicFile3 = "src/Sounds/smallexplosion.wav";
     Media sound3 = new Media(new File(musicFile3).toURI().toString());
 
 
-    String musicFile4 = "C:\\Users\\Liandri\\workspac\\Box\\src\\Sounds\\tankHit.wav";
+    String musicFile4 = "src/Sounds/tankHit.wav";
     Media sound4 = new Media(new File(musicFile4).toURI().toString());
 
 
