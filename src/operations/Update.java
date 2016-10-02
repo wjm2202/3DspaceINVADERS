@@ -127,7 +127,7 @@ public class Update {
             if(bomb.getBoundsInParent().intersects(tank.getBoundsInParent())) {       //collision detection
                 damage +=gvg.getEnemyBombDamage();
                 bombs.getChildren().remove(bomb);
-               // MainView.se.tankHit();
+                MainView.se.tankHit();
             }
         }
         return damage;
@@ -142,7 +142,7 @@ public class Update {
                 Point3D expLoc = new Point3D(bombs.getChildren().get(i).getTranslateX(),bombs.getChildren().get(i).getTranslateY(),bombs.getChildren().get(i).getTranslateZ());
                 bombs.getChildren().remove(bomb);
                 explosion = ma.makeBombExplosion(expLoc);
-               // MainView.se.playBlast();
+                MainView.se.playBlast();
             }
         }
         return explosion;

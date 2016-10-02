@@ -347,10 +347,14 @@ public class MainView extends Application{
 							isAlive.setText("Alive: "+alive);                                      //temp display of state
 							gameIsRunning=false;
 							int reply = JOptionPane.showConfirmDialog(null,
-									"Score: "+score+"\n Health: "+health+"\n Level: "+gameLevel, "Start Next Level \n\n Restart Level?", JOptionPane.YES_NO_OPTION);
+									"Score: "+score+"\n Health: "+health+"\n Level: "+gameLevel, " Restart Level?", JOptionPane.YES_NO_OPTION);
 							if (reply == JOptionPane.YES_OPTION) {
 								health = 100;
 								gameIsRunning=true;
+								alive=true;
+								isAlive.setText("Alive:  "+alive);
+							}else{
+								health=100;
 							}
 						}
 					}
@@ -399,6 +403,8 @@ public class MainView extends Application{
 		}.start();
 		facing = Movement.forwards;	//This makes the tank currently face forwards.
 		tankGroup = boxOP.makeModel(1, 12);         //first int is model number second int is skin number
+		Point3D crate = new Point3D(10.0,10.0,810);
+		rewardGroup.getChildren().add(ma.makeReward(crate));
 		//scale.scaleAll(tankGroup,0.2);
 		tankGroup.setTranslateY(tankGroup.getTranslateY()-40);
 		root.getChildren().add(tankGroup);

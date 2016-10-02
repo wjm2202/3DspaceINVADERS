@@ -13,19 +13,19 @@ public class MakeAssets {
     ScaleElements se = new ScaleElements();
 
     public Group makeBomb(Point3D location){
-        Group missleGroup = boxOP.makeModel(5, 14);
+        Group missleGroup = boxOP.makeModel(5, 16);
         missleGroup.setTranslateX(location.getX());
         missleGroup.setTranslateY(location.getY());
         missleGroup.setTranslateZ(location.getZ());
-        se.scaleAll(missleGroup,4.0);
+        se.scaleAll(missleGroup,10.0);
         return missleGroup;
     }
     public Group makeReward(Point3D location){
         Group reward = boxOP.makeModel(7, 16);
-        reward.setTranslateX(location.getX());
-        reward.setTranslateY(location.getY());
-        reward.setTranslateZ(location.getZ());
-        se.scaleAll(reward,4.0);
+        reward.setTranslateX(location.getX()-500);
+        reward.setTranslateY(location.getY()-535);    //height
+        reward.setTranslateZ(location.getZ()-1050);
+        se.scaleAll(reward,15.0);
         return reward;
     }
     public Group makeBombExplosion(Point3D location){

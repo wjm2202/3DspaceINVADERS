@@ -12,7 +12,7 @@ package gameValues;
 public class LevelValues {
 
 	//enemy values
-	private int numEnemies = 1;                //total number of enemies (auto generated)
+	private int numEnemies = 10;                //total number of enemies (auto generated)
 	private int enemyBombDamage = 50;            //amount each bomb hit hurts the tank
 	private int enemyBombSpeed = 5;             //the speed the enemy bombs fall
 	private int enemyXsize = 40;                //the size in width of the enemies
@@ -22,7 +22,7 @@ public class LevelValues {
 	private double Yvelocity = 0.0;             //the speed the enemy moves up/down
 	private double Zvelocity = 5.0;             //the speed the enemy moves front/back
 	private double spinDrop = 1.0;              //the amount the enemies drop each time they hit a wall and turn around
-	private int dropsPerSecond = 10;         //60 means 1 bomb dropped per second if less than 60 more bombs drop
+	private int dropsPerSecond = 30;         //60 means 1 bomb dropped per second if less than 60 more bombs drop
 	
 	//player values
 	//score

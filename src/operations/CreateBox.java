@@ -128,7 +128,7 @@ public class CreateBox {
 	public Group makeInvader(int modelNumber, int skinNum, Point3D start){
 		Group beast = new Group();
 		MeshView[] mv = mi.makeMesh(modelNumber);
-		System.out.println("before test object mi.size "+mv.length);
+		//System.out.println("before test object mi.size "+mv.length);
 
 		for (int i = 0; i < mv.length; i++) {
 			mv[i].setTranslateX(start.getX());
