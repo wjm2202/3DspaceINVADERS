@@ -81,7 +81,7 @@ public class ModelImporter {
             //sample.setSpecularColor(lightColor);
             //sample.setSpecularPower(16);
             meshViews[i].setMaterial(sample);
-
+            //new line of comments
             //meshViews[i].getTransforms().setAll(new Rotate(38, Rotate.Z_AXIS), new Rotate(20, Rotate.X_AXIS));
         }
         return new Group(meshViews);
@@ -126,6 +126,9 @@ public class ModelImporter {
                     modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
                     break;
                 case 11:
+                    modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
+                    break;
+                case 12:
                     modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
                     break;
                 default:
