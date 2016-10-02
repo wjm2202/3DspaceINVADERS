@@ -22,17 +22,8 @@ public class NewLevelStart {
         startP3d = loc3D.getStartLocationsInvaders(gvg.getNumEnimies());
         for (int i = 0; i < gvg.getNumEnimies(); i++) {
             Enemy Menemy = new Enemy(startP3d.get(i), gvg.getXvelocity(), gvg.getYvelocity(), gvg.getZvelocity(), 10, 10);
-            //Menemy.setMinv(inv.makeMega(10, (int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ()));
-            //Enemy Menemy = new Enemy(startP3d.get(i),startP3d.get(i).getX(),startP3d.get(i).getY(),startP3d.get(i).getZ(),10,10);
-            //Menemy.setMinv(boxOP.invader(root,img.getImg(5),10,(int)startP3d.get(i).getX(),(int)startP3d.get(i).getY(), (int)startP3d.get(i).getZ()));
             Menemy.setMinv(boxOP.singleEnemyBox((int) startP3d.get(i).getX(), (int) startP3d.get(i).getY(), (int) startP3d.get(i).getZ(), 60, 20, 60));
-            //Menemy.setMinv(mi.buildScene());
-            //Menemy.setMinv(ma.makeInvader1(startP3d.get(i)));
-            //Menemy.setMinv(boxOP.poly(startP3d.get(i).getX(),startP3d.get(i).getY(), startP3d.get(i).getZ()));
-            //Menemy.setMinv(boxOP.makeInvader(4, 3,startP3d.get(i)));
             enemy.add(Menemy);
-
-
         }
         return enemy;
     }

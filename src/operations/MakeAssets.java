@@ -20,6 +20,14 @@ public class MakeAssets {
         se.scaleAll(missleGroup,4.0);
         return missleGroup;
     }
+    public Group makeReward(Point3D location){
+        Group reward = boxOP.makeModel(7, 16);
+        reward.setTranslateX(location.getX());
+        reward.setTranslateY(location.getY());
+        reward.setTranslateZ(location.getZ());
+        se.scaleAll(reward,4.0);
+        return reward;
+    }
     public Group makeBombExplosion(Point3D location){
         Group explosionGroup = boxOP.makeModel(6, 15);
         explosionGroup.setTranslateX(location.getX());

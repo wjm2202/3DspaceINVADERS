@@ -26,6 +26,7 @@ public class Img {
 	static Image groundGrid;
 	static Image explosion;
 	static Image ship;
+	static Image crate;
 	static PhongMaterial textureMaterial;                                   //images use this to paste texture to box
 	static PhongMaterial textureMaterial2;
 	static PhongMaterial textureMaterial3;
@@ -44,6 +45,7 @@ public class Img {
 	static PhongMaterial bullColor;
 	static PhongMaterial groundGridph;
 	static PhongMaterial expPH;
+	static PhongMaterial cratePH;
 	
 	public void setupTextures(){
 		boarderGroup = new Group();                                         //make group able to hold boarder boxes
@@ -63,6 +65,7 @@ public class Img {
 		groundtex = new Image("/pics/ground.jpg");    //get image to wrap cube in
 		bullcolor = new Image("/pics/bullcolor.jpg");    //get image to wrap cube in
 		explosion = new Image("/pics/impact Sparks.png");	//get image for explosion
+		crate = new Image("/pics/crate_1.jpg");
 
 
 		textureMaterial = new PhongMaterial();  //texture material
@@ -76,6 +79,7 @@ public class Img {
 		textureMaterial9 = new PhongMaterial();  //texture material
 		groundGridph = new PhongMaterial();
 		expPH = new PhongMaterial();  //texture material
+		cratePH = new PhongMaterial();  //texture material
 
 		temp = new PhongMaterial();  //texture material
 		horizonTex = new PhongMaterial();  //texture material
@@ -112,6 +116,8 @@ public class Img {
 		groundGridph.setDiffuseMap(groundGrid);                //set light side texture
 		expPH.setDiffuseColor(Color.BEIGE);        //set dark side color
 		expPH.setDiffuseMap(explosion);                //set light side texture
+		cratePH.setDiffuseColor(Color.BEIGE);        //set dark side color
+		cratePH.setDiffuseMap(crate);                //set light side texture
 		
 	}
 	public PhongMaterial getTexture(int textNum){
@@ -147,6 +153,8 @@ public class Img {
 			getTextureMaterial = bullColor;break;
 			case 15:
 				getTextureMaterial = expPH;break;
+			case 16:
+				getTextureMaterial = cratePH;break;
 		default:
 			getTextureMaterial = textureMaterial;break;
 			

@@ -51,6 +51,7 @@ import javax.swing.*;
  */
 public class MainView extends Application{
 
+	Label levelNum;
 	Label isAlive;
 	Group root;                                                  //array that holds all objects on screen
 	Label tfs;                                                   //label on tool bar that displays score
@@ -68,6 +69,7 @@ public class MainView extends Application{
 	static Group bombGroup = new Group();                        //a group of bombs
 	static Group homingGroup = new Group();
 	static Group explosionGroup = new Group();
+	static Group rewardGroup = new Group();
 //CAMERA stuff
 	static boolean picked;                                       //is an object selected
 	double centX = screen.getMaxX()/2;                           //location of center of the screen width
@@ -90,7 +92,7 @@ public class MainView extends Application{
 	CreateCamera perCamera = new CreateCamera();                         //camera
 	CreateBox boxOP = new CreateBox();                                   //box factory
 	PerspectiveCamera camera;                                            //camera variable
-	SpawnEnemies sUpInvader = new SpawnEnemies();                        //set up invader variables
+	ArrayList<Enemy> removeEnemies = new ArrayList<>();
 	public static LevelValues gvg = new LevelValues();                                 //get gameVariable for invader game
 	//MegaInvader inv = new MegaInvader();                                 //mega invader creation
 	Update update = new Update();                                        //update all elements locations and detect collisions
@@ -114,7 +116,7 @@ public class MainView extends Application{
 	MakeAssets ma = new MakeAssets();
 	Homing homing = new Homing();
 	NewLevelStart nls = new NewLevelStart();
-	SoundEffects se = new SoundEffects();
+	public static SoundEffects se = new SoundEffects();
 	Node grnd;
 //VARIABLES
 	int trigger=0;                                                       //the limiter to the number of bombs dropped
@@ -126,6 +128,7 @@ public class MainView extends Application{
 	boolean alive = true;
 	double moveX = 0.5;
 	double moveZ = 0.5;
+	boolean started = false;
 
 
 
@@ -177,6 +180,7 @@ public class MainView extends Application{
 		tfs = new Label("SCORE: "+score);                                           //add the score to tool bar
 		tfh = new Label("Health: "+health);                                         //add the score to tool bar
 		isAlive = new Label("Alive: "+alive);
+		levelNum = new Label("Level: "+gameLevel);
 
 		root.getChildren().remove(invaderGroup);
 		enemy =nls.initLevel();
@@ -194,6 +198,7 @@ public class MainView extends Application{
 		Button start = new Button("Start game");           //Start game                  
 		start.setOnAction(e->{
 			gameIsRunning=true;
+			started=true;
 			enemy =nls.initLevel();
 			for(int i=0;i<enemy.size();i++){
 				invaderGroup.getChildren().add(enemy.get(i).getGroup());
@@ -201,7 +206,7 @@ public class MainView extends Application{
 			root.getChildren().add(invaderGroup);
 		});
 
-		toolBar = new ToolBar(start,pause,exit,tfs,tfh,isAlive);         //                              //tool bar add button and box
+		toolBar = new ToolBar(start,pause,exit,tfs,tfh,levelNum,isAlive);         //                              //tool bar add button and box
 
 		toolBar.setOrientation(Orientation.HORIZONTAL);                             //set tool bar horizontal
 		pane.setBottom(toolBar);                                                    //put tool bar in bottom pane
@@ -278,6 +283,7 @@ public class MainView extends Application{
 							//System.out.println("bullet start: X: "+bulletStart.getX()+" Y: "+bulletStart.getY()+ " Z: "+bulletStart.getZ());
 							Node bull = ma.makeMissle(bulletStart);
 							bulletGroup.getChildren().add(bull);
+							se.playLaunch();
 						}
 						event.consume();
 						break;
@@ -316,31 +322,47 @@ public class MainView extends Application{
 				if(gameIsRunning){
 					tankGroup.setTranslateX((tankGroup.getTranslateX()+moveX));
 					tankGroup.setTranslateZ((tankGroup.getTranslateZ()+moveZ));
-					//homingGroup.setTranslateY(homingGroup.getTranslateY()-1);
 					bc.clamp(enemy, tb);                                                          //trap invaders in bounds and move them
 					update.updateBullets(bulletGroup);                                            //make bullets move
-					update.bulletColision(enemy, bulletGroup);                                    //test bullets for collision with invaders
+					removeEnemies = update.bulletCollision(enemy, bulletGroup);                                    //test bullets for collision with invaders
 					update.homingColision(enemy, homingGroup);
-					health -= update.bombColision(tankGroup, bombGroup);
+					health -= update.bombCollision(tankGroup, bombGroup);
 					update.updateBombs(bombGroup);
 					explosionGroup.getChildren().add(update.bombColisionGround(bombGroup));
-					for(int i =0;i<enemy.size();i++){
-						if(!enemy.get(i).isAlive()){                                              //if enemies have been hit
-							if(invaderGroup.getChildren().contains(enemy.get(i).getGroup())){     //test if in invader hit is in invadergroup
-								invaderGroup.getChildren().remove(enemy.get(i).getGroup());       //remove hit invader from group
-								score+= gvg.getPointsPerKill();                                   //add points to score
-							}
-						}
+					for(int i =0;i<removeEnemies.size();i++){
 
-						if(enemy.get(i).isLanded()){                                               //if invader is landed
+							if(invaderGroup.getChildren().contains(removeEnemies.get(i).getGroup())) {     //test if in invader hit is in invadergroup
+								invaderGroup.getChildren().remove(removeEnemies.get(i).getGroup());       //remove hit invader from group
+								enemy.remove(removeEnemies.get(i));
+								score += gvg.getPointsPerKill();                                   //add points to score
+								Group temp = update.generateReward();
+								if (temp.getChildren().size() > 0) {
+									rewardGroup.getChildren().add(temp);
+								}
+							}
+					}
+					for(int i = 0;i<enemy.size();i++){
+						if((enemy.get(i).isLanded())||(health<1)){                                               //if invader is landed
 							alive=false;                                                           //change alive flag
 							isAlive.setText("Alive: "+alive);                                      //temp display of state
+							gameIsRunning=false;
+							int reply = JOptionPane.showConfirmDialog(null,
+									"Score: "+score+"\n Health: "+health+"\n Level: "+gameLevel, "Start Next Level \n\n Restart Level?", JOptionPane.YES_NO_OPTION);
+							if (reply == JOptionPane.YES_OPTION) {
+								health = 100;
+								gameIsRunning=true;
+							}
 						}
 					}
+
 					tfs.setText("SCORE: "+score);                                                        //display new score
 					tfh.setText("Health: "+health);
+					levelNum.setText("Level: "+gameLevel);
 					trigger++;
-					bombStart = update.dropBombLocation(enemy);
+					if(enemy.size()>0){
+						bombStart = update.dropBombLocation(enemy);
+					}
+
 					if(trigger==gvg.getDropsPerSecond()){
 						trigger=0;
 						Node bomb = ma.makeBomb(bombStart);    //CHANGE FOR 3D BOMB
@@ -349,30 +371,24 @@ public class MainView extends Application{
 					}
 					if(((trigger%5)==0)&&(explosionGroup.getChildren().size()>0)){
 						for(int i =0;i<explosionGroup.getChildren().size();i++){
-							se.playBlast();
+
 							explosionGroup.getChildren().remove(i);
 						}
 					}
-					//scale.scaleAll(explosionGroup, 2.0);
-					//explosionGroup.getChildren().remove(0);
-					//System.out.println(bombGroup.getChildren().size());
-
-
-
-
 					//test if level is complete and then make new level nodes
-				    if(invaderGroup.getChildren().size()==0){
+				    if((invaderGroup.getChildren().size()==0)&&(started==true)){
                         gameIsRunning = false;
 						int reply = JOptionPane.showConfirmDialog(null,
 								"Score: "+score+"\n Health: "+health+"\n Level: "+gameLevel, "Start Next Level \n\n Start Next Level?", JOptionPane.YES_NO_OPTION);
 						if (reply == JOptionPane.YES_OPTION) {
 							gvg.levelUP(gvg.getGameDiffucultyIncrease());                              //game difficulty increase per level
-							root.getChildren().remove(invaderGroup);
+							//root.getChildren().remove(invaderGroup);
 							enemy = nls.initLevel();
 							for (int i = 0; i < enemy.size(); i++) {
+
 								invaderGroup.getChildren().add(enemy.get(i).getGroup());
 							}
-							root.getChildren().add(invaderGroup);
+							//root.getChildren().add(invaderGroup);
 							gameIsRunning = true;
 						}
                     }
@@ -390,9 +406,10 @@ public class MainView extends Application{
 		root.getChildren().add(bombGroup);
 		root.getChildren().add(homingGroup);
 		root.getChildren().add(explosionGroup);
+		root.getChildren().add(rewardGroup);
 		root.getChildren().add(boxOP.ground());                //add ground to scene
 		root.getChildren().add(boxOP.horizon());               //add background to scene
-		root.getChildren().add(boxOP.gameBound(root, 0, 0, 800, 5));
+		//root.getChildren().add(boxOP.gameBound(root, 0, 0, 800, 5));
 		root.getChildren().add(boxOP.gameBox());			   //creating the box environment
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());      //add css to ui
 		stage.setScene(scene);                                                     // Add the Scene to the Stage

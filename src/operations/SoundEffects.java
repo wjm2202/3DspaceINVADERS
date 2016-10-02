@@ -12,25 +12,37 @@ import java.net.URL;
  * Created by Liandri on 2/10/2016.
  */
 public class SoundEffects {
-    //make sound url
-    //String musicFile = "/sounds/blast1.mp3";     // For example
-    //make sound media file
-    //Media sound1 = new Media(new File(musicFile).toURI().toString());
-    //the player
-    MediaPlayer mediaPlayer;
 
+    String musicFile1 = "C:\\Users\\Liandri\\workspac\\Box\\src\\Sounds\\blast3.wav";
+    Media sound1 = new Media(new File(musicFile1).toURI().toString());
+
+
+    String musicFile2 = "C:\\Users\\Liandri\\workspac\\Box\\src\\Sounds\\launch.wav";
+    Media sound2 = new Media(new File(musicFile2).toURI().toString());
+
+
+    String musicFile3 = "C:\\Users\\Liandri\\workspac\\Box\\src\\Sounds\\smallexplosion.wav";
+    Media sound3 = new Media(new File(musicFile3).toURI().toString());
+
+
+    String musicFile4 = "C:\\Users\\Liandri\\workspac\\Box\\src\\Sounds\\tankHit.wav";
+    Media sound4 = new Media(new File(musicFile4).toURI().toString());
 
 
     public void playBlast() {
-        //String location1 = "C:\\Users\\Liandri\\workspac\\Box\\src\\sounds\\blast2.mp3";
-        //URL classURL = getClass().getProtectionDomain().getCodeSource().getLocation();
-        //System.out.println(classURL);
-       // this.getClass().getResource("C:\\Users\\Liandri\\workspace - Copy\\Box\\src\\sounds");
-        //this.getClass().getResource("C:\\Users\\Liandri\\workspace - Copy\\Box\\src\\sounds")
-       // AudioClip blast = new AudioClip(location1);
-        //blast.play();
-        //System.out.println(System.getProperty("C:/Users/Liandri/workspace - Copy/Box/src/sounds/blast1.mp4"));
-       // ClassLoader classLoader = getClass().getClassLoader();
-        //File fi = new File(classLoader.getResource("test.txt").getFile());
+        MediaPlayer mediaPlayer1 = new MediaPlayer(sound1);
+        mediaPlayer1.play();
+    }
+    public void playLaunch() {
+        MediaPlayer mediaPlayer2 = new MediaPlayer(sound2);
+        mediaPlayer2.play();
+    }
+    public void invaderHit() {
+        MediaPlayer mediaPlayer3 = new MediaPlayer(sound3);
+        mediaPlayer3.play();
+    }
+    public void tankHit() {
+        MediaPlayer mediaPlayer4 = new MediaPlayer(sound4);
+        mediaPlayer4.play();
     }
 }

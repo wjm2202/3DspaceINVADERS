@@ -13,7 +13,7 @@ public class LevelValues {
 
 	//enemy values
 	private int numEnemies = 1;                //total number of enemies (auto generated)
-	private int enemyBombDamage = 5;            //amount each bomb hit hurts the tank
+	private int enemyBombDamage = 50;            //amount each bomb hit hurts the tank
 	private int enemyBombSpeed = 5;             //the speed the enemy bombs fall
 	private int enemyXsize = 40;                //the size in width of the enemies
 	private int enemyYsize = 15;                //the size in height of the enemies

@@ -18,10 +18,21 @@ import static application.MainView.main;
  */
 public class Update {
     LevelValues lv = gvg;
-    ArrayList<Group> remove = new ArrayList<>();                          //array of enemies to be removed on the next loop
+    ArrayList<Enemy> remove = new ArrayList<>();                          //array of enemies to be removed on the next loop
     ArrayList<Node> removebomb = new ArrayList<>();                      //array of bombs to remove on the next loop
     Random rand = new Random();
     MakeAssets ma = new MakeAssets();
+
+
+
+    public Group generateReward(){
+        Group rewardGroup = new Group();
+        int rewardNum = rand.nextInt(20);
+        if(rewardNum==10) {
+            rewardGroup = ma.makeReward(MainView.loc3D.getPoints());
+        }
+        return rewardGroup;
+    }
 
     public void updateBombs(Group bombGroup){
         for(int i =0;i<bombGroup.getChildren().size();i++){
@@ -30,9 +41,7 @@ public class Update {
     }
 
     public Point3D dropBombLocation(ArrayList<Enemy> enemies){
-        Group selectedDropper = new Group();
         int dropper = rand.nextInt(enemies.size());
-        selectedDropper = enemies.get(dropper).getGroup();
         Point3D dropPoint = new Point3D(enemies.get(dropper).getGroup().getChildren().get(0).getTranslateX()-490,enemies.get(dropper).getGroup().getChildren().get(0).getTranslateY()-500,enemies.get(dropper).getGroup().getChildren().get(0).getTranslateZ()-1050);
         return dropPoint;
     }
@@ -63,7 +72,15 @@ public class Update {
             bulletGroup.getChildren().get(i).setTranslateY(bulletGroup.getChildren().get(i).getTranslateY()-lv.getBulletSpeed());
         }
     }
-    public ArrayList<Enemy> bulletColision(ArrayList<Enemy> enemies, Group bullet){
+    public void removeBullets(Group bulletGroup){
+        for(int i =0;i<bulletGroup.getChildren().size();i++){
+            Node bullet = bulletGroup.getChildren().get(i);
+            if(bullet.getTranslateY()>MainView.loc3D.getCase0().getY()-100) {
+                bulletGroup.getChildren().remove(bullet);
+            }
+        }
+    }
+    public ArrayList<Enemy> bulletCollision(ArrayList<Enemy> enemies, Group bullet){
         Node bull;
         Node brick;
         Group inv;
@@ -75,11 +92,14 @@ public class Update {
                     bull = bullet.getChildren().get(j);                                        //get each bullet from group
                     if(brick.getBoundsInParent().intersects(bull.getBoundsInParent())) {       //collision detection
                         enemies.get(i).setAlive(false);
+                        remove.add(enemies.get(i));
+                        //MainView.se.invaderHit();
+                        //bullet.getChildren().remove(bull);
                     }
                 }
             }
         }
-     return enemies;
+     return remove;
     }
     public ArrayList<Enemy> homingColision(ArrayList<Enemy> enemies, Group bullet){
         Node bull;
@@ -99,7 +119,7 @@ public class Update {
         }
         return enemies;
     }
-    public int bombColision(Group tank, Group bombs){
+    public int bombCollision(Group tank, Group bombs){
         int damage =0;
         for(int i =0;i<bombs.getChildren().size();i++){                                                    //loop size of enemy array
             Node bomb = bombs.getChildren().get(i);                                                    //get group from each enemy
@@ -107,6 +127,7 @@ public class Update {
             if(bomb.getBoundsInParent().intersects(tank.getBoundsInParent())) {       //collision detection
                 damage +=gvg.getEnemyBombDamage();
                 bombs.getChildren().remove(bomb);
+               // MainView.se.tankHit();
             }
         }
         return damage;
@@ -121,6 +142,7 @@ public class Update {
                 Point3D expLoc = new Point3D(bombs.getChildren().get(i).getTranslateX(),bombs.getChildren().get(i).getTranslateY(),bombs.getChildren().get(i).getTranslateZ());
                 bombs.getChildren().remove(bomb);
                 explosion = ma.makeBombExplosion(expLoc);
+               // MainView.se.playBlast();
             }
         }
         return explosion;

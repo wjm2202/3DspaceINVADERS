@@ -114,7 +114,7 @@ public class ModelImporter {
                     modelUrl = this.getClass().getResource("/models/mediumblast.obj");         //invader bomb blast
                     break;
                 case 7:
-                    modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
+                    modelUrl = this.getClass().getResource("/models/crate1.obj");            //reward crate
                     break;
                 case 8:
                     modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
