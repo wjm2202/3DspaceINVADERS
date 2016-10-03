@@ -28,6 +28,13 @@ public class SoundEffects {
     String musicFile4 = "src/Sounds/tankHit.wav";
     Media sound4 = new Media(new File(musicFile4).toURI().toString());
 
+    String musicFile5 = "src/Sounds/invaderexplosion.wav";
+    Media sound5 = new Media(new File(musicFile5).toURI().toString());
+
+    public void invaderExplosion() {
+        MediaPlayer mediaPlayer5 = new MediaPlayer(sound5);
+        mediaPlayer5.play();
+    }
 
     public void playBlast() {
         MediaPlayer mediaPlayer1 = new MediaPlayer(sound1);

@@ -99,7 +99,7 @@ public class Update {
                     if(brick.getBoundsInParent().intersects(bull.getBoundsInParent())) {       //collision detection
                         enemies.get(i).setAlive(false);
                         remove.add(enemies.get(i));
-                        MainView.se.invaderHit();
+                        MainView.se.invaderExplosion();
                         //bullet.getChildren().remove(bull);
                     }
                 }
