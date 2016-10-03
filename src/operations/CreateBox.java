@@ -42,6 +42,18 @@ public class CreateBox {
 		invaderGroup = new Group();
 	}
 
+	public Group corners(){
+		Group cnr = new Group();
+		cnr.getChildren().add(makeConers(wc.case0.getX(),wc.case0.getY(),wc.case0.getZ(),5));
+		cnr.getChildren().add(makeConers(wc.getCase1().getX(),wc.getCase1().getY(),wc.getCase1().getZ(),10));
+		cnr.getChildren().add(makeConers(wc.getCase2().getX(),wc.getCase2().getY(),wc.getCase2().getZ(),10));
+		cnr.getChildren().add(makeConers(wc.getCase3().getX(),wc.getCase3().getY(),wc.getCase3().getZ(),10));
+		cnr.getChildren().add(makeConers(wc.getCase4().getX(),wc.getCase4().getY(),wc.getCase4().getZ(),10));
+		cnr.getChildren().add(makeConers(wc.getCase5().getX(),wc.getCase5().getY(),wc.getCase5().getZ(),10));
+		cnr.getChildren().add(makeConers(wc.getCase6().getX(),wc.getCase6().getY(),wc.getCase6().getZ(),10));
+		cnr.getChildren().add(makeConers(wc.getCase7().getX(),wc.getCase7().getY(),wc.getCase7().getZ(),10));
+		return cnr;
+	}
 
 
 /**
@@ -94,12 +106,12 @@ public class CreateBox {
 		ground.setMaterial(img.getTexture(13));
 		return ground;
 	}
-	public Box makeTank(int x, int y, int z, int sizeX, int sizeY, int sizeZ){
-		Box boarderBox = new Box(sizeX, sizeY, sizeZ);                  //make 3D box
+	public Cylinder makeConers(double x, double y, double z, double sizeX){
+		Cylinder boarderBox = new Cylinder(sizeX, sizeX);                  //make 3D box
 		boarderBox.setTranslateX(x);                            //set x location
 		boarderBox.setTranslateY(y);                             //set y location
 		boarderBox.setTranslateZ(z); 
-		boarderBox.setMaterial(img.getTexture(12));               //set light side texture
+		boarderBox.setMaterial(img.getTexture(14));               //set light side texture
 
 		return boarderBox;
 		

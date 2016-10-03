@@ -69,7 +69,13 @@ public class Update {
      */
     public void updateBullets(Group bulletGroup){
         for(int i =0;i<bulletGroup.getChildren().size();i++){
-            bulletGroup.getChildren().get(i).setTranslateY(bulletGroup.getChildren().get(i).getTranslateY()-lv.getBulletSpeed());
+            Node bull = bulletGroup.getChildren().get(i);
+            if(bull.getTranslateY()  < -500){
+                bulletGroup.getChildren().remove(i);
+            }else{
+                bulletGroup.getChildren().get(i).setTranslateY(bulletGroup.getChildren().get(i).getTranslateY()-lv.getBulletSpeed());
+            }
+
         }
     }
     public void updateReward(Group rewardGroup){
@@ -79,14 +85,7 @@ public class Update {
           }
         }
     }
-    public void removeBullets(Group bulletGroup){
-        for(int i =0;i<bulletGroup.getChildren().size();i++){
-            Node bullet = bulletGroup.getChildren().get(i);
-            if(bullet.getTranslateY()>MainView.loc3D.getCase0().getY()-100) {
-                bulletGroup.getChildren().remove(bullet);
-            }
-        }
-    }
+
     public ArrayList<Enemy> bulletCollision(ArrayList<Enemy> enemies, Group bullet){
         Node bull;
         Node brick;
@@ -100,7 +99,7 @@ public class Update {
                     if(brick.getBoundsInParent().intersects(bull.getBoundsInParent())) {       //collision detection
                         enemies.get(i).setAlive(false);
                         remove.add(enemies.get(i));
-                        //MainView.se.invaderHit();
+                        MainView.se.invaderHit();
                         //bullet.getChildren().remove(bull);
                     }
                 }

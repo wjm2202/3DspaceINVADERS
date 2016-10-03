@@ -220,6 +220,7 @@ public class MainView extends Application{
 			@Override
 			public void handle(KeyEvent event) {
 				Node tank = tankGroup.getChildren().get(0);
+				Boolean isClamped = false;
 				tankLocation = new Point3D((tankGroup.getTranslateX()+500.0),(tankGroup.getTranslateY()+500),(tankGroup.getTranslateZ()+1100.0));
 				switch (event.getCode()){
 					case UP:	//This case executes when the up key is pressed on the keyboard.
@@ -277,13 +278,15 @@ public class MainView extends Application{
 						break;
 					case COMMA:	//This case executes when the right key is pressed on the keyboard.
 						if(gameIsRunning){
-							//System.out.println("tank X: "+tank.getTranslateX()+" tank Y: "+tank.getTranslateY()+" tank Y: "+tank.getTranslateZ());
-							//bulletStart =  new Point3D((tankGroup.getTranslateX()+500.0),(tankGroup.getTranslateY()+500),(tankGroup.getTranslateZ()+1100.0));
-							bulletStart =  new Point3D((tankGroup.getTranslateX()+10.0),(tankGroup.getTranslateY()-70.0),(tankGroup.getTranslateZ()-80.0));
-							//System.out.println("bullet start: X: "+bulletStart.getX()+" Y: "+bulletStart.getY()+ " Z: "+bulletStart.getZ());
-							Node bull = ma.makeMissle(bulletStart);
-							bulletGroup.getChildren().add(bull);
-							se.playLaunch();
+							if(bulletGroup.getChildren().size()<4) {
+								//System.out.println("tank X: "+tank.getTranslateX()+" tank Y: "+tank.getTranslateY()+" tank Y: "+tank.getTranslateZ());
+								//bulletStart =  new Point3D((tankGroup.getTranslateX()+500.0),(tankGroup.getTranslateY()+500),(tankGroup.getTranslateZ()+1100.0));
+								bulletStart = new Point3D((tankGroup.getTranslateX() + 10.0), (tankGroup.getTranslateY() - 70.0), (tankGroup.getTranslateZ() - 80.0));
+								//System.out.println("bullet start: X: "+bulletStart.getX()+" Y: "+bulletStart.getY()+ " Z: "+bulletStart.getZ());
+								Node bull = ma.makeMissle(bulletStart);
+								bulletGroup.getChildren().add(bull);
+								se.playLaunch();
+							}
 						}
 						event.consume();
 						break;
@@ -419,6 +422,7 @@ public class MainView extends Application{
 		root.getChildren().add(boxOP.horizon());               //add background to scene
 		//root.getChildren().add(boxOP.gameBound(root, 0, 0, 800, 5));
 		root.getChildren().add(boxOP.gameBox());			   //creating the box environment
+		root.getChildren().add(boxOP.corners());               // corner boxes
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());      //add css to ui
 		stage.setScene(scene);                                                     // Add the Scene to the Stage
 		stage.setTitle("3D Boxed Invaders");                                   // Set the Title of the Stage
