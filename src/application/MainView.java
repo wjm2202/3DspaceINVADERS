@@ -193,13 +193,17 @@ public class MainView extends Application{
 		});
 		Button start = new Button("Start game");           //Start game                  
 		start.setOnAction(e->{
-			gameIsRunning=true;
-			started=true;
-			enemy =nls.initLevel();
-			for(int i=0;i<enemy.size();i++){
-				invaderGroup.getChildren().add(enemy.get(i).getGroup());
+			if(gameIsRunning){
+
+			}else{
+				gameIsRunning=true;
+				started=true;
+				enemy =nls.initLevel();
+				for(int i=0;i<enemy.size();i++){
+					invaderGroup.getChildren().add(enemy.get(i).getGroup());
+				}
+				root.getChildren().add(invaderGroup);
 			}
-			root.getChildren().add(invaderGroup);
 		});
 
 		toolBar = new ToolBar(start,pause,exit,tfs,tfh,levelNum,isAlive);         //                              //tool bar add button and box
@@ -320,6 +324,7 @@ public class MainView extends Application{
 					tankGroup.setTranslateZ((tankGroup.getTranslateZ()+moveZ));
 					bc.clamp(enemy, tb);                                                          //trap invaders in bounds and move them
 					update.updateBullets(bulletGroup);                                            //make bullets move
+					update.updateReward(rewardGroup);
 					removeEnemies = update.bulletCollision(enemy, bulletGroup);                                    //test bullets for collision with invaders
 					update.homingColision(enemy, homingGroup);
 					health -= update.bombCollision(tankGroup, bombGroup);
@@ -399,8 +404,8 @@ public class MainView extends Application{
 		}.start();
 		facing = Movement.forwards;	//This makes the tank currently face forwards.
 		tankGroup = boxOP.makeModel(1, 12);         //first int is model number second int is skin number
-		Point3D crate = new Point3D(10.0,10.0,810);
-		rewardGroup.getChildren().add(ma.makeReward(crate));
+		//Point3D crate = new Point3D(10.0,10.0,810);
+		//rewardGroup.getChildren().add(ma.makeReward(crate));
 		//scale.scaleAll(tankGroup,0.2);
 		tankGroup.setTranslateY(tankGroup.getTranslateY()-40);
 		root.getChildren().add(tankGroup);

@@ -72,6 +72,13 @@ public class Update {
             bulletGroup.getChildren().get(i).setTranslateY(bulletGroup.getChildren().get(i).getTranslateY()-lv.getBulletSpeed());
         }
     }
+    public void updateReward(Group rewardGroup){
+        for(int i =0;i<rewardGroup.getChildren().size();i++){
+          if((rewardGroup.getChildren().get(i).getTranslateY())< -60) {
+                rewardGroup.getChildren().get(i).setTranslateY(rewardGroup.getChildren().get(i).getTranslateY()+10);
+          }
+        }
+    }
     public void removeBullets(Group bulletGroup){
         for(int i =0;i<bulletGroup.getChildren().size();i++){
             Node bullet = bulletGroup.getChildren().get(i);

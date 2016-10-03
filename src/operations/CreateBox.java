@@ -32,7 +32,7 @@ public class CreateBox {
 	Rectangle2D screen = Screen.getPrimary().getVisualBounds();
 	Img img = new Img();
 	
-	
+
 	
 	public CreateBox()
 	{
@@ -41,6 +41,8 @@ public class CreateBox {
 		bo = wc.getBounds();
 		invaderGroup = new Group();
 	}
+
+
 
 /**
  * 	make a bomb for enemy to drop
@@ -210,6 +212,7 @@ public class CreateBox {
 					leftBox.setTranslateX(startX);  // This is the left side of the box
 					leftBox.setTranslateY(startY);
 					leftBox.setTranslateZ(startZ);
+					leftBox.setMaterial(img.getTexture(2));
 					boarderGroup.getChildren().add(leftBox);
 					break;
 				case 2:
@@ -219,6 +222,7 @@ public class CreateBox {
                     groundBox.setTranslateX(startX);// This is the ground side of the box
 					groundBox.setTranslateY(startY);
 					groundBox.setTranslateZ(startZ);
+					groundBox.setMaterial(img.getTexture(2));
 					boarderGroup.getChildren().add(groundBox);
 					break;
 				case 3:
@@ -227,6 +231,7 @@ public class CreateBox {
 					rightBox.setTranslateX(startX); // This is the right side of the box
 					rightBox.setTranslateY(startY);
 					rightBox.setTranslateZ(startZ);
+					rightBox.setMaterial(img.getTexture(2));
 					boarderGroup.getChildren().add(rightBox);
 					break;
 				case 4:
@@ -235,6 +240,7 @@ public class CreateBox {
 					topBox.setTranslateX(startX); // This is the top side of the box
 					topBox.setTranslateY(startY);
 					topBox.setTranslateZ(startZ);
+					topBox.setMaterial(img.getTexture(2));
 					boarderGroup.getChildren().add(topBox);
 					break;
 			}
