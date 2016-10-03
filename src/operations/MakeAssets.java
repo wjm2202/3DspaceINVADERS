@@ -12,6 +12,17 @@ public class MakeAssets {
     RotateElements re = new RotateElements();
     ScaleElements se = new ScaleElements();
 
+    public Group makeSheild(Point3D location){
+        //makeModel(model number, texture number);
+        Group sheildGroup = boxOP.makeModel(9, 8);
+        sheildGroup.setTranslateX(location.getX());
+        sheildGroup.setTranslateY(location.getY());
+        sheildGroup.setTranslateZ(location.getZ());
+        se.scaleAll(sheildGroup,10.0);
+        re.rotateVert(sheildGroup, 90);
+        return sheildGroup;
+    }
+
     public Group makeBomb(Point3D location){
         Group missleGroup = boxOP.makeModel(5, 16);
         missleGroup.setTranslateX(location.getX());

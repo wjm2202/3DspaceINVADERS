@@ -117,10 +117,10 @@ public class ModelImporter {
                     modelUrl = this.getClass().getResource("/models/crate1.obj");            //reward crate
                     break;
                 case 8:
-                    modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
+                    modelUrl = this.getClass().getResource("/models/glassDoor.obj");         //reward parachute
                     break;
                 case 9:
-                    modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
+                    modelUrl = this.getClass().getResource("/models/glassDoor.obj");         //sheild
                     break;
                 case 10:
                     modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
@@ -129,6 +129,18 @@ public class ModelImporter {
                     modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
                     break;
                 case 12:
+                    modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
+                    break;
+                case 13:
+                    modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
+                    break;
+                case 14:
+                    modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
+                    break;
+                case 15:
+                    modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
+                    break;
+                case 16:
                     modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
                     break;
                 default:

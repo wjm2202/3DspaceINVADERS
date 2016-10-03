@@ -405,6 +405,7 @@ public class MainView extends Application{
 		tankGroup.setTranslateY(tankGroup.getTranslateY()-40);
 		root.getChildren().add(tankGroup);
 		root.getChildren().add(bulletGroup);
+		//root.getChildren().add(ma.makeSheild(crate));
 		root.getChildren().add(bombGroup);
 		root.getChildren().add(homingGroup);
 		root.getChildren().add(explosionGroup);
