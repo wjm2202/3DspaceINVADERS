@@ -3,6 +3,7 @@ package operations;
 import java.util.ArrayList;
 import java.util.Random;
 
+import application.MainView;
 import gameValues.LevelValues;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
@@ -21,9 +22,9 @@ import javafx.scene.Node;
 public class BoundsClamp {
 	
 
-	LevelValues gvg = new LevelValues();
+	LevelValues gvg = MainView.gvg;
 	ArrayList<Point3D> bc = new ArrayList<>();                                     
-	WorldCoOrdinates wc = new WorldCoOrdinates();                                  //the 3D points that define the world boundaries
+	WorldCoOrdinates wc = MainView.loc3D;                                  //the 3D points that define the world boundaries
 	Node eachNode;                                                                     //the box object holder used for testing in clamp
 	RotateElements re = new RotateElements();
 	/**

@@ -83,7 +83,7 @@ public class Update {
                     if(brick.getBoundsInParent().intersects(bull.getBoundsInParent())) {       //collision detection
                         enemies.get(i).setAlive(false);
                         remove.add(enemies.get(i));
-                        MainView.se.invaderExplosion();
+                        //MainView.se.invaderExplosion();
                         //bullet.getChildren().remove(bull);
                     }
                 }
@@ -132,7 +132,7 @@ public class Update {
                 Point3D expLoc = new Point3D(bombs.getChildren().get(i).getTranslateX(),bombs.getChildren().get(i).getTranslateY(),bombs.getChildren().get(i).getTranslateZ());
                 bombs.getChildren().remove(bomb);
                 explosion = ma.makeBombExplosion(expLoc);
-                MainView.se.playBlast();
+                //MainView.se.playBlast();
             }
         }
         return explosion;

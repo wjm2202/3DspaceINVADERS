@@ -2,7 +2,6 @@ package application;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import gameValues.LevelValues;
 import gameValues.Movement;
 import javafx.animation.AnimationTimer;
@@ -46,82 +45,88 @@ import javax.swing.*;
  */
 public class MainView extends Application{
 
-	Label levelNum;
-	Label isAlive;
-	Group root;                                                  //array that holds all objects on screen
-	Label tfs;                                                   //label on tool bar that displays score
-	Label tfh;                                                   //label on tool bar that displays health
-	Rectangle2D screen = Screen.getPrimary().getVisualBounds();  //get screen size
-	PickResult selectedNode;                                     //mouse has clicked this object
-	Node node;                                                   //a single 3D object
-	ToolBar toolBar;                                             //the button bar at the bottom of scene
+	private Label levelNum;
+	private Label isAlive;
+	private Group root;                                                  //array that holds all objects on screen
+	private Label tfs;                                                   //label on tool bar that displays score
+	private Label tfh;                                                   //label on tool bar that displays health
+	private Rectangle2D screen = Screen.getPrimary().getVisualBounds();  //get screen size
+	private PickResult selectedNode;                                     //mouse has clicked this object
+	private Node node;                                                   //a single 3D object
+	private ToolBar toolBar;                                             //the button bar at the bottom of scene
 //GROUPS
-	static Group invaderGroup = new Group();                     //a group of 3D objects of type invader
-	static Group boarderGroup = new Group();                     //a group of 3D objects that make up the world box
-	static Group cameraGroup = new Group();                      //a group of view objects that give you a scene to look at
-	static Group tankGroup = new Group();                        //a group of tanks 
-	static Group bulletGroup = new Group();                      //a group of bullets
-	static Group bombGroup = new Group();                        //a group of bombs
-	static Group homingGroup = new Group();
-	static Group explosionGroup = new Group();
-	static Group rewardGroup = new Group();
+	private static Group invaderGroup = new Group();                     //a group of 3D objects of type invader
+	private static Group boarderGroup = new Group();                     //a group of 3D objects that make up the world box
+	private static Group cameraGroup = new Group();                      //a group of view objects that give you a scene to look at
+	private static Group tankGroup = new Group();                        //a group of tanks
+	private static Group bulletGroup = new Group();                      //a group of bullets
+	private static Group bombGroup = new Group();                        //a group of bombs
+	private static Group homingGroup = new Group();
+	private static Group explosionGroup = new Group();
+	private static Group rewardGroup = new Group();
 //CAMERA stuff
-	static boolean picked;                                       //is an object selected
-	double centX = screen.getMaxX()/2;                           //location of center of the screen width
-	double centY = screen.getMaxY()/2;                           //location of center of the screem height
-	int translocateX = (int)centX;                               //center X
-	int translocateY = (int)centY;                               //center Y 
-	double sW = screen.getMaxX();
-	double sH = screen.getMaxY();
-	double cx= 483;                                                      //camera start location X
-	double cy= -36;                                                      //camera start location Y
-	double cz= 0.0;                                                      //camera start location Z
-	double cRoll = 0;                                                    //camera start roll amount
+	private static boolean picked;                                       //is an object selected
+	private double centX = screen.getMaxX()/2;                           //location of center of the screen width
+	private double centY = screen.getMaxY()/2;                           //location of center of the screem height
+	private int translocateX = (int)centX;                               //center X
+	private int translocateY = (int)centY;                               //center Y
+	private double sW = screen.getMaxX();
+	private double sH = screen.getMaxY();
+	private double cx= 483;                                                      //camera start location X
+	private double cy= -36;                                                      //camera start location Y
+	private double cz= 0.0;                                                      //camera start location Z
+	private double cRoll = 0;                                                    //camera start roll amount
 	private double mousePosX, mousePosY;                                 //mouse drag position
 	private double mouseOldX, mouseOldY;                                 //mouse drag position
 	private final Rotate rotateX = new Rotate(0, Rotate.X_AXIS);         //rotate transform X
 	private final Rotate rotateY = new Rotate(20, Rotate.Y_AXIS);        //rotate transform Y
 	private final Rotate rotateZ = new Rotate(0, Rotate.Z_AXIS);         //rotate transform Z
-//OBJECTS
-	LightingElements lightEle = new LightingElements();                  //lighting
-	CreateCamera perCamera = new CreateCamera();                         //camera
-	CreateBox boxOP = new CreateBox();                                   //box factory
-	PerspectiveCamera camera;                                            //camera variable
-	ArrayList<Enemy> removeEnemies = new ArrayList<>();
-	public static LevelValues gvg = new LevelValues();                   //get gameVariable for invader game
-	//MegaInvader inv = new MegaInvader();                               //mega invader creation
-	Update update = new Update();                                        //update all elements locations and detect collisions
+//SINGLE CONTRUCT OBJECTS
 	public static WorldCoOrdinates loc3D = new WorldCoOrdinates();                     //get preset points important for game
-	ArrayList<Enemy> enemy = new ArrayList<>();                          //array of current enemies
-	ArrayList<Point3D> startP3d = new ArrayList<>();                     //get pre generated start locations for enemies
-	BoundsClamp bc = new BoundsClamp();                                  //contain the 3D objects inside the 3D world box
-	Random rand = new Random();                                          //random value used for testing
-	RotateElements re = new RotateElements();                            //rotate transform for 3D objects
-	ScaleElements scale = new ScaleElements();                           //scale transform for 3D objects
-	Img img = new Img();                                                 //image class to get images
-	Movement facing = Movement.forwards;                                 //ENUM starting value
-	Point3D bulletStart = new Point3D(0.0,0.0,0.0);                      //the location of the start of the bullet
-	Point3D bombStart;                                                   //the location of the start of the bomb
-	Point3D invaderStart;
-	Point3D tankLocation;
-	Point3D homingStart;
-	ModelImporter mi = new ModelImporter();
-	MakeAssets ma = new MakeAssets();
-	Homing homing = new Homing();
-	NewLevelStart nls = new NewLevelStart();
+	public static LevelValues gvg = new LevelValues();                   //get gameVariable for invader game
+	public static Img img = new Img();                                                 //image class to get images
 	public static SoundEffects se = new SoundEffects();
-	Node grnd;
+	public static ModelImporter mi = new ModelImporter();
+//OBJECTS
+	private LightingElements lightEle = new LightingElements();                  //lighting
+	private CreateCamera perCamera = new CreateCamera();                         //camera
+	private CreateBox boxOP = new CreateBox();                                   //box factory
+	private PerspectiveCamera camera;                                            //camera variable
+	private ArrayList<Enemy> removeEnemies = new ArrayList<>();
+
+	//MegaInvader inv = new MegaInvader();                               //mega invader creation
+	private Update update = new Update();                                        //update all elements locations and detect collisions
+
+	private ArrayList<Enemy> enemy = new ArrayList<>();                          //array of current enemies
+	private ArrayList<Point3D> startP3d = new ArrayList<>();                     //get pre generated start locations for enemies
+	private BoundsClamp bc = new BoundsClamp();                                  //contain the 3D objects inside the 3D world box
+	private Random rand = new Random();                                          //random value used for testing
+	private RotateElements re = new RotateElements();                            //rotate transform for 3D objects
+	private ScaleElements scale = new ScaleElements();                           //scale transform for 3D objects
+
+	private Movement facing = Movement.forwards;                                 //ENUM starting value
+	private Point3D bulletStart = new Point3D(0.0,0.0,0.0);                      //the location of the start of the bullet
+	private Point3D bombStart;                                                   //the location of the start of the bomb
+	private Point3D invaderStart;
+	private Point3D tankLocation;
+	private Point3D homingStart;
+
+	private MakeAssets ma = new MakeAssets();
+	private Homing homing = new Homing();
+	private NewLevelStart nls = new NewLevelStart();
+
+	private Node grnd;
 //VARIABLES
-	int trigger=0;                                                       //the limiter to the number of bombs dropped
-	int score=0;                                                         //the player score
-	int health=100;                                                      //the player health
-	boolean gameIsRunning = false;                                       //game state started or stoped
-	int currHitsOnTank =0;                                               //the amount of hits on the tank since last update
-	int gameLevel = 1;                                                   //track the game level
-	boolean alive = true;
-	double moveX = 0.5;
-	double moveZ = 0.5;
-	boolean started = false;
+	private int trigger=0;                                                       //the limiter to the number of bombs dropped
+	private int score=0;                                                         //the player score
+	private int health=100;                                                      //the player health
+	private boolean gameIsRunning = false;                                       //game state started or stoped
+	private int currHitsOnTank =0;                                               //the amount of hits on the tank since last update
+	private int gameLevel = 1;                                                   //track the game level
+	private boolean alive = true;
+	private double moveX = 0.5;
+	private double moveZ = 0.5;
+	private boolean started = false;
 
 
 
@@ -324,6 +329,12 @@ public class MainView extends Application{
 					health -= update.bombCollision(tankGroup, bombGroup);
 					update.updateBombs(bombGroup);
 					explosionGroup.getChildren().add(update.bombColisionGround(bombGroup));
+					System.out.println("number of tanks : "+tankGroup.getChildren().size());
+					System.out.println("number of invaders : "+invaderGroup.getChildren().size());
+					System.out.println("number of bullets : "+bulletGroup.getChildren().size());
+					System.out.println("number of bomb : "+bombGroup.getChildren().size());
+					System.out.println("number of explosions : "+explosionGroup.getChildren().size());
+					System.out.println("number of enemy array : "+enemy.size());
 					for(int i =0;i<removeEnemies.size();i++){
 
 							if(invaderGroup.getChildren().contains(removeEnemies.get(i).getGroup())) {     //test if in invader hit is in invadergroup
@@ -399,27 +410,18 @@ public class MainView extends Application{
 			}
 		}.start();
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-		//root.getChildren().remove(invaderGroup);
-		//enemy =nls.initLevel();
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 		facing = Movement.forwards;	//This makes the tank currently face forwards.
+
 		tankGroup = boxOP.makeModel(1, 12);         //first int is model number second int is skin number
-		//Point3D crate = new Point3D(10.0,10.0,810);
-		//rewardGroup.getChildren().add(ma.makeReward(crate));
-		//scale.scaleAll(tankGroup,0.2);
-		tankGroup.setTranslateY(tankGroup.getTranslateY()-40);
 		root.getChildren().add(tankGroup);
+		tankGroup.setTranslateY(tankGroup.getTranslateY()-40);
 		root.getChildren().add(bulletGroup);
-		//root.getChildren().add(ma.makeSheild(crate));
 		root.getChildren().add(bombGroup);
 		root.getChildren().add(homingGroup);
 		root.getChildren().add(explosionGroup);
 		root.getChildren().add(rewardGroup);
 		root.getChildren().add(boxOP.ground());                //add ground to scene
 		root.getChildren().add(boxOP.horizon());               //add background to scene
-		//root.getChildren().add(boxOP.gameBound(root, 0, 0, 800, 5));
 		root.getChildren().add(boxOP.gameBox());			   //creating the box environment
 		root.getChildren().add(boxOP.corners());               // corner boxes
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());      //add css to ui

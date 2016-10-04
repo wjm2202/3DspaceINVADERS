@@ -1,5 +1,6 @@
 package operations;
 
+import application.MainView;
 import javafx.geometry.Point3D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -25,11 +26,11 @@ public class CreateBox {
 	
 	static Group invaderGroup;                                               //group invaders together 
 	RotateElements re = new RotateElements();
-	ModelImporter mi = new ModelImporter();
+	ModelImporter mi = MainView.mi;
 	static WorldCoOrdinates wc;                                         //get world co-ordinate system
 	static ArrayList<Point3D> bo = new ArrayList<>();                       //ArrayList of points of world boundary
 	Random rand = new Random();
-	Img img = new Img();
+	Img img = MainView.img;
 	
 
 	

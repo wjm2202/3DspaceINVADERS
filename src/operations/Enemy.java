@@ -1,5 +1,6 @@
 package operations;
 
+import application.MainView;
 import gameValues.LevelValues;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
  */
 public class Enemy {
 	
-	LevelValues gvg = new LevelValues();
+	LevelValues gvg = MainView.gvg;
 	public Point3D currLoc;                                                             //enemy start at this location
 	private int boxSize = 0;                                                             //enemy size
 	private int enemyType =0;                                                            //used to differentiate different enemies

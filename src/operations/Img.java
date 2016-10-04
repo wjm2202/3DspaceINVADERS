@@ -7,7 +7,6 @@ import javafx.scene.paint.PhongMaterial;
 
 public class Img {
 
-	private Group boarderGroup;                                               //group boarders together
 	private Group groundGroup;                                                //group tanks together
 	private Image image;                                                      //images used in box texture
 	private Image image2;
@@ -46,7 +45,7 @@ public class Img {
 	private PhongMaterial cratePH;
 	
 	public void setupTextures(){
-		boarderGroup = new Group();                                         //make group able to hold boarder boxes
+		Group boarderGroup = new Group();
 		groundGroup = new Group();                                          //make group able to hold tanks
 		image = new Image("/pics/block_brick.png");    //get image to wrap cube in
 		image2 = new Image("/pics/scratch.png");    //get image to wrap cube in
