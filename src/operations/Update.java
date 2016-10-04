@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static application.MainView.gvg;
-import static application.MainView.main;
 
 
 /**

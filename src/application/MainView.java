@@ -89,8 +89,8 @@ public class MainView extends Application{
 	CreateBox boxOP = new CreateBox();                                   //box factory
 	PerspectiveCamera camera;                                            //camera variable
 	ArrayList<Enemy> removeEnemies = new ArrayList<>();
-	public static LevelValues gvg = new LevelValues();                                 //get gameVariable for invader game
-	//MegaInvader inv = new MegaInvader();                                 //mega invader creation
+	public static LevelValues gvg = new LevelValues();                   //get gameVariable for invader game
+	//MegaInvader inv = new MegaInvader();                               //mega invader creation
 	Update update = new Update();                                        //update all elements locations and detect collisions
 	TestBoundries tb = new TestBoundries();                              //test Class
 	public static WorldCoOrdinates loc3D = new WorldCoOrdinates();                     //get preset points important for game
@@ -130,12 +130,7 @@ public class MainView extends Application{
 
 	@Override
 	public void stop(){                                                  //if the game stops or window is closed these methods will be called
-		String ERRORS = tb.boundryTests();                               //string for error messages
-		if(ERRORS==""){     //change to !=                               //if there are errors
-			System.out.print(ERRORS);                                    //print the errors
-			//save game to DB
-			System.exit(0);
-		}
+		System.exit(0);
 	}
 
 	public static void main(String[] args)//DO NOT CODE HERE
@@ -145,7 +140,8 @@ public class MainView extends Application{
 
 	@Override
 	public void start(Stage stage)        //TREAT THIS AS MAIN
-	{		
+	{
+
 		bounds = loc3D.getBounds();
 		Platform.setImplicitExit(true);                           //close down clean up
 		System.out.println(
@@ -153,6 +149,7 @@ public class MainView extends Application{
 				  Platform.isSupported(ConditionalFeature.SCENE3D)        //3d effects supported check
 		);
 		root = lightEle.getLights();                                       //add the lights
+
 		// Create a Camera to view the 3D Shapes
 		camera = perCamera.getCamera();                                    //add the camera
 		camera.getTransforms().addAll (rotateX, rotateY, rotateZ);  //add transforms to camera
@@ -172,14 +169,11 @@ public class MainView extends Application{
 		root.getChildren().add(cameraGroup);
 		BorderPane pane = new BorderPane();                                         //make outer display
 		pane.setCenter(subScene);
-
+		//System.out.println("application test START  at top");
 		tfs = new Label("SCORE: "+score);                                           //add the score to tool bar
 		tfh = new Label("Health: "+health);                                         //add the score to tool bar
 		isAlive = new Label("Alive: "+alive);
 		levelNum = new Label("Level: "+gameLevel);
-
-		root.getChildren().remove(invaderGroup);
-		enemy =nls.initLevel();
 
 		Button exit = new Button("Exit game");           //Exit game
 		exit.setOnAction(e->{
@@ -398,6 +392,8 @@ public class MainView extends Application{
 							}
 							//root.getChildren().add(invaderGroup);
 							gameIsRunning = true;
+						}else{
+							System.exit(0);
 						}
                     }
 					moveX=0;                                                                          //reset tank velocity
@@ -405,6 +401,12 @@ public class MainView extends Application{
 				}
 			}
 		}.start();
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		//root.getChildren().remove(invaderGroup);
+		//enemy =nls.initLevel();
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 		facing = Movement.forwards;	//This makes the tank currently face forwards.
 		tankGroup = boxOP.makeModel(1, 12);         //first int is model number second int is skin number
 		//Point3D crate = new Point3D(10.0,10.0,810);

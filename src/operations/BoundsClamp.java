@@ -56,7 +56,7 @@ public class BoundsClamp {
 				eachNode.setTranslateZ(eachNode.getTranslateZ()+ef.getzOffset());
 				if((eachNode.getTranslateX()<=wc.case0.getX())                                           //if the enemy is to far left
 				||(eachNode.getTranslateX()>=wc.case3.getX())){                                          //or if the enemy is to far right
-					tb.setXhit(new Point3D(eachNode.getTranslateX(),eachNode.getTranslateY(),eachNode.getTranslateZ()));    //log position
+					//tb.setXhit(new Point3D(eachNode.getTranslateX(),eachNode.getTranslateY(),eachNode.getTranslateZ()));    //log position
 					//offset is the amount of movement the enemy will move, negitive to left positive to right
 					ef.setxOffset(-(ef.getxOffset()));                                                   //change the offset to the opposite value (negative value becomes positive value or positive value becomes negative value)
 					eachNode.setTranslateX(eachNode.getTranslateX()+ef.getxOffset());                    //set the x location (using the current x location + the Xoffset)
@@ -66,14 +66,14 @@ public class BoundsClamp {
 				}
 				if((eachNode.getTranslateZ()<=wc.getCase1().getZ())                                      //if the enemy is too far forward
 				||(eachNode.getTranslateZ()>=wc.case5.getZ())){                                          //or if the enemy is too far back
-					tb.setZhit(new Point3D(eachNode.getTranslateX(),eachNode.getTranslateY(),eachNode.getTranslateZ()));        //log position
+					//tb.setZhit(new Point3D(eachNode.getTranslateX(),eachNode.getTranslateY(),eachNode.getTranslateZ()));        //log position
 					ef.setzOffset(-(ef.getzOffset()));                                                   //change the offset to the opposite value (negative value becomes positive value or positive value becomes negative value)
 					eachNode.setTranslateZ(eachNode.getTranslateZ()+ef.getzOffset());                    //set the z location (using the current z location + the Zoffset)
 					eachNode.setTranslateY(eachNode.getTranslateY()+gvg.getSpinDrop());                  //make the enemy move down the amount of the y offset (hit the wall move down)
 					re.rotateBox(eachNode);                                                                  //rotate the group
 				}
 				if(eachNode.getTranslateY()>=wc.getCase1().getY()-15){                                   //if the enemy hits the floor
-					tb.setYhit(new Point3D(eachNode.getTranslateX(),eachNode.getTranslateY(),eachNode.getTranslateZ()));        //log position
+					//tb.setYhit(new Point3D(eachNode.getTranslateX(),eachNode.getTranslateY(),eachNode.getTranslateZ()));        //log position
 					ef.setxOffset(0);                                                                    //change the Xoffset to zero to stop moving left/right
 					ef.setyOffset(0);                                                                    //change the Yoffset to zero to stop moving forward/back
 					ef.setzOffset(0);                                                                    //change the Zoffset to zero to stop moving down
