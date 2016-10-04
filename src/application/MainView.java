@@ -33,7 +33,6 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import operations.*;
-import tests.TestBoundries;
 
 import javax.swing.*;
 
@@ -92,9 +91,7 @@ public class MainView extends Application{
 	public static LevelValues gvg = new LevelValues();                   //get gameVariable for invader game
 	//MegaInvader inv = new MegaInvader();                               //mega invader creation
 	Update update = new Update();                                        //update all elements locations and detect collisions
-	TestBoundries tb = new TestBoundries();                              //test Class
 	public static WorldCoOrdinates loc3D = new WorldCoOrdinates();                     //get preset points important for game
-	ArrayList<Point3D> bounds = new ArrayList<>();                       //get the 3D world corner points
 	ArrayList<Enemy> enemy = new ArrayList<>();                          //array of current enemies
 	ArrayList<Point3D> startP3d = new ArrayList<>();                     //get pre generated start locations for enemies
 	BoundsClamp bc = new BoundsClamp();                                  //contain the 3D objects inside the 3D world box
@@ -142,7 +139,7 @@ public class MainView extends Application{
 	public void start(Stage stage)        //TREAT THIS AS MAIN
 	{
 
-		bounds = loc3D.getBounds();
+
 		Platform.setImplicitExit(true);                           //close down clean up
 		System.out.println(
 				  "3D supported? " + 
@@ -319,7 +316,7 @@ public class MainView extends Application{
 				if(gameIsRunning){
 					tankGroup.setTranslateX((tankGroup.getTranslateX()+moveX));
 					tankGroup.setTranslateZ((tankGroup.getTranslateZ()+moveZ));
-					bc.clamp(enemy, tb);                                                          //trap invaders in bounds and move them
+					bc.clamp(enemy);                                                          //trap invaders in bounds and move them
 					update.updateBullets(bulletGroup);                                            //make bullets move
 					update.updateReward(rewardGroup);
 					removeEnemies = update.bulletCollision(enemy, bulletGroup);                                    //test bullets for collision with invaders

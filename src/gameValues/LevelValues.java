@@ -60,10 +60,9 @@ public class LevelValues {
 		this.enemyBombDamage = enemyBombDamage +1;
 		this.enemyBombSpeed = enemyBombSpeed +1;
 		this.Xvelocity = Xvelocity + up;
-		//this.Yvelocity = Yvelocity + up;
 		this.Zvelocity = Zvelocity + up;
 		this.spinDrop = spinDrop + 0.2;
-		setDropsPerSecond(dropsPerSecond-2);
+		setDropsPerSecond(dropsPerSecond-1);
 	}
 
 	public double getTankSpeedZ() {

@@ -8,9 +8,9 @@ import javafx.scene.Group;
  * Created by Liandri on 27/09/2016.
  */
 public class MakeAssets {
-    CreateBox boxOP = new CreateBox();
-    RotateElements re = new RotateElements();
-    ScaleElements se = new ScaleElements();
+    private CreateBox boxOP = new CreateBox();
+    private RotateElements re = new RotateElements();
+    private  ScaleElements se = new ScaleElements();
 
     public Group makeSheild(Point3D location){
         //makeModel(model number, texture number);

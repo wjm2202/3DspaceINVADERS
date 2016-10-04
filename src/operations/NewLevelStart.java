@@ -11,11 +11,11 @@ import java.util.ArrayList;
  */
 public class NewLevelStart {
 
-    ArrayList<Point3D> startP3d = new ArrayList<>();                     //get pre generated start locations for enemies
-    WorldCoOrdinates loc3D = new WorldCoOrdinates();                     //get preset points important for game
-    LevelValues gvg = MainView.gvg;                                      //get the values from VIEW to restart level
-    CreateBox boxOP = new CreateBox();                                   //box factory
-    ArrayList<Enemy> enemy = new ArrayList<>();                          //array of current enemies
+    private ArrayList<Point3D> startP3d = new ArrayList<>();                     //get pre generated start locations for enemies
+    private WorldCoOrdinates loc3D = new WorldCoOrdinates();                     //get preset points important for game
+    private LevelValues gvg = MainView.gvg;                                      //get the values from VIEW to restart level
+    private CreateBox boxOP = new CreateBox();                                   //box factory
+    private ArrayList<Enemy> enemy = new ArrayList<>();                          //array of current enemies
 
     public ArrayList<Enemy> initLevel() {
 

@@ -15,12 +15,12 @@ public class RotateElements {
 	 *
 	 */
 
-	Rotate r180 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 180 degrees
-	Rotate r90 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 90 degrees
-	Rotate mr90 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
-	Rotate rLeft = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
-	Rotate rRight = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
-	Rotate rVert = new Rotate(90,0,0,50, Rotate.Z_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	private Rotate r180 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 180 degrees
+	private Rotate r90 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node 90 degrees
+	private Rotate mr90 = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	private Rotate rLeft = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	private Rotate rRight = new Rotate(0,0,0,0, Rotate.Y_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	private Rotate rVert = new Rotate(90,0,0,50, Rotate.Z_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
 
 	public void rotateVert(Group group, double amountVertRotate){
 		rLeft.setAngle(amountVertRotate);

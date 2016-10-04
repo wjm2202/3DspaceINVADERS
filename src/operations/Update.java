@@ -16,11 +16,11 @@ import static application.MainView.gvg;
  * Created by Liandri on 21/09/2016.
  */
 public class Update {
-    LevelValues lv = gvg;
-    ArrayList<Enemy> remove = new ArrayList<>();                          //array of enemies to be removed on the next loop
-    ArrayList<Node> removebomb = new ArrayList<>();                      //array of bombs to remove on the next loop
-    Random rand = new Random();
-    MakeAssets ma = new MakeAssets();
+    private LevelValues lv = gvg;
+    private ArrayList<Enemy> remove = new ArrayList<>();                          //array of enemies to be removed on the next loop
+    private ArrayList<Node> removebomb = new ArrayList<>();                      //array of bombs to remove on the next loop
+    private Random rand = new Random();
+    private MakeAssets ma = new MakeAssets();
 
 
 
@@ -45,21 +45,6 @@ public class Update {
         return dropPoint;
     }
 
-    public ArrayList<Enemy> moveEnemies(ArrayList<Enemy> enemies) {
-        Group inv;
-
-        for(int i=0;i<enemies.size();i++){
-            inv = enemies.get(i).getGroup();
-            for(int j=0;j<inv.getChildren().size();j++){
-                Node current = inv.getChildren().get(j);
-                current.setTranslateX(current.getTranslateX()+lv.getXvelocity());
-                current.setTranslateY(current.getTranslateY()+lv.getYvelocity());
-                current.setTranslateZ(current.getTranslateZ()+lv.getZvelocity());
-            }
-
-        }
-        return enemies;
-    }
     /**
      * this method is to update the location of the bullets after they are fired from the tank
      * it moves the location of the bullet by an offset called bulletSpeed

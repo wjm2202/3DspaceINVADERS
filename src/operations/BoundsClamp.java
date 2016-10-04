@@ -7,7 +7,7 @@ import gameValues.LevelValues;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import tests.TestBoundries;
+
 
 /**
  * Bounds clamp keeps everything inside the 3D box 
@@ -20,17 +20,12 @@ import tests.TestBoundries;
  */
 public class BoundsClamp {
 	
-	CreateBox boxOP = new CreateBox();
+
 	LevelValues gvg = new LevelValues();
 	ArrayList<Point3D> bc = new ArrayList<>();                                     
 	WorldCoOrdinates wc = new WorldCoOrdinates();                                  //the 3D points that define the world boundaries
 	Node eachNode;                                                                     //the box object holder used for testing in clamp
-	Random rand = new Random();                                                    //used for random testing
 	RotateElements re = new RotateElements();
-	ArrayList<Node> remove = new ArrayList<>();
-	ArrayList<Node> removebomb = new ArrayList<>();
-	Point3D bombStart = new Point3D(0.0,0.0,0.0);
-	int trigger=0;
 	/**
 	 * constructor sets the clamp coordinates to the world coordinates
 	 * the world coordinates define how big the 3D box the encloses the game is
@@ -45,7 +40,7 @@ public class BoundsClamp {
 	 * if the enemy hits the ground they are removed
 	 * @param e
 	 */
-	public void clamp(ArrayList<Enemy> e, TestBoundries tb){                                            //ensure enemies are within world bounds
+	public void clamp(ArrayList<Enemy> e){                                            //ensure enemies are within world bounds
 		for(int j=0;j<e.size();j++){
 			Enemy ef = e.get(j);                                                                        //get the enemy class holding the group
 			Group test = ef.getGroup();                                                                 //get each megaInvader
@@ -164,76 +159,5 @@ public class BoundsClamp {
 			canMove = false;                                                         //set the flag to false preventing movement
 		}
 		return canMove;                                                              //return if the tank can continue to move further in the Z direction
-	}
-	/**
-	 * this class tests weather an enemy has landed
-	 * it removes any enemy that has landed from the observable list(array)
-	 * 
-	 * @param enemy
-	 * @param invaderGroup
-	 * @return group of objects that have not yet landed
-	 */
-	public Group isLanded(ArrayList<Enemy> enemy, Group invaderGroup){
-		for(int i=0;i<enemy.size();i++){
-			
-			if (enemy.get(i).isLanded()){
-				invaderGroup.getChildren().remove(enemy.get(i).getNode());
-			}
-		}
-		return invaderGroup;
-	}
-
-	/**
-	 * this class tests weather a bullet from the tank has hit the enemy
-	 * if it has hit the enemy hit will be added to a remove array to 
-	 * return to main to actually remove from screen the dead enemy
-	 * @param bulletGroup
-	 * @param invaderGroup
-	 * @return ArrayList<Node> to be removed from observable list in MainView
-	 */
-	public ArrayList<Node> bulletEnemyHit(Group bulletGroup, Group invaderGroup){
-		for(int i =0;i<bulletGroup.getChildren().size();i++){
-			for(int j=0;j<invaderGroup.getChildren().size();j++){
-				if(bulletGroup.getChildren().get(i).getBoundsInParent().intersects(invaderGroup.getChildren().get(j).getBoundsInParent())){
-					remove.add(invaderGroup.getChildren().get(j));
-					System.out.println("HIT: "+invaderGroup.getChildren().get(j).toString());
-					
-				}
-			}
-		}
-		return remove;
-	}
-	/**
-	 * any bomb that has hit the ground is removed from the observable list
-	 * uses a clamp to test bombs
-	 * @return ArrayList of bombs to be removed from game 
-	 */
-	public ArrayList<Node> removeBombs(Group bombGroup){
-		for(int i=0;i<bombGroup.getChildren().size();i++){
-			bombGroup.getChildren().get(i).setTranslateY(bombGroup.getChildren().get(i).getTranslateY()+5);
-			if(bombGroup.getChildren().get(i).getTranslateY()>=wc.getCase1().getY()){             //if the enemy hits the floor
-				removebomb.add(bombGroup.getChildren().get(i));
-			} 
-		}
-		return removebomb;
-	}
-/**
- * this method carries out collision tests between tank and enemy bombs
- * it returns the number of intersects between the box around the tank 
- * the box around the bombs	
- * @param tankGroup
- * @param bulletGroup
- * @return number of hits to MainView to be deducted from health
- */
-	public int tankIsHit(Group tankGroup, Group bulletGroup){
-		int hitsOnTank =0;
-		for(int i =0;i<bulletGroup.getChildren().size();i++){
-			for(int j=0;j<tankGroup.getChildren().size();j++){
-				if(bulletGroup.getChildren().get(i).getBoundsInParent().intersects(tankGroup.getChildren().get(j).getBoundsInParent())){
-					hitsOnTank++;
-				}
-			}
-		}
-		return hitsOnTank;
 	}
 }

@@ -29,7 +29,6 @@ public class CreateBox {
 	static WorldCoOrdinates wc;                                         //get world co-ordinate system
 	static ArrayList<Point3D> bo = new ArrayList<>();                       //ArrayList of points of world boundary
 	Random rand = new Random();
-	Rectangle2D screen = Screen.getPrimary().getVisualBounds();
 	Img img = new Img();
 	
 
@@ -55,20 +54,6 @@ public class CreateBox {
 		return cnr;
 	}
 
-
-/**
- * 	make a bomb for enemy to drop
- * @param start
- * @return Cylinder 3D object
- */
-	public Cylinder bomb(Point3D start){
-		Cylinder bull = new Cylinder(10,10,10);
-		bull.setTranslateX(start.getX());                            //set x location
-		bull.setTranslateY(start.getY());                             //set y location
-		bull.setTranslateZ(start.getZ());
-		bull.setMaterial(img.getTexture(14));               //set light side texture
-		return bull;
-	}
 /**
  * make a bullet for the tank to fire	
  * @param start
@@ -359,15 +344,6 @@ public class CreateBox {
 		boxHolder.getChildren().add(boarderBox);
 		return boxHolder;
 		
-	}
-/**
- * clear the entire scene of enemies
- * @param root
- */
-	public void clear(Group root){                                                    //remove 3D objects from screen 
-		for(int i =5;i<root.getChildren().size();i++){
-			root.getChildren().remove(i);
-		}
 	}
 
 /**

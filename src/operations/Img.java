@@ -7,45 +7,43 @@ import javafx.scene.paint.PhongMaterial;
 
 public class Img {
 
-	static Group boarderGroup;                                               //group boarders together
-	static Group groundGroup;                                                //group tanks together
-	static Image image;                                                      //images used in box texture
-	static Image image2;
-	static Image image3;
-	static Image image4;
-	static Image image5;
-	static Image image6;
-	static Image image7;
-	static Image image8;
-	static Image image9;
-	static Image image10;
-	static Image horizon;
-	static Image tanktex;
-	static Image groundtex;
-	static Image bullcolor;
-	static Image groundGrid;
-	static Image explosion;
-	static Image ship;
-	static Image crate;
-	static PhongMaterial textureMaterial;                                   //images use this to paste texture to box
-	static PhongMaterial textureMaterial2;
-	static PhongMaterial textureMaterial3;
-	static PhongMaterial textureMaterial4;
-	static PhongMaterial textureMaterial5;
-	static PhongMaterial textureMaterial6;
-	static PhongMaterial textureMaterial7;
-	static PhongMaterial textureMaterial8;
-	static PhongMaterial textureMaterial9;
-	static PhongMaterial textureMaterial100;
-	static PhongMaterial textureMaterial101;
-	static PhongMaterial temp;
-	static PhongMaterial horizonTex;
-	static PhongMaterial tankTex;
-	static PhongMaterial groundTex;
-	static PhongMaterial bullColor;
-	static PhongMaterial groundGridph;
-	static PhongMaterial expPH;
-	static PhongMaterial cratePH;
+	private Group boarderGroup;                                               //group boarders together
+	private Group groundGroup;                                                //group tanks together
+	private Image image;                                                      //images used in box texture
+	private Image image2;
+	private Image image3;
+	private Image image4;
+	private Image image5;
+	private Image image6;
+	private Image image7;
+	private Image image8;
+	private Image image9;
+	private Image image10;
+	private Image horizon;
+	private Image tanktex;
+	private Image groundtex;
+	private Image bullcolor;
+	private Image groundGrid;
+	private Image explosion;
+	private Image ship;
+	private Image crate;
+	private PhongMaterial textureMaterial;                                   //images use this to paste texture to box
+	private PhongMaterial textureMaterial2;
+	private PhongMaterial textureMaterial3;
+	private PhongMaterial textureMaterial4;
+	private PhongMaterial textureMaterial5;
+	private PhongMaterial textureMaterial6;
+	private PhongMaterial textureMaterial7;
+	private PhongMaterial textureMaterial8;
+	private PhongMaterial textureMaterial9;
+	private PhongMaterial temp;
+	private PhongMaterial horizonTex;
+	private PhongMaterial tankTex;
+	private PhongMaterial groundTex;
+	private PhongMaterial bullColor;
+	private PhongMaterial groundGridph;
+	private PhongMaterial expPH;
+	private PhongMaterial cratePH;
 	
 	public void setupTextures(){
 		boarderGroup = new Group();                                         //make group able to hold boarder boxes
@@ -121,7 +119,7 @@ public class Img {
 		
 	}
 	public PhongMaterial getTexture(int textNum){
-		PhongMaterial getTextureMaterial = new PhongMaterial();  //texture material
+		PhongMaterial getTextureMaterial;  //texture material
 		switch(textNum){
 		case 1:
 			getTextureMaterial = textureMaterial;break;
@@ -192,9 +190,7 @@ public class Img {
 			selImage = groundtex;break;
 		case 14:
 			selImage = bullcolor;break;
-			
 		}
 		return selImage;
 	}
-	
 }

@@ -14,23 +14,23 @@ import javafx.stage.Screen;
  *
  */
 public class LightingElements {
-	
-	Group lightGroup;
-	PointLight light;
-	PointLight light2;
-	PointLight light3;
-	AmbientLight light4;
-	AmbientLight light5;
-	AmbientLight light6;
-	AmbientLight light7;
-	int cx=0;
-	int cy=0;
-	int cz= -1000;
-	Rectangle2D screen = Screen.getPrimary().getVisualBounds();
-	double sW = screen.getMaxX();
-	double sH = screen.getMaxY();
-	double centX = screen.getMaxX()/2;
-	double centY = screen.getMaxY()/2;
+
+	private Group lightGroup;
+	private PointLight light;
+	private PointLight light2;
+	private PointLight light3;
+	private AmbientLight light4;
+	private AmbientLight light5;
+	private AmbientLight light6;
+	private AmbientLight light7;
+	private int cx=0;
+	private int cy=0;
+	private int cz= -1000;
+	private Rectangle2D screen = Screen.getPrimary().getVisualBounds();
+	private double sW = screen.getMaxX();
+	private double sH = screen.getMaxY();
+	private double centX = screen.getMaxX()/2;
+	private double centY = screen.getMaxY()/2;
 	
 	public LightingElements(){
 		setUp();
