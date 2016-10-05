@@ -32,7 +32,7 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import operations.*;
-
+import database.*;
 import javax.swing.*;
 
 /**
@@ -127,7 +127,10 @@ public class MainView extends Application{
 	private double moveX = 0.5;
 	private double moveZ = 0.5;
 	private boolean started = false;
-
+	private Name namedb = new Name();
+	private Level leveldb = new Level();
+	private Tank tankdb = new Tank();
+	private Score scoredb = new Score();
 
 
 	@Override
