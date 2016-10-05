@@ -1,14 +1,13 @@
 <component name="libraryTable">
   <library name="jim3dsModelImporterJFX">
     <CLASSES>
-      <root url="jar://E:/AUT Study/01 Java/06 Java Library/JFX3DModelImporters_EA_2014-02-09/jim3dsModelImporterJFX.jar!/" />
-      <root url="jar://E:/AUT Study/01 Java/06 Java Library/JFX3DModelImporters_EA_2014-02-09/jimColModelImporterJFX.jar!/" />
-      <root url="jar://E:/AUT Study/01 Java/06 Java Library/JFX3DModelImporters_EA_2014-02-09/jimFxmlModelImporterJFX.jar!/" />
-      <root url="jar://E:/AUT Study/01 Java/06 Java Library/JFX3DModelImporters_EA_2014-02-09/jimObjModelImporterJFX.jar!/" />
-      <root url="jar://E:/AUT Study/01 Java/06 Java Library/JFX3DModelImporters_EA_2014-02-09/jimStlMeshImporterJFX.jar!/" />
-      <root url="jar://E:/AUT Study/01 Java/06 Java Library/JFX3DModelImporters_EA_2014-02-09/jimX3dModelImporterJFX.jar!/" />
-      <root url="jar://E:/AUT Study/01 Java/06 Java Library/derbyclient.jar!/" />
-      <root url="jar://E:/AUT Study/01 Java/06 Java Library/derby.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/derby.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jim3dsModelImporterJFX.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jimColModelImporterJFX.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jimFxmlModelImporterJFX.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jimObjModelImporterJFX.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jimStlMeshImporterJFX.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jimX3dModelImporterJFX.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

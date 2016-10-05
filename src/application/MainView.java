@@ -202,7 +202,7 @@ public class MainView extends Application{
 				//for(int i=0;i<enemy.size();i++){
 				//	invaderGroup.getChildren().add(enemy.get(i).getGroup());
 				//}
-				root.getChildren().add(invaderGroup);
+				//root.getChildren().add(invaderGroup);
 			}
 		});
 
