@@ -2,12 +2,15 @@ package application;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import com.sun.javafx.application.LauncherImpl;
 import gameValues.LevelValues;
 import gameValues.Movement;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
+import javafx.application.Preloader;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.geometry.Point3D;
@@ -20,6 +23,7 @@ import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -55,7 +59,7 @@ public class MainView extends Application{
 	private Node node;                                                   //a single 3D object
 	private ToolBar toolBar;                                             //the button bar at the bottom of scene
 //GROUPS
-	private static Group invaderGroup = new Group();                     //a group of 3D objects of type invader
+	private static Group invaderGroup = new Group();                    //a group of 3D objects of type invader
 	private static Group boarderGroup = new Group();                     //a group of 3D objects that make up the world box
 	private static Group cameraGroup = new Group();                      //a group of view objects that give you a scene to look at
 	private static Group tankGroup = new Group();                        //a group of tanks
@@ -93,24 +97,21 @@ public class MainView extends Application{
 	private CreateBox boxOP = new CreateBox();                                   //box factory
 	private PerspectiveCamera camera;                                            //camera variable
 	private ArrayList<Enemy> removeEnemies = new ArrayList<>();
-
+	FirstPreloader fp = new FirstPreloader();
 	//MegaInvader inv = new MegaInvader();                               //mega invader creation
 	private Update update = new Update();                                        //update all elements locations and detect collisions
-
 	private ArrayList<Enemy> enemy = new ArrayList<>();                          //array of current enemies
 	private ArrayList<Point3D> startP3d = new ArrayList<>();                     //get pre generated start locations for enemies
 	private BoundsClamp bc = new BoundsClamp();                                  //contain the 3D objects inside the 3D world box
 	private Random rand = new Random();                                          //random value used for testing
 	private RotateElements re = new RotateElements();                            //rotate transform for 3D objects
 	private ScaleElements scale = new ScaleElements();                           //scale transform for 3D objects
-
 	private Movement facing = Movement.forwards;                                 //ENUM starting value
 	private Point3D bulletStart = new Point3D(0.0,0.0,0.0);                      //the location of the start of the bullet
 	private Point3D bombStart;                                                   //the location of the start of the bomb
 	private Point3D invaderStart;
 	private Point3D tankLocation;
 	private Point3D homingStart;
-
 	private MakeAssets ma = new MakeAssets();
 	private Homing homing = new Homing();
 	private NewLevelStart nls = new NewLevelStart();
@@ -128,8 +129,6 @@ public class MainView extends Application{
 	private double moveZ = 0.5;
 	private boolean started = false;
 
-
-
 	@Override
 	public void stop(){                                                  //if the game stops or window is closed these methods will be called
 		System.exit(0);
@@ -137,17 +136,22 @@ public class MainView extends Application{
 
 	public static void main(String[] args)//DO NOT CODE HERE
 	{                                     //DO NOT CODE HERE
-		Application.launch(args);         //DO NOT CODE HERE
+		//Application.launch(args);         //DO NOT CODE HERE
+		LauncherImpl.launchApplication(MainView.class, FirstPreloader.class, args);
 	}                                     //DO NOT CODE HERE
+
+	@Override
+	public void init(){
+
+	}
 
 	@Override
 	public void start(Stage stage)        //TREAT THIS AS MAIN
 	{
 
-
 		Platform.setImplicitExit(true);                           //close down clean up
 		System.out.println(
-				  "3D supported? " + 
+				  "3D supported? " +
 				  Platform.isSupported(ConditionalFeature.SCENE3D)        //3d effects supported check
 		);
 		root = lightEle.getLights();                                       //add the lights
@@ -155,7 +159,7 @@ public class MainView extends Application{
 		// Create a Camera to view the 3D Shapes
 		camera = perCamera.getCamera();                                    //add the camera
 		camera.getTransforms().addAll (rotateX, rotateY, rotateZ);  //add transforms to camera
-		camera.setTranslateX(cx);                              
+		camera.setTranslateX(cx);
 		camera.setTranslateY(cy);
 		camera.setTranslateZ(cz);
 		camera.setRotate(cRoll);
@@ -163,7 +167,7 @@ public class MainView extends Application{
 		camera.setFarClip(4000.0);
 		camera.setFieldOfView(45);
 
-		//create sub scene for tool bar             
+		//create sub scene for tool bar
 		SubScene subScene = new SubScene(root, sW, sH-100,true,SceneAntialiasing.DISABLED);                           //make sub scene add group
 		subScene.setFill(Color.BLACK);                                          //fill scene with color
 		subScene.setCamera(camera);                                             //add camera to scene
@@ -187,17 +191,17 @@ public class MainView extends Application{
 			gameIsRunning = gameIsRunning != true;
 
 		});
-		Button start = new Button("Start game");           //Start game                  
+		Button start = new Button("Start game");           //Start game
 		start.setOnAction(e->{
 			if(gameIsRunning){
 
 			}else{
 				gameIsRunning=true;
 				started=true;
-				enemy =nls.initLevel();
-				for(int i=0;i<enemy.size();i++){
-					invaderGroup.getChildren().add(enemy.get(i).getGroup());
-				}
+				//enemy =nls.initLevel();
+				//for(int i=0;i<enemy.size();i++){
+				//	invaderGroup.getChildren().add(enemy.get(i).getGroup());
+				//}
 				root.getChildren().add(invaderGroup);
 			}
 		});
@@ -413,6 +417,13 @@ public class MainView extends Application{
 		facing = Movement.forwards;	//This makes the tank currently face forwards.
 
 		tankGroup = boxOP.makeModel(1, 12);         //first int is model number second int is skin number
+		/////////////////////////////////TESTING SPLASH///////////////////////////////////////////////////
+		enemy =nls.initLevel();
+		for(int i=0;i<enemy.size();i++){
+			invaderGroup.getChildren().add(enemy.get(i).getGroup());
+		}
+		root.getChildren().add(invaderGroup);
+		//////////////////////////////////////////////////////////////////////////////////////////////////
 		root.getChildren().add(tankGroup);
 		tankGroup.setTranslateY(tankGroup.getTranslateY()-40);
 		root.getChildren().add(bulletGroup);
