@@ -129,6 +129,7 @@ public class MainView extends Application{
 	private double moveZ = 0.5;
 	private boolean started = false;
 	private int camView = 1;
+	private int camdirection = 1;
 
 	@Override
 	public void stop(){                                                  //if the game stops or window is closed these methods will be called
@@ -307,23 +308,16 @@ public class MainView extends Application{
 						event.consume();
 						break;
 					case B://cant use space
+					if(camView==1){
+						perCamera.birdCamera(1);
+						camdirection = 1;
 
-						if(camView==1){
-							//System.out.println("BIRD camera before X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
-							perCamera.birdCamera(1);
-							//System.out.println("BIRD camera after X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
-						}
-						if(camView==2){
-							//System.out.println("LVL camera before X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
-							perCamera.birdCamera(2);
-							//System.out.println("LVL camera after X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
-						}
-						if(camView==2) {
-							camView = 1;
-						}else{
-							camView++;
-						}
+					}else if(camView==2){
+						perCamera.birdCamera(2);
+						camdirection = -1;
 
+					}
+						camView += camdirection;
 						camera = perCamera.getCamera();
 						event.consume();
 						break;
@@ -439,7 +433,7 @@ public class MainView extends Application{
 							//root.getChildren().add(invaderGroup);
 							gameIsRunning = true;
 						}else{
-							System.exit(0);
+							stop();
 						}
                     }
 					moveX=0;                                                                          //reset tank velocity

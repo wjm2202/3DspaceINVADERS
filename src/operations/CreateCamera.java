@@ -24,6 +24,7 @@ public class CreateCamera {
 	private final Rotate rotateZ = new Rotate(-20, Rotate.Z_AXIS);    //set camera location z
 	private Rotate rVertD = new Rotate(-70,0,0,50, Rotate.X_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
 	private Rotate rVertLVL = new Rotate(+70,0,0,50, Rotate.X_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	private Rotate rVertUP = new Rotate(+140,0,0,50, Rotate.X_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
 	
 	public void birdCamera(int view){
 		switch(view){
@@ -46,9 +47,6 @@ public class CreateCamera {
 				camera.setTranslateZ(0.0);
 				camera.getTransforms().add(rVertLVL);
 				//System.out.println("actual case 2 location AFTER X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
-				break;
-			case 3:
-
 				break;
 		}
 

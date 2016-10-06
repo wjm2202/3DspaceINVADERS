@@ -87,8 +87,8 @@ public class CreateBox {
 	public Box ground(){
 		Box ground = new Box(3500,5,1200);
 		ground.setTranslateX(480);                            //set x location
-		ground.setTranslateY(800);                             //set y location
-		ground.setTranslateZ(1300);
+		ground.setTranslateY(1200);                             //set y location
+		ground.setTranslateZ(800);
 		ground.setMaterial(img.getTexture(13));
 		return ground;
 	}
