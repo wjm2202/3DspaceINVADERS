@@ -21,13 +21,37 @@ public class CreateCamera {
 	static PerspectiveCamera camera;
 	private final Rotate rotateX = new Rotate(-20, Rotate.X_AXIS);    //set camera location x
 	private final Rotate rotateY = new Rotate(-20, Rotate.Y_AXIS);    //set camera location y
+	private final Rotate rotateZ = new Rotate(-20, Rotate.Z_AXIS);    //set camera location z
+	private Rotate rVertD = new Rotate(-70,0,0,50, Rotate.X_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	private Rotate rVertLVL = new Rotate(+70,0,0,50, Rotate.X_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
 	
-	public CreateCamera(){
-		setUp();
-	}
-	
-	public PerspectiveCamera getCamera(){
-		return camera;
+	public void birdCamera(int view){
+		switch(view){
+			case 1:
+				//birds
+				//System.out.println("actual case 1 location BEFORE X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
+				camera.setTranslateX(483.0);
+				camera.setTranslateY(-836.0);
+				camera.setTranslateZ(1050);
+				camera.getTransforms().add(rVertD);
+				//System.out.println("actual case 1 location AFTER X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
+
+			break;
+			case 2:
+				//level
+				//X 483.0 Y -36.0 Z 0.0
+				//System.out.println("actual case 2 location BEFORE X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
+				camera.setTranslateX(483.0);
+				camera.setTranslateY(-36.0);
+				camera.setTranslateZ(0.0);
+				camera.getTransforms().add(rVertLVL);
+				//System.out.println("actual case 2 location AFTER X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
+				break;
+			case 3:
+
+				break;
+		}
+
 	}
 	
 	public void setUp(){
@@ -49,6 +73,13 @@ public class CreateCamera {
 		rt.setAutoReverse(true);
 		rt.setAxis(new Point3D(5,5,5));
 		rt.play();
+	}
+	public CreateCamera(){
+		setUp();
+	}
+
+	public PerspectiveCamera getCamera(){
+		return camera;
 	}
 	public static void camRotateC(Camera c){
 		c.setRotate(45);

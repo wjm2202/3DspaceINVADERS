@@ -32,11 +32,11 @@ public class MakeAssets {
         return missleGroup;
     }
     public Group makeReward(Point3D location){
-        Group reward = boxOP.makeModel(7, 16);
-        reward.setTranslateX(location.getX()-500);
-        reward.setTranslateY(location.getY()-535);    //height
-        reward.setTranslateZ(location.getZ()-1050);
-        se.scaleAll(reward,15.0);
+        Group reward = boxOP.makeModel(10, 16);
+        reward.setTranslateX(location.getX());
+        reward.setTranslateY(location.getY());    //height
+        reward.setTranslateZ(location.getZ());
+        se.scaleAll(reward,8.0);
         return reward;
     }
     public Group makeBombExplosion(Point3D location){

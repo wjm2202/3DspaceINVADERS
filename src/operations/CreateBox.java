@@ -108,9 +108,9 @@ public class CreateBox {
 		//System.out.println("before test object mi.size "+mv.length);
 
 		for (int i = 0; i < mv.length; i++) {
-			mv[i].setTranslateX(500);
-			mv[i].setTranslateY(535);
-			mv[i].setTranslateZ(1050);
+			mv[i].setTranslateX(500);                  //was 500
+			mv[i].setTranslateY(535);                  //was 535
+			mv[i].setTranslateZ(1050);                 //was 1050
 			mv[i].setScaleX(2.0);
 			mv[i].setScaleY(2.0);
 			mv[i].setScaleZ(2.0);

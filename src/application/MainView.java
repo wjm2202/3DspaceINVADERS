@@ -97,8 +97,8 @@ public class MainView extends Application{
 	private CreateBox boxOP = new CreateBox();                                   //box factory
 	private PerspectiveCamera camera;                                            //camera variable
 	private ArrayList<Enemy> removeEnemies = new ArrayList<>();
+	private ArrayList<Node> collectedRewards = new ArrayList<>();
 	FirstPreloader fp = new FirstPreloader();
-	//MegaInvader inv = new MegaInvader();                               //mega invader creation
 	private Update update = new Update();                                        //update all elements locations and detect collisions
 	private ArrayList<Enemy> enemy = new ArrayList<>();                          //array of current enemies
 	private ArrayList<Point3D> startP3d = new ArrayList<>();                     //get pre generated start locations for enemies
@@ -128,6 +128,7 @@ public class MainView extends Application{
 	private double moveX = 0.5;
 	private double moveZ = 0.5;
 	private boolean started = false;
+	private int camView = 1;
 
 	@Override
 	public void stop(){                                                  //if the game stops or window is closed these methods will be called
@@ -167,6 +168,7 @@ public class MainView extends Application{
 		camera.setFarClip(4000.0);
 		camera.setFieldOfView(45);
 
+
 		//create sub scene for tool bar
 		SubScene subScene = new SubScene(root, sW, sH-100,true,SceneAntialiasing.DISABLED);                           //make sub scene add group
 		subScene.setFill(Color.BLACK);                                          //fill scene with color
@@ -186,6 +188,11 @@ public class MainView extends Application{
 			gameIsRunning=false;
 			Platform.exit();
 		});
+		Button tankLoc = new Button("Print Tank Loc");           //Exit game
+		tankLoc.setOnAction(e->{
+			System.out.println("tank location : X "+tankGroup.getChildren().get(0).getTranslateX()+"  Y "+tankGroup.getChildren().get(0).getTranslateY()+" Z "+tankGroup.getChildren().get(0).getTranslateZ());
+			System.out.println("reward location : X "+rewardGroup.getChildren().get(0).getTranslateX()+"  Y "+rewardGroup.getChildren().get(0).getTranslateY()+" Z "+rewardGroup.getChildren().get(0).getTranslateZ());
+		});
 		Button pause = new Button("Pause/Un-Pause");           //Pause game
 		pause.setOnAction(e->{
 			gameIsRunning = gameIsRunning != true;
@@ -202,11 +209,11 @@ public class MainView extends Application{
 				//for(int i=0;i<enemy.size();i++){
 				//	invaderGroup.getChildren().add(enemy.get(i).getGroup());
 				//}
-				root.getChildren().add(invaderGroup);
+				//root.getChildren().add(invaderGroup);
 			}
 		});
 
-		toolBar = new ToolBar(start,pause,exit,tfs,tfh,levelNum,isAlive);         //                              //tool bar add button and box
+		toolBar = new ToolBar(start,pause,exit,tfs,tfh,levelNum,isAlive,tankLoc);         //                              //tool bar add button and box
 
 		toolBar.setOrientation(Orientation.HORIZONTAL);                             //set tool bar horizontal
 		pane.setBottom(toolBar);                                                    //put tool bar in bottom pane
@@ -278,10 +285,10 @@ public class MainView extends Application{
 						break;
 					case COMMA:	//This case executes when the right key is pressed on the keyboard.
 						if(gameIsRunning){
-							if(bulletGroup.getChildren().size()<4) {
+							if(bulletGroup.getChildren().size()<gvg.getBulletRate()) {
 								//System.out.println("tank X: "+tank.getTranslateX()+" tank Y: "+tank.getTranslateY()+" tank Y: "+tank.getTranslateZ());
 								//bulletStart =  new Point3D((tankGroup.getTranslateX()+500.0),(tankGroup.getTranslateY()+500),(tankGroup.getTranslateZ()+1100.0));
-								bulletStart = new Point3D((tankGroup.getTranslateX() + 10.0), (tankGroup.getTranslateY() - 70.0), (tankGroup.getTranslateZ() - 80.0));
+								bulletStart = new Point3D((tankGroup.getTranslateX() + 10.0), (tankGroup.getTranslateY() - 70.0), (tankGroup.getTranslateZ() + 15.0));
 								//System.out.println("bullet start: X: "+bulletStart.getX()+" Y: "+bulletStart.getY()+ " Z: "+bulletStart.getZ());
 								Node bull = ma.makeMissle(bulletStart);
 								bulletGroup.getChildren().add(bull);
@@ -298,6 +305,28 @@ public class MainView extends Application{
 							homing.seekTargetTEST(root,enemy.get(0).getGroup(),0, hom);
 						}
 						event.consume();
+						break;
+					case B://cant use space
+
+						if(camView==1){
+							//System.out.println("BIRD camera before X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
+							perCamera.birdCamera(1);
+							//System.out.println("BIRD camera after X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
+						}
+						if(camView==2){
+							//System.out.println("LVL camera before X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
+							perCamera.birdCamera(2);
+							//System.out.println("LVL camera after X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
+						}
+						if(camView==2) {
+							camView = 1;
+						}else{
+							camView++;
+						}
+
+						camera = perCamera.getCamera();
+						event.consume();
+						break;
 					default:
 						break;
 				}
@@ -331,21 +360,26 @@ public class MainView extends Application{
 					removeEnemies = update.bulletCollision(enemy, bulletGroup);                                    //test bullets for collision with invaders
 					update.homingColision(enemy, homingGroup);
 					health -= update.bombCollision(tankGroup, bombGroup);
+					gvg.setPlayerHealth(health);
 					update.updateBombs(bombGroup);
 					explosionGroup.getChildren().add(update.bombColisionGround(bombGroup));
-					System.out.println("number of tanks : "+tankGroup.getChildren().size());
-					System.out.println("number of invaders : "+invaderGroup.getChildren().size());
-					System.out.println("number of bullets : "+bulletGroup.getChildren().size());
-					System.out.println("number of bomb : "+bombGroup.getChildren().size());
-					System.out.println("number of explosions : "+explosionGroup.getChildren().size());
-					System.out.println("number of enemy array : "+enemy.size());
+					collectedRewards = update.collectReward(tankGroup,rewardGroup);
+					for(int i =0;i<collectedRewards.size();i++){
+						rewardGroup.getChildren().remove(collectedRewards.get(i));
+					}
+					collectedRewards.clear();
 					for(int i =0;i<removeEnemies.size();i++){
 
 							if(invaderGroup.getChildren().contains(removeEnemies.get(i).getGroup())) {     //test if in invader hit is in invadergroup
+
+								Point3D genPoint = new Point3D(0.0,-150.0,0.0);
+								//System.out.println("reward gernerated at  X "+genPoint.getX()+" Y "+genPoint.getY()+" Z "+genPoint.getZ());
+								Group temp = update.generateReward(genPoint);
 								invaderGroup.getChildren().remove(removeEnemies.get(i).getGroup());       //remove hit invader from group
 								enemy.remove(removeEnemies.get(i));
 								score += gvg.getPointsPerKill();                                   //add points to score
-								Group temp = update.generateReward();
+								gvg.setPlayerScore(score);
+
 								if (temp.getChildren().size() > 0) {
 									rewardGroup.getChildren().add(temp);
 								}
@@ -369,9 +403,9 @@ public class MainView extends Application{
 						}
 					}
 
-					tfs.setText("SCORE: "+score);                                                        //display new score
-					tfh.setText("Health: "+health);
-					levelNum.setText("Level: "+gameLevel);
+					tfs.setText("SCORE: "+gvg.getPlayerScore());                                                        //display new score
+					tfh.setText("Health: "+gvg.getPlayerHealth());
+					levelNum.setText("Level: "+gvg.getPlayerLevel());
 					trigger++;
 					if(enemy.size()>0){
 						bombStart = update.dropBombLocation(enemy);
@@ -424,6 +458,7 @@ public class MainView extends Application{
 		}
 		root.getChildren().add(invaderGroup);
 		//////////////////////////////////////////////////////////////////////////////////////////////////
+
 		root.getChildren().add(tankGroup);
 		tankGroup.setTranslateY(tankGroup.getTranslateY()-40);
 		root.getChildren().add(bulletGroup);
