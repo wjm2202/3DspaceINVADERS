@@ -73,7 +73,7 @@ public class CreateBox {
  * @return box set to location of horizon
  */
 	public Box horizon(){
-		Box horizion = new Box(5000,2000,5);
+		Box horizion = new Box(7000,4000,5);
 		horizion.setTranslateX(480);                            //set x location
 		horizion.setTranslateY(100);                             //set y location
 		horizion.setTranslateZ(2500);
@@ -85,10 +85,10 @@ public class CreateBox {
  * @return box set to location of ground
  */
 	public Box ground(){
-		Box ground = new Box(3500,5,1200);
+		Box ground = new Box(4500,5,2400);
 		ground.setTranslateX(480);                            //set x location
 		ground.setTranslateY(1200);                             //set y location
-		ground.setTranslateZ(800);
+		ground.setTranslateZ(1200);
 		ground.setMaterial(img.getTexture(13));
 		return ground;
 	}

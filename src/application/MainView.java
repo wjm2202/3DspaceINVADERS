@@ -3,6 +3,8 @@ package application;
 import java.util.ArrayList;
 import java.util.Random;
 
+import camera.CreateCamera;
+import camera.MoveCamera;
 import com.sun.javafx.application.LauncherImpl;
 import gameValues.LevelValues;
 import gameValues.Movement;
@@ -10,7 +12,6 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
-import javafx.application.Preloader;
 import javafx.event.EventHandler;
 import javafx.geometry.Orientation;
 import javafx.geometry.Point3D;
@@ -23,7 +24,6 @@ import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ToolBar;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -49,6 +49,8 @@ import javax.swing.*;
  */
 public class MainView extends Application{
 
+	private Label camLoc;
+	private Label camAngleLBL;
 	private Label levelNum;
 	private Label isAlive;
 	private Group root;                                                  //array that holds all objects on screen
@@ -92,6 +94,7 @@ public class MainView extends Application{
 	public static SoundEffects se = new SoundEffects();
 	public static ModelImporter mi = new ModelImporter();
 //OBJECTS
+	private MoveCamera mc = new MoveCamera();
 	private LightingElements lightEle = new LightingElements();                  //lighting
 	private CreateCamera perCamera = new CreateCamera();                         //camera
 	private CreateBox boxOP = new CreateBox();                                   //box factory
@@ -144,7 +147,10 @@ public class MainView extends Application{
 
 	@Override
 	public void init(){
-
+		enemy =nls.initLevel();
+		for(int i=0;i<enemy.size();i++){
+			invaderGroup.getChildren().add(enemy.get(i).getGroup());
+		}
 	}
 
 	@Override
@@ -183,6 +189,9 @@ public class MainView extends Application{
 		tfh = new Label("Health: "+health);                                         //add the score to tool bar
 		isAlive = new Label("Alive: "+alive);
 		levelNum = new Label("Level: "+gameLevel);
+		camAngleLBL = new Label("Camera Angle: "+mc.getCameraAngle(camera));
+		camLoc = new Label("Camera Location: X: "+camera.getTranslateX()+" Y: "+camera.getTranslateY()+" Z: "+camera.getTranslateZ());
+
 
 		Button exit = new Button("Exit game");           //Exit game
 		exit.setOnAction(e->{
@@ -197,7 +206,6 @@ public class MainView extends Application{
 		Button pause = new Button("Pause/Un-Pause");           //Pause game
 		pause.setOnAction(e->{
 			gameIsRunning = gameIsRunning != true;
-
 		});
 		Button start = new Button("Start game");           //Start game
 		start.setOnAction(e->{
@@ -206,15 +214,10 @@ public class MainView extends Application{
 			}else{
 				gameIsRunning=true;
 				started=true;
-				//enemy =nls.initLevel();
-				//for(int i=0;i<enemy.size();i++){
-				//	invaderGroup.getChildren().add(enemy.get(i).getGroup());
-				//}
-				//root.getChildren().add(invaderGroup);
 			}
 		});
 
-		toolBar = new ToolBar(start,pause,exit,tfs,tfh,levelNum,isAlive,tankLoc);         //                              //tool bar add button and box
+		toolBar = new ToolBar(start,pause,exit,tfs,tfh,levelNum,isAlive,tankLoc,camLoc, camAngleLBL);         //                              //tool bar add button and box
 
 		toolBar.setOrientation(Orientation.HORIZONTAL);                             //set tool bar horizontal
 		pane.setBottom(toolBar);                                                    //put tool bar in bottom pane
@@ -311,14 +314,16 @@ public class MainView extends Application{
 					if(camView==1){
 						perCamera.birdCamera(1);
 						camdirection = 1;
-
 					}else if(camView==2){
 						perCamera.birdCamera(2);
+					}else if(camView==3){
+						perCamera.birdCamera(3);
 						camdirection = -1;
-
 					}
 						camView += camdirection;
 						camera = perCamera.getCamera();
+						camAngleLBL.setText("Camera Angle: "+mc.getCameraAngle(camera));
+						camLoc.setText("Camera Location: X: "+camera.getTranslateX()+" Y: "+camera.getTranslateY()+" Z: "+camera.getTranslateZ());
 						event.consume();
 						break;
 					default:
@@ -446,13 +451,13 @@ public class MainView extends Application{
 
 		tankGroup = boxOP.makeModel(1, 12);         //first int is model number second int is skin number
 		/////////////////////////////////TESTING SPLASH///////////////////////////////////////////////////
-		enemy =nls.initLevel();
-		for(int i=0;i<enemy.size();i++){
-			invaderGroup.getChildren().add(enemy.get(i).getGroup());
-		}
-		root.getChildren().add(invaderGroup);
-		//////////////////////////////////////////////////////////////////////////////////////////////////
+		//enemy =nls.initLevel();
+		//for(int i=0;i<enemy.size();i++){
+		//	invaderGroup.getChildren().add(enemy.get(i).getGroup());
+		//}
 
+		//////////////////////////////////////////////////////////////////////////////////////////////////
+		root.getChildren().add(invaderGroup);
 		root.getChildren().add(tankGroup);
 		tankGroup.setTranslateY(tankGroup.getTranslateY()-40);
 		root.getChildren().add(bulletGroup);

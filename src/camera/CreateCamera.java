@@ -1,9 +1,10 @@
-package operations;
+package camera;
 
 import javafx.animation.Animation;
 import javafx.animation.RotateTransition;
 import javafx.geometry.Point3D;
 import javafx.scene.Camera;
+import javafx.scene.Node;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
@@ -17,39 +18,71 @@ import javafx.util.Duration;
  *
  */
 public class CreateCamera {
-	
+
+	int wasLast = 1;
 	static PerspectiveCamera camera;
 	private final Rotate rotateX = new Rotate(-20, Rotate.X_AXIS);    //set camera location x
 	private final Rotate rotateY = new Rotate(-20, Rotate.Y_AXIS);    //set camera location y
 	private final Rotate rotateZ = new Rotate(-20, Rotate.Z_AXIS);    //set camera location z
-	private Rotate rVertD = new Rotate(-70,0,0,50, Rotate.X_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
-	private Rotate rVertLVL = new Rotate(+70,0,0,50, Rotate.X_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
-	private Rotate rVertUP = new Rotate(+140,0,0,50, Rotate.X_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	private Rotate rVertDOWN = new Rotate(-70,0,0,50, Rotate.X_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	private Rotate rVertUP = new Rotate(+70,0,0,50, Rotate.X_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	private Rotate rVertBottomUP = new Rotate(+35,0,0,50, Rotate.X_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
+	private Rotate rVertBottomDOWN = new Rotate(-35,0,0,50, Rotate.X_AXIS);	//A variable that will store a number that rotates a Node -90 degrees
 	
 	public void birdCamera(int view){
 		switch(view){
 			case 1:
-				//birds
+				//TOP VIEW
+				//camera = new PerspectiveCamera();
 				//System.out.println("actual case 1 location BEFORE X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
 				camera.setTranslateX(483.0);
 				camera.setTranslateY(-836.0);
 				camera.setTranslateZ(1050);
-				camera.getTransforms().add(rVertD);
+				camera.getTransforms().add(rVertDOWN);
 				//System.out.println("actual case 1 location AFTER X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
 
 			break;
 			case 2:
-				//level
-				//X 483.0 Y -36.0 Z 0.0
+				//FRONT VIEW
+				if(wasLast==1){
+					camera.getTransforms().add(rVertUP);
+					wasLast=3;
+				}else if(wasLast==3){
+					camera.getTransforms().add(rVertBottomDOWN);
+					wasLast=1;
+				}
+				//camera = new PerspectiveCamera();
 				//System.out.println("actual case 2 location BEFORE X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
 				camera.setTranslateX(483.0);
 				camera.setTranslateY(-36.0);
 				camera.setTranslateZ(0.0);
-				camera.getTransforms().add(rVertLVL);
+
 				//System.out.println("actual case 2 location AFTER X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
+
+				break;
+			case 3:
+				//FRONT VIEW
+				//camera = new PerspectiveCamera();
+				//System.out.println("actual case 2 location BEFORE X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
+				camera.setTranslateX(483.0);
+				camera.setTranslateY(764.0);
+				camera.setTranslateZ(-1050.0);
+				camera.getTransforms().add(rVertBottomUP);
+				//System.out.println("actual case 2 location AFTER X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
+
 				break;
 		}
 
+	}
+	public  PerspectiveCamera setTankView(Node tank){
+		//X 483.0 Y -36.0 Z 0.0
+		//System.out.println("actual case 2 location BEFORE X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
+		camera.setTranslateX(tank.getTranslateX());
+		camera.setTranslateY(tank.getTranslateY());
+		camera.setTranslateZ(tank.getTranslateZ());
+		//camera.getTransforms().add(rVertLVL);
+		//System.out.println("actual case 2 location AFTER X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
+		return camera;
 	}
 	
 	public void setUp(){
