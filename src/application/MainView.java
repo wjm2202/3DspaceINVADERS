@@ -1,6 +1,7 @@
 package application;
 
 import java.util.ArrayList;
+import java.util.Observable;
 import java.util.Random;
 
 import camera.CreateCamera;
@@ -133,6 +134,7 @@ public class MainView extends Application{
 	private boolean started = false;
 	private int camView = 1;
 	private int camdirection = 1;
+    public static boolean nextLevel = true;
 
 	@Override
 	public void stop(){                                                  //if the game stops or window is closed these methods will be called
@@ -143,14 +145,28 @@ public class MainView extends Application{
 	{                                     //DO NOT CODE HERE
 		//Application.launch(args);         //DO NOT CODE HERE
 		LauncherImpl.launchApplication(MainView.class, FirstPreloader.class, args);
+
 	}                                     //DO NOT CODE HERE
+
+    public static void nextLevel() {
+        Platform.runLater(new Runnable() {
+            public void run() {
+                //run another application from here
+                new NextLevel().start(new Stage());
+            }
+        });
+    }
 
 	@Override
 	public void init(){
+
+
+
 		enemy =nls.initLevel();
 		for(int i=0;i<enemy.size();i++){
 			invaderGroup.getChildren().add(enemy.get(i).getGroup());
 		}
+        //update();
 	}
 
 	@Override
@@ -191,7 +207,8 @@ public class MainView extends Application{
 		levelNum = new Label("Level: "+gameLevel);
 		camAngleLBL = new Label("Camera Angle: "+mc.getCameraAngle(camera));
 		camLoc = new Label("Camera Location: X: "+camera.getTranslateX()+" Y: "+camera.getTranslateY()+" Z: "+camera.getTranslateZ());
-
+		VBox vbox = new VBox();
+		vbox.getChildren().addAll(camAngleLBL,camLoc);
 
 		Button exit = new Button("Exit game");           //Exit game
 		exit.setOnAction(e->{
@@ -217,13 +234,17 @@ public class MainView extends Application{
 			}
 		});
 
-		toolBar = new ToolBar(start,pause,exit,tfs,tfh,levelNum,isAlive,tankLoc,camLoc, camAngleLBL);         //                              //tool bar add button and box
+		toolBar = new ToolBar(start,pause,exit,tfs,tfh,levelNum,isAlive,camLoc, camAngleLBL);         //                              //tool bar add button and box
 
 		toolBar.setOrientation(Orientation.HORIZONTAL);                             //set tool bar horizontal
 		pane.setBottom(toolBar);                                                    //put tool bar in bottom pane
 		pane.setPrefSize(300,300);                                                  //size of center element
-		Scene scene = new Scene(pane);                                              //add pane to scene
-		scene.setOnMousePressed((MouseEvent me) -> {                                //add mouse PRESSED event
+
+
+        Scene scene = new Scene(pane);                                              //add pane to scene
+
+
+        scene.setOnMousePressed((MouseEvent me) -> {                                //add mouse PRESSED event
 			mouseOldX = me.getSceneX();                                             //get starting location X
 			mouseOldY = me.getSceneY();                                             //get starting location Y
 		});
@@ -412,7 +433,7 @@ public class MainView extends Application{
 
 					if(trigger==gvg.getDropsPerSecond()){
 						trigger=0;
-						Node bomb = ma.makeBomb(bombStart);    //CHANGE FOR 3D BOMB
+						Node bomb = ma.makeBomb(bombStart);
 						bombGroup.getChildren().add(bomb);
 
 					}
@@ -424,39 +445,30 @@ public class MainView extends Application{
 					}
 					//test if level is complete and then make new level nodes
 				    if((invaderGroup.getChildren().size()==0)&&(started==true)){
+                        System.out.println( (invaderGroup.getChildren().size()==0)&&(started==true));
                         gameIsRunning = false;
-						int reply = JOptionPane.showConfirmDialog(null,
-								"Score: "+score+"\n Health: "+health+"\n Level: "+gameLevel, "Start Next Level \n\n Start Next Level?", JOptionPane.YES_NO_OPTION);
-						if (reply == JOptionPane.YES_OPTION) {
-							gvg.levelUP(gvg.getGameDiffucultyIncrease());                              //game difficulty increase per level
-							//root.getChildren().remove(invaderGroup);
-							enemy = nls.initLevel();
-							for (int i = 0; i < enemy.size(); i++) {
+                                                     //game difficulty increase per level
+                            enemy = nls.initLevel();
+                            for (int i = 0; i < enemy.size(); i++) {
 
-								invaderGroup.getChildren().add(enemy.get(i).getGroup());
-							}
-							//root.getChildren().add(invaderGroup);
-							gameIsRunning = true;
-						}else{
-							stop();
-						}
+                            invaderGroup.getChildren().add(enemy.get(i).getGroup());
+                            }
+                            //root.getChildren().add(invaderGroup);
+                        gvg.levelUP(gvg.getGameDiffucultyIncrease());
+                        //gvg.levelUP(gvg.getGameDiffucultyIncrease());                              //game difficulty increase per level
+                            gameIsRunning = true;
+
                     }
-					moveX=0;                                                                          //reset tank velocity
-					moveZ=0;                                                                          //reset tank velocity
-				}
-			}
+                }
+                moveX=0;                                                                          //reset tank velocity
+                moveZ=0;                                                                          //reset tank velocity
+            }
+
 		}.start();
 
 		facing = Movement.forwards;	//This makes the tank currently face forwards.
 
 		tankGroup = boxOP.makeModel(1, 12);         //first int is model number second int is skin number
-		/////////////////////////////////TESTING SPLASH///////////////////////////////////////////////////
-		//enemy =nls.initLevel();
-		//for(int i=0;i<enemy.size();i++){
-		//	invaderGroup.getChildren().add(enemy.get(i).getGroup());
-		//}
-
-		//////////////////////////////////////////////////////////////////////////////////////////////////
 		root.getChildren().add(invaderGroup);
 		root.getChildren().add(tankGroup);
 		tankGroup.setTranslateY(tankGroup.getTranslateY()-40);
@@ -474,4 +486,7 @@ public class MainView extends Application{
 		stage.setTitle("3D Boxed Invaders");                                   // Set the Title of the Stage
 		stage.show();                                                              // show to user
 	}
+
 }
+
+
