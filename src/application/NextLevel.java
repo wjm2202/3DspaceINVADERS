@@ -19,7 +19,6 @@ public class NextLevel extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Image img = MainView.img.getImg(11);
         try{
             BorderPane root = new BorderPane();
             Button button1 = new Button("Start Next level");
@@ -32,15 +31,14 @@ public class NextLevel extends Application {
                 MainView.nextLevel= false;
                 primaryStage.close();
             });
-
             HBox hbox = new HBox();
             hbox.getChildren().addAll(button1,button2);
-
             root.setBottom(hbox);
             Scene scene = new Scene(root, 300,300);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setScene(scene);
             primaryStage.setTitle("3D Space Invaders");
+            primaryStage.getIcons().add(new Image("/pics/spaceinvadericon.png"));
             scene.setFill(Color.BLACK);
             primaryStage.show();
         }catch(Exception e){

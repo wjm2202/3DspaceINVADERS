@@ -26,6 +26,7 @@ import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToolBar;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
@@ -125,7 +126,7 @@ public class MainView extends Application{
 	private int trigger=0;                                                       //the limiter to the number of bombs dropped
 	private int score=0;                                                         //the player score
 	private int health=100;                                                      //the player health
-	private boolean gameIsRunning = false;                                       //game state started or stoped
+	public static boolean gameIsRunning = false;                                       //game state started or stoped
 	private int currHitsOnTank =0;                                               //the amount of hits on the tank since last update
 	private int gameLevel = 1;                                                   //track the game level
 	private boolean alive = true;
@@ -159,9 +160,6 @@ public class MainView extends Application{
 
 	@Override
 	public void init(){
-
-
-
 		enemy =nls.initLevel();
 		for(int i=0;i<enemy.size();i++){
 			invaderGroup.getChildren().add(enemy.get(i).getGroup());
@@ -482,8 +480,9 @@ public class MainView extends Application{
 		root.getChildren().add(boxOP.gameBox());			   //creating the box environment
 		root.getChildren().add(boxOP.corners());               // corner boxes
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());      //add css to ui
+		stage.getIcons().add(new Image("/pics/spaceinvadericon.png"));
 		stage.setScene(scene);                                                     // Add the Scene to the Stage
-		stage.setTitle("3D Boxed Invaders");                                   // Set the Title of the Stage
+		stage.setTitle("3D Space Invaders");                                   // Set the Title of the Stage
 		stage.show();                                                              // show to user
 	}
 
