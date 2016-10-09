@@ -90,7 +90,7 @@ public class MainView extends Application{
 	private final Rotate rotateY = new Rotate(20, Rotate.Y_AXIS);        //rotate transform Y
 	private final Rotate rotateZ = new Rotate(0, Rotate.Z_AXIS);         //rotate transform Z
 //SINGLE CONTRUCT OBJECTS
-	public static WorldCoOrdinates loc3D = new WorldCoOrdinates();                     //get preset points important for game
+	public static WorldCoOrdinates loc3D = Splash.wc;                     //get preset points important for game
 	public static LevelValues gvg = new LevelValues();                   //get gameVariable for invader game
 	public static Img img = new Img();                                                 //image class to get images
 	public static SoundEffects se = new SoundEffects();
@@ -135,11 +135,19 @@ public class MainView extends Application{
 	private boolean started = false;
 	private int camView = 1;
 	private int camdirection = 1;
-    public static boolean nextLevel = true;
+    public static boolean nextLevel = false;
+	public int boxScale=0;
+	public int numEnimies;
+	private static Stage window;
+	private static boolean tankView = false;
+	private Point3D oldCameraView;
+	public int viewsInTankView = 0;
+	public boolean resetView = false;
+	public boolean firstTime = true;
 
 	@Override
 	public void stop(){                                                  //if the game stops or window is closed these methods will be called
-		System.exit(0);
+		Platform.exit();
 	}
 
 	public static void main(String[] args)//DO NOT CODE HERE
@@ -157,6 +165,14 @@ public class MainView extends Application{
             }
         });
     }
+	public static void worldToFront() {
+		Platform.runLater(new Runnable() {
+			public void run() {
+				//run another application from here
+				window.toFront();
+			}
+		});
+	}
 
 	@Override
 	public void init(){
@@ -164,13 +180,13 @@ public class MainView extends Application{
 		for(int i=0;i<enemy.size();i++){
 			invaderGroup.getChildren().add(enemy.get(i).getGroup());
 		}
-        //update();
+		numEnimies = gvg.getNumEnimies();
 	}
 
 	@Override
 	public void start(Stage stage)        //TREAT THIS AS MAIN
 	{
-
+		window = stage;
 		Platform.setImplicitExit(true);                           //close down clean up
 		System.out.println(
 				  "3D supported? " +
@@ -213,26 +229,53 @@ public class MainView extends Application{
 			gameIsRunning=false;
 			Platform.exit();
 		});
-		Button tankLoc = new Button("Print Tank Loc");           //Exit game
-		tankLoc.setOnAction(e->{
-			System.out.println("tank location : X "+tankGroup.getChildren().get(0).getTranslateX()+"  Y "+tankGroup.getChildren().get(0).getTranslateY()+" Z "+tankGroup.getChildren().get(0).getTranslateZ());
-			System.out.println("reward location : X "+rewardGroup.getChildren().get(0).getTranslateX()+"  Y "+rewardGroup.getChildren().get(0).getTranslateY()+" Z "+rewardGroup.getChildren().get(0).getTranslateZ());
+		Button changeView = new Button("Camera View");           //Exit game
+		changeView.setOnAction(e->{
+			if(!tankView){
+				if(camView==1){
+					perCamera.birdCamera(1);
+					camdirection = 1;
+				}else if(camView==2){
+					perCamera.birdCamera(2);
+					camdirection = -1;
+				}
+				camView += camdirection;
+				camera = perCamera.getCamera();
+			}
+
 		});
 		Button pause = new Button("Pause/Un-Pause");           //Pause game
 		pause.setOnAction(e->{
 			gameIsRunning = gameIsRunning != true;
 		});
+		Button tankCamera = new Button("Tank View");           //Pause game
+		tankCamera.setOnAction(e->{
+			if(camView!=3){
+				if(tankView==false){
+					tankView=true;
+
+					//System.out.println("tankCamera clicked resetView is "+resetView);
+				}else if(tankView==true){
+					viewsInTankView=0;
+					tankView=false;
+					resetView=true;
+				}
+				//System.out.println("tankCamera clicked state is "+tankView);
+			}
+
+		});
 		Button start = new Button("Start game");           //Start game
 		start.setOnAction(e->{
-			if(gameIsRunning){
 
-			}else{
+			if(!gameIsRunning){
 				gameIsRunning=true;
 				started=true;
+			}else{
+				worldToFront();
 			}
 		});
 
-		toolBar = new ToolBar(start,pause,exit,tfs,tfh,levelNum,isAlive,camLoc, camAngleLBL);         //                              //tool bar add button and box
+		toolBar = new ToolBar(start,pause,exit,tfs,tfh,levelNum,isAlive,camLoc,tankCamera,changeView);         //                              //tool bar add button and box
 
 		toolBar.setOrientation(Orientation.HORIZONTAL);                             //set tool bar horizontal
 		pane.setBottom(toolBar);                                                    //put tool bar in bottom pane
@@ -330,19 +373,8 @@ public class MainView extends Application{
 						event.consume();
 						break;
 					case B://cant use space
-					if(camView==1){
-						perCamera.birdCamera(1);
-						camdirection = 1;
-					}else if(camView==2){
-						perCamera.birdCamera(2);
-					}else if(camView==3){
-						perCamera.birdCamera(3);
-						camdirection = -1;
-					}
-						camView += camdirection;
-						camera = perCamera.getCamera();
-						camAngleLBL.setText("Camera Angle: "+mc.getCameraAngle(camera));
-						camLoc.setText("Camera Location: X: "+camera.getTranslateX()+" Y: "+camera.getTranslateY()+" Z: "+camera.getTranslateZ());
+
+
 						event.consume();
 						break;
 					default:
@@ -354,7 +386,7 @@ public class MainView extends Application{
 			PickResult res = event.getPickResult();                                 //pick 3d object
 			if (res.getIntersectedNode() instanceof Box){                           //if object is box
 				((Box)res.getIntersectedNode()).setMaterial(                        //set material
-						new PhongMaterial(event.isShiftDown() ? Color.BLACK : Color.RED));
+						new PhongMaterial(event.isShiftDown() ? Color.BLACK : Color.RED));  //hold shift click 3D object for black else red
 				root.getChildren().remove(res);
 			}
 		});
@@ -370,6 +402,7 @@ public class MainView extends Application{
 			    //GAME LOOP
 
 				if(gameIsRunning){
+
 					tankGroup.setTranslateX((tankGroup.getTranslateX()+moveX));
 					tankGroup.setTranslateZ((tankGroup.getTranslateZ()+moveZ));
 					bc.clamp(enemy);                                                          //trap invaders in bounds and move them
@@ -442,24 +475,67 @@ public class MainView extends Application{
 						}
 					}
 					//test if level is complete and then make new level nodes
-				    if((invaderGroup.getChildren().size()==0)&&(started==true)){
-                        System.out.println( (invaderGroup.getChildren().size()==0)&&(started==true));
-                        gameIsRunning = false;
-                                                     //game difficulty increase per level
-                            enemy = nls.initLevel();
-                            for (int i = 0; i < enemy.size(); i++) {
+				    if(((invaderGroup.getChildren().size()==0)&&(started==true)&&(numEnimies==0))){
+							gvg.levelUP(gvg.getGameDiffucultyIncrease());
+							enemy = nls.initLevel();
+							for (int i = 0; i < enemy.size(); i++) {
 
-                            invaderGroup.getChildren().add(enemy.get(i).getGroup());
-                            }
-                            //root.getChildren().add(invaderGroup);
-                        gvg.levelUP(gvg.getGameDiffucultyIncrease());
-                        //gvg.levelUP(gvg.getGameDiffucultyIncrease());                              //game difficulty increase per level
-                            gameIsRunning = true;
-
+								invaderGroup.getChildren().add(enemy.get(i).getGroup());
+							}
+							gvg.levelUP(gvg.getGameDiffucultyIncrease());
                     }
+                    if(tankView==true) {
+
+						if (((viewsInTankView == 0) && (camView == 1) || (camView == 2))) {
+							//System.out.println("tank view viewsInTankView ==0"+(viewsInTankView==0));
+							oldCameraView = new Point3D(camera.getTranslateX(), camera.getTranslateX(), camera.getTranslateZ());
+							Point3D tankView = new Point3D(tankGroup.getTranslateX() + 500, tankGroup.getTranslateY() + 500, tankGroup.getTranslateZ() + 1050);
+							viewsInTankView++;
+							camera.setRotationAxis(Rotate.X_AXIS);
+							//System.out.println("camView value "+camView);
+							if (camView == 1) {                                 //front view
+								System.out.println("camview 1 rotate 90");
+								camera.setRotate(90.0);
+								camera.setTranslateX(tankView.getX());
+								camera.setTranslateY(tankView.getY());
+								camera.setTranslateZ(tankView.getZ());
+							} else if (camView == 2) {                            //top view
+								camera.setRotate(180.0);
+								System.out.println("camview 2 rotate 180");
+								camera.setTranslateX(tankView.getX());
+								camera.setTranslateY(tankView.getY());
+								camera.setTranslateZ(tankView.getZ());
+							}
+						} else {
+							Point3D tankView = new Point3D(tankGroup.getTranslateX() + 500, tankGroup.getTranslateY() + 500, tankGroup.getTranslateZ() + 1050);  //1050
+							camera.setTranslateX(tankView.getX());
+							camera.setTranslateY(tankView.getY());
+							camera.setTranslateZ(tankView.getZ());
+						}
+					}else if (tankView == false) {
+						if (resetView == true) {
+
+								camera.setRotationAxis(Rotate.X_AXIS);                         //first time through
+								if (camView == 1) {
+									System.out.println("camview 1 reset tank view 0");
+									camera.setRotate(0.0);
+									camera.setTranslateX(oldCameraView.getX());
+									camera.setTranslateY(oldCameraView.getY()-500);
+									camera.setTranslateZ(oldCameraView.getZ());
+								} else if (camView == 2) {
+									System.out.println("camview 2 reset tank view 0");
+									camera.setRotate(0.0);
+									camera.setTranslateX(oldCameraView.getX());
+									camera.setTranslateY(oldCameraView.getY()-1000);
+									camera.setTranslateZ(oldCameraView.getZ());
+								}
+								resetView = false;
+						}
+					}
+					moveX=0;                                                                          //reset tank velocity
+					moveZ=0;
                 }
-                moveX=0;                                                                          //reset tank velocity
-                moveZ=0;                                                                          //reset tank velocity
+                                                                                          //reset tank velocity
             }
 
 		}.start();

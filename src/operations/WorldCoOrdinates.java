@@ -49,15 +49,67 @@ public class WorldCoOrdinates {
 	Point3D start = new Point3D(0.0,0.0,0.0);
 	ArrayList<Point3D> bounds = new ArrayList<>();                           //ArrayList of bounds for boarder locations
 	ArrayList<Point3D> enemies = new ArrayList<>();                          //ArrayList of start 3D locations for enemies
-	private final int WORLD_WIDTH = 200;
-	private final int WORLD_HEIGHT = 100;
-	private final int WORLD_DEPTH = 100;
-	
+
+	private int WORLD_WIDTH = 200;
+	private int WORLD_HEIGHT = 100;
+	private int WORLD_DEPTH = 100;
+
+	public void resetScaleGameBox(){
+		System.out.println("WorldCoordinates  resetScale  ");
+		ArrayList<Point3D> bigBox = new ArrayList<>();                           //ArrayList of bounds for boarder locations
+		this.case0 = new Point3D(0.0,0.0,1600.0);                              //bound TOP FRONT LEFT LOCATION
+		this.case1 = new Point3D(0.0,1000.0,1600.0);                            //bound BOTTOM FRONT LEFT LOCATION
+		this.case2 = new Point3D(2000.0,1000.0,1600.0);                         //bound BOTTOM FRONT RIGHT LOCATION
+		this.case3 = new Point3D(2000.0,0.0,1600.0);                           //bound TOP FRONT RIGHT LOCATION
+		this.case4 =new Point3D(0.0,0.0,2600.0);                             //bound TOP BACK LEFT LOCATION
+		this.case5 = new Point3D(0.0,1000.0,2600.0);                           //bound BOTTOM BACK LEFT LOCATION
+		this.case6 = new Point3D(2000.0,1000.0,2600.0);                        //bound BOTTOM BACK RIGHT LOCATION
+		this.case7 = new Point3D(2000.0,0.0,2600.0);                          //bound TOP BACK RIGHT LOCATION
+		this.start = new Point3D(0.0,0.0,0.0);
+		WORLD_WIDTH = 400;
+		WORLD_HEIGHT = 200;
+		WORLD_DEPTH = 200;
+	}
+
+	public void scaleUpGameBox(){
+		System.out.println("WorldCoordinates  scaleUpGameBox  ");
+		ArrayList<Point3D> bigBox = new ArrayList<>();                           //ArrayList of bounds for boarder locations
+		this.case0 = new Point3D(0.0,0.0,1600.0);                              //bound TOP FRONT LEFT LOCATION
+		this.case1 = new Point3D(0.0,1000.0,1600.0);                            //bound BOTTOM FRONT LEFT LOCATION
+		this.case2 = new Point3D(2000.0,1000.0,1600.0);                         //bound BOTTOM FRONT RIGHT LOCATION
+		this.case3 = new Point3D(2000.0,0.0,1600.0);                           //bound TOP FRONT RIGHT LOCATION
+		this.case4 =new Point3D(0.0,0.0,2600.0);                             //bound TOP BACK LEFT LOCATION
+		this.case5 = new Point3D(0.0,1000.0,2600.0);                           //bound BOTTOM BACK LEFT LOCATION
+		this.case6 = new Point3D(2000.0,1000.0,2600.0);                        //bound BOTTOM BACK RIGHT LOCATION
+		this.case7 = new Point3D(2000.0,0.0,2600.0);                          //bound TOP BACK RIGHT LOCATION
+		this.start = new Point3D(0.0,0.0,0.0);
+		WORLD_WIDTH = 400;
+		WORLD_HEIGHT = 200;
+		WORLD_DEPTH = 200;
+	}
+	public void scaleDownGameBox(){
+		System.out.println("WorldCoordinates  scaleDownGameBox  ");
+		this.case0 = new Point3D(0.0,0.0,400.0);                              //bound TOP FRONT LEFT LOCATION
+		this.case1 = new Point3D(0.0,400.0,400.0);                    //bound BOTTOM FRONT LEFT LOCATION
+		this.case2 = new Point3D(500.0,5250.0,400.0);                         //bound BOTTOM FRONT RIGHT LOCATION
+		this.case3 = new Point3D(500.0,0.0,400.0);                           //bound TOP FRONT RIGHT LOCATION
+		this.case4 = new Point3D(0.0,0.0,650.0);                             //bound TOP BACK LEFT LOCATION
+		this.case5 = new Point3D(0.0,250.0,650.0);                           //bound BOTTOM BACK LEFT LOCATION
+		this.case6 = new Point3D(500.0,250.0,650.0);                        //bound BOTTOM BACK RIGHT LOCATION
+		this.case7 = new Point3D(500.0,0.0,650.0);                          //bound TOP BACK RIGHT LOCATION
+		this.start = new Point3D(0.0,0.0,0.0);
+		WORLD_WIDTH = 100;
+		WORLD_HEIGHT = 500;
+		WORLD_DEPTH = 50;
+	}
 /**
  * DO NOT TOUCH
  * this is where the world box is made into an array so we can make the 3D world box	
  */
 	public WorldCoOrdinates(){                                              //add bounds to ArrayList for use with other classes
+		addBoundsWorld();
+	}
+	public void addBoundsWorld(){
 		bounds.add(case0);
 		bounds.add(getCase1());
 		bounds.add(case2);
@@ -71,8 +123,34 @@ public class WorldCoOrdinates {
 /**
  * 	
  * @return an ArrayList of the 3D points that are the corners of the box
+ *
  */
-	public ArrayList<Point3D> getBounds(){                                 //get bounds array for testing if boxes are inside boarders
+	public int getWORLD_WIDTH() {
+		return WORLD_WIDTH;
+	}
+
+		public void setWORLD_WIDTH(int WORLD_WIDTH) {
+			this.WORLD_WIDTH = WORLD_WIDTH;
+		}
+
+		public int getWORLD_HEIGHT() {
+			return WORLD_HEIGHT;
+		}
+
+		public void setWORLD_HEIGHT(int WORLD_HEIGHT) {
+			this.WORLD_HEIGHT = WORLD_HEIGHT;
+		}
+
+		public int getWORLD_DEPTH() {
+			return WORLD_DEPTH;
+		}
+
+		public void setWORLD_DEPTH(int WORLD_DEPTH) {
+			this.WORLD_DEPTH = WORLD_DEPTH;
+		}
+
+
+public ArrayList<Point3D> getBounds(){                                 //get bounds array for testing if boxes are inside boarders
 		return bounds;
 	}
 /**

@@ -1,6 +1,7 @@
 package operations;
 
 import application.MainView;
+import application.Splash;
 import javafx.geometry.Point3D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -37,7 +38,7 @@ public class CreateBox {
 	public CreateBox()
 	{
 		img.setupTextures();                                                    //apply images to textures
-		wc = new WorldCoOrdinates();
+		wc = Splash.wc;
 		bo = wc.getBounds();
 		invaderGroup = new Group();
 	}

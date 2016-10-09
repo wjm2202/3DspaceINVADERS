@@ -44,13 +44,7 @@ public class CreateCamera {
 			break;
 			case 2:
 				//FRONT VIEW
-				if(wasLast==1){
-					camera.getTransforms().add(rVertUP);
-					wasLast=3;
-				}else if(wasLast==3){
-					camera.getTransforms().add(rVertBottomDOWN);
-					wasLast=1;
-				}
+				camera.getTransforms().add(rVertUP);
 				//camera = new PerspectiveCamera();
 				//System.out.println("actual case 2 location BEFORE X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
 				camera.setTranslateX(483.0);

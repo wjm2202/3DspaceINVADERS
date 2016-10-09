@@ -30,7 +30,7 @@ public class Input extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Image img = MainView.img.getImg(11);
+        primaryStage.setResizable(false);
         try{
             Button button1 = new Button("Done");
             button1.setOnAction(e->{
@@ -46,11 +46,8 @@ public class Input extends Application {
 
             Class<?> clazz = this.getClass();
             InputStream input = clazz.getResourceAsStream("/pics/space.jpg");
-            Image image = new Image(input);
+            Image image = new Image(input,500,500,false,true);
             ImageView imageView = new ImageView(image);
-            InputStream input2 = clazz.getResourceAsStream("/pics/space.jpg");
-            Image image2 = new Image(input2,500,500,false,true);
-            ImageView imageView2 = new ImageView(image2);
             Pane root = new Pane();
             root.setPadding(new Insets(20));
                 GridPane gp = new GridPane();
@@ -95,7 +92,7 @@ public class Input extends Application {
             scene.setFill(Color.BLACK);
             primaryStage.show();
         }catch(Exception e){
-            System.out.println("details page crashed");
+            System.out.println("Input.java Application failed to load");
         }
     }
 }
