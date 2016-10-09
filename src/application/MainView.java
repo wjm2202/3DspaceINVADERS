@@ -494,14 +494,14 @@ public class MainView extends Application{
 							camera.setRotationAxis(Rotate.X_AXIS);
 							//System.out.println("camView value "+camView);
 							if (camView == 1) {                                 //front view
-								System.out.println("camview 1 rotate 90");
+								//System.out.println("camview 1 rotate 90");
 								camera.setRotate(90.0);
 								camera.setTranslateX(tankView.getX());
 								camera.setTranslateY(tankView.getY());
 								camera.setTranslateZ(tankView.getZ());
 							} else if (camView == 2) {                            //top view
 								camera.setRotate(180.0);
-								System.out.println("camview 2 rotate 180");
+								//System.out.println("camview 2 rotate 180");
 								camera.setTranslateX(tankView.getX());
 								camera.setTranslateY(tankView.getY());
 								camera.setTranslateZ(tankView.getZ());
@@ -517,13 +517,13 @@ public class MainView extends Application{
 
 								camera.setRotationAxis(Rotate.X_AXIS);                         //first time through
 								if (camView == 1) {
-									System.out.println("camview 1 reset tank view 0");
+									//System.out.println("camview 1 reset tank view 0");
 									camera.setRotate(0.0);
 									camera.setTranslateX(oldCameraView.getX());
 									camera.setTranslateY(oldCameraView.getY()-500);
 									camera.setTranslateZ(oldCameraView.getZ());
 								} else if (camView == 2) {
-									System.out.println("camview 2 reset tank view 0");
+									//System.out.println("camview 2 reset tank view 0");
 									camera.setRotate(0.0);
 									camera.setTranslateX(oldCameraView.getX());
 									camera.setTranslateY(oldCameraView.getY()-1000);

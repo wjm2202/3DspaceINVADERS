@@ -36,7 +36,7 @@ public class CreateCamera {
 				//camera = new PerspectiveCamera();
 				//System.out.println("actual case 1 location BEFORE X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
 				camera.setTranslateX(483.0);
-				camera.setTranslateY(-836.0);
+				camera.setTranslateY(-836.0);   //-836
 				camera.setTranslateZ(1050);
 				camera.getTransforms().add(rVertDOWN);
 				//System.out.println("actual case 1 location AFTER X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
