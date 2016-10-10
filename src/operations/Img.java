@@ -26,6 +26,7 @@ public class Img {
 	private Image explosion;
 	private Image ship;
 	private Image crate;
+	private Image splash;
 	private PhongMaterial textureMaterial;                                   //images use this to paste texture to box
 	private PhongMaterial textureMaterial2;
 	private PhongMaterial textureMaterial3;
@@ -43,6 +44,7 @@ public class Img {
 	private PhongMaterial groundGridph;
 	private PhongMaterial expPH;
 	private PhongMaterial cratePH;
+	private PhongMaterial splashPH;
 	
 	public void setupTextures(){
 		Group boarderGroup = new Group();
@@ -57,12 +59,13 @@ public class Img {
 		image8 = new Image("/pics/meta_brick.png");    //get image to wrap cube in
 		image9 = new Image("/pics/eye_brick.png");    //get image to wrap cube in
 		image10 = new Image("/pics/bolt_brick.png");    //get image to wrap cube in
-		horizon = new Image("/pics/space.jpg");    //get image to wrap cube in
+		horizon = new Image("/pics/dark.jpg");    //get image to wrap cube in
 		tanktex = new Image("/pics/tanktex.png");    //get image to wrap cube in
 		groundtex = new Image("/pics/ground.jpg");    //get image to wrap cube in
 		bullcolor = new Image("/pics/bullcolor.jpg");    //get image to wrap cube in
 		explosion = new Image("/pics/impact Sparks.png");	//get image for explosion
 		crate = new Image("/pics/crate_1.jpg");
+		splash = new Image("/pics/splashshot.jpg");
 
 
 		textureMaterial = new PhongMaterial();  //texture material

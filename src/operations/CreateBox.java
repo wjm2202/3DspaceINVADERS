@@ -1,6 +1,7 @@
 package operations;
 
 import application.MainView;
+import application.Splash;
 import javafx.geometry.Point3D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
@@ -37,7 +38,7 @@ public class CreateBox {
 	public CreateBox()
 	{
 		img.setupTextures();                                                    //apply images to textures
-		wc = new WorldCoOrdinates();
+		wc = Splash.wc;
 		bo = wc.getBounds();
 		invaderGroup = new Group();
 	}
@@ -73,7 +74,7 @@ public class CreateBox {
  * @return box set to location of horizon
  */
 	public Box horizon(){
-		Box horizion = new Box(5000,2000,5);
+		Box horizion = new Box(7000,4000,5);
 		horizion.setTranslateX(480);                            //set x location
 		horizion.setTranslateY(100);                             //set y location
 		horizion.setTranslateZ(2500);
@@ -85,10 +86,10 @@ public class CreateBox {
  * @return box set to location of ground
  */
 	public Box ground(){
-		Box ground = new Box(3500,5,1200);
+		Box ground = new Box(4500,5,2400);
 		ground.setTranslateX(480);                            //set x location
-		ground.setTranslateY(800);                             //set y location
-		ground.setTranslateZ(1300);
+		ground.setTranslateY(1200);                             //set y location
+		ground.setTranslateZ(1200);
 		ground.setMaterial(img.getTexture(13));
 		return ground;
 	}
@@ -108,9 +109,9 @@ public class CreateBox {
 		//System.out.println("before test object mi.size "+mv.length);
 
 		for (int i = 0; i < mv.length; i++) {
-			mv[i].setTranslateX(500);
-			mv[i].setTranslateY(535);
-			mv[i].setTranslateZ(1050);
+			mv[i].setTranslateX(500);                  //was 500
+			mv[i].setTranslateY(535);                  //was 535
+			mv[i].setTranslateZ(1050);                 //was 1050
 			mv[i].setScaleX(2.0);
 			mv[i].setScaleY(2.0);
 			mv[i].setScaleZ(2.0);

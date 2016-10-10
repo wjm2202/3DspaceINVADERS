@@ -21,14 +21,15 @@ public class Update {
     private ArrayList<Node> removebomb = new ArrayList<>();                      //array of bombs to remove on the next loop
     private Random rand = new Random();
     private MakeAssets ma = new MakeAssets();
+    private ArrayList<Node> removeRewards = new ArrayList<>();                          //array of rewards to be removed on the next loop
 
 
 
-    public Group generateReward(){
+    public Group generateReward(Point3D spot){
         Group rewardGroup = new Group();
         int rewardNum = rand.nextInt(20);
-        if(rewardNum==10) {
-            rewardGroup = ma.makeReward(MainView.loc3D.getPoints());
+        if(rewardNum<=10) {
+            rewardGroup = ma.makeReward(spot);
         }
         return rewardGroup;
     }
@@ -83,7 +84,7 @@ public class Update {
                     if(brick.getBoundsInParent().intersects(bull.getBoundsInParent())) {       //collision detection
                         enemies.get(i).setAlive(false);
                         remove.add(enemies.get(i));
-                        //MainView.se.invaderExplosion();
+                        MainView.se.invaderExplosion();
                         //bullet.getChildren().remove(bull);
                     }
                 }
@@ -91,6 +92,37 @@ public class Update {
         }
      return remove;
     }
+    public ArrayList<Node> collectReward(Group tankGroup, Group rewardGroup){
+
+        for(int i =0;i<tankGroup.getChildren().size();i++){                                                    //loop size of enemy array
+             Node tank = tankGroup.getChildren().get(i);                                                   //get group from each enemy
+            for(int x = 0;x<rewardGroup.getChildren().size();x++){                                     //loop size of each invader
+                Node reward = rewardGroup.getChildren().get(x);                                              //get each node from each invader
+                if(tankGroup.getBoundsInParent().intersects(rewardGroup.getBoundsInParent())) {       //collision detection
+                    //System.out.println("tank reward collision detected");
+                    int rew = rand.nextInt(3);
+                    removeRewards.add(rewardGroup.getChildren().get(x));
+                    switch(rew){
+                        case 0:                      //increse fire rate
+                            gvg.setBulletRate(gvg.getBulletRate()+1);
+                            break;
+                        case 1:                      //increase health
+                            gvg.setPlayerHealth(gvg.getPlayerHealth()*2);
+                            break;
+                        case 2:                      //give shield
+                            gvg.setPlayerSheild(gvg.getPlayerSheild()+80);
+                            break;
+                        case 3:                      //extra life
+                            gvg.setPlayerLives(gvg.getPlayerLives()+1);
+                            break;
+                    }
+                    MainView.se.powerUp();
+                }
+            }
+        }
+        return removeRewards;
+    }
+
     public ArrayList<Enemy> homingColision(ArrayList<Enemy> enemies, Group bullet){
         Node bull;
         Node brick;
@@ -132,7 +164,7 @@ public class Update {
                 Point3D expLoc = new Point3D(bombs.getChildren().get(i).getTranslateX(),bombs.getChildren().get(i).getTranslateY(),bombs.getChildren().get(i).getTranslateZ());
                 bombs.getChildren().remove(bomb);
                 explosion = ma.makeBombExplosion(expLoc);
-                //MainView.se.playBlast();
+                MainView.se.playBlast();
             }
         }
         return explosion;

@@ -5,12 +5,11 @@
  */
 package database;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,7 +17,7 @@ import javax.swing.JOptionPane;
  * @author Thi
  */
 public class Name {
-    private Connection connect = derbyDBConnection.dbconnect(); //Declare connection for derby
+    private Connection connect = database.derbyDBConnection.dbconnect(); //Declare connection for derby
     private String nickname;
     private String email;
     private PreparedStatement ps= null; //Declare preparestatement

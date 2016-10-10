@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import application.MainView;
+import application.Splash;
 import gameValues.LevelValues;
 import javafx.geometry.Point3D;
 import javafx.scene.Group;
@@ -24,7 +25,7 @@ public class BoundsClamp {
 
 	LevelValues gvg = MainView.gvg;
 	ArrayList<Point3D> bc = new ArrayList<>();                                     
-	WorldCoOrdinates wc = MainView.loc3D;                                  //the 3D points that define the world boundaries
+	WorldCoOrdinates wc = Splash.wc;                                  //the 3D points that define the world boundaries
 	Node eachNode;                                                                     //the box object holder used for testing in clamp
 	RotateElements re = new RotateElements();
 	/**

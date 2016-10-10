@@ -79,7 +79,7 @@ public class ModelImporter {
                     modelUrl = this.getClass().getResource("/models/glassDoor.obj");         //sheild
                     break;
                 case 10:
-                    modelUrl = this.getClass().getResource("/models/aliens_apc.obj");
+                    modelUrl = this.getClass().getResource("/models/tankshell.obj");      //tank reward shell
                     break;
                 case 11:
                     modelUrl = this.getClass().getResource("/models/aliens_apc.obj");

@@ -20,7 +20,7 @@ public class FirstPreloader extends Preloader {
     private Scene createPreloaderScene() {
         bar = new ProgressBar();
         BorderPane p = new BorderPane();
-        p.setBottom(bar);
+        p.setCenter(bar);
         Scene scene = new Scene(p,300,300);
         return scene;
     }

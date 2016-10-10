@@ -12,7 +12,7 @@ package gameValues;
 public class LevelValues {
 
 	//enemy values
-	private int numEnemies = 10;                //total number of enemies (auto generated)
+	private int numEnemies = 20;                //total number of enemies (auto generated)
 	private int enemyBombDamage = 20;            //amount each bomb hit hurts the tank
 	private int enemyBombSpeed = 5;             //the speed the enemy bombs fall
 	private int enemyXsize = 40;                //the size in width of the enemies
@@ -23,10 +23,12 @@ public class LevelValues {
 	private double Zvelocity = 5.0;             //the speed the enemy moves front/back
 	private double spinDrop = 1.0;              //the amount the enemies drop each time they hit a wall and turn around
 	private int dropsPerSecond = 30;         //60 means 1 bomb dropped per second if less than 60 more bombs drop
-	
+
 	//player values
-	//score
-	//health
+	private int playerLives = 3;
+	private int playerSheild = 0;
+	private int playerScore = 0;
+	private int playerLevel = 1;
 	private int pointsPerKill = 10;             //the amount of points the player get for an ememy kill
 	private int playerHealth =100;              //the starting amount of health of the player
 	private double bulletSpeed = 10.0;          //the speed of the tanks bullets
@@ -39,6 +41,67 @@ public class LevelValues {
 	private int tankXPosition;					//this is the x position of the tank
 	private int tankYPosition;					//this is the y position of the tank
 	private double gameDiffucultyIncrease =0.5;
+	private int bulletRate =5;
+	//world values
+	private int worldScale = 0;
+
+	public int getNumEnemies() {
+		return numEnemies;
+	}
+
+	public void setNumEnemies(int numEnemies) {
+		this.numEnemies = numEnemies;
+	}
+
+	public int getWorldScale() {
+		return worldScale;
+	}
+
+	public void setWorldScale(int worldScale) {
+		this.worldScale = worldScale;
+	}
+
+
+
+
+	public int getPlayerLevel() {
+		return playerLevel;
+	}
+	public void setPlayerLevel(int playerLevel) {
+		this.playerLevel = playerLevel;
+	}
+	public int getPlayerLives() {
+		return playerLives;
+	}
+
+	public void setPlayerLives(int playerLives) {
+		this.playerLives = playerLives;
+	}
+
+
+	public int getPlayerSheild() {
+		return playerSheild;
+	}
+
+	public void setPlayerSheild(int playerSheild) {
+		this.playerSheild = playerSheild;
+	}
+
+	public int getBulletRate() {
+		return bulletRate;
+	}
+
+	public void setBulletRate(int bulletRate) {
+		this.bulletRate = bulletRate;
+	}
+
+	public int getPlayerScore() {
+		return playerScore;
+	}
+
+	public void setPlayerScore(int playerScore) {
+		this.playerScore = playerScore;
+	}
 
 
 	public int getDropsPerSecond() {
