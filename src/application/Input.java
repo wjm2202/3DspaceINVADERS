@@ -18,10 +18,15 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import database.*;
 
 import java.io.InputStream;
 
 public class Input extends Application {
+
+    Name playerName = new Name();
+    Score playerscore = new Score();
+
 
     public static void main(String[] args) {
         launch(args);
@@ -37,7 +42,9 @@ public class Input extends Application {
                 //do database stuff
                 primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                     public void handle(WindowEvent we) {
+
                         System.out.println("Data is Stored");
+
                     }
                 });
                 //do DATABASE STUFF HERE
@@ -54,8 +61,8 @@ public class Input extends Application {
                 Label save = new Label("Save");
                 Label playLbl = new Label("Name:  ");
                 TextField play= new TextField("Player Name");
-                Label levelLbl = new Label("Level: ");
-                TextField lvl = new TextField("Current Level");
+                Label levelLbl = new Label("Email: ");
+                TextField lvl = new TextField("Your Email");
                 Label score = new Label("Score: ");
                 TextField sc = new TextField("");
                 Label numEnimiew = new Label("Enemies: ");
@@ -84,6 +91,9 @@ public class Input extends Application {
                 gp.getChildren().addAll(save,button1,playLbl,play,levelLbl,lvl,score,sc,numEnimiew,enemyTF,difficulty,diff,bestScore,best);
                 root.getChildren().add(imageView);
                 root.getChildren().add(gp);
+
+            playerName.setNickname(play.getText());
+
             Scene scene = new Scene(root, 400,400);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
             primaryStage.setScene(scene);
