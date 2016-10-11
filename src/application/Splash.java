@@ -83,17 +83,20 @@ public class Splash extends Application {
         Pane root = new Pane();                                                      //scene
         root.setPadding(new Insets(20));                                             //style
         try{
-            Button button1 = new Button("Play");                                    //make button1 play
+            ImageView invicon = new ImageView(new Image("/pics/invader11.png"));
+            Button button1 = new Button("Play",invicon);                                    //make button1 play
             button1.setOnAction(e->{                                                //if button 1 is clicked
                 //System.out.println("play clicked");
                // primaryStage.setm
                 run3Dworld();
             });
-            Button button2 = new Button("Enter Player Details");                   //make button update details
+            ImageView ed = new ImageView(new Image("/pics/details.png"));
+            Button button2 = new Button("Enter Player Details",ed);                   //make button update details
             button2.setOnAction(e->{                                               //if button2 is clicked
                 rundataBase();                                                     //run DataBase Application
             });
-            Button button3 = new Button("EXIT Game");                   //make button update details
+            ImageView ex = new ImageView(new Image("/pics/logout.png"));
+            Button button3 = new Button("EXIT",ex);                   //make button update details
             button3.setOnAction(e->{                                               //if button2 is clicked
     // ADD Database save here
                 Platform.setImplicitExit(true);                           //close down clean

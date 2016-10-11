@@ -231,16 +231,23 @@ public class MainView extends Application{
 		pane.setCenter(subScene);
 		//System.out.println("application test START  at top");
 		tfs = new Label("SCORE: "+score);       //add the score to tool bar
+		Image bar = new Image(getClass().getResourceAsStream("/pics/bar.png"));
+		tfs.setGraphic(new ImageView(bar));
 		tfh = new Label("Health: "+health);
+		Image hea = new Image(getClass().getResourceAsStream("/pics/health.png"));
+		tfh.setGraphic(new ImageView(hea));
 		isAlive = new Label("Alive: "+alive);
+		Image tnk = new Image(getClass().getResourceAsStream("/pics/tank.png"));
+		isAlive.setGraphic(new ImageView(tnk));
 		levelNum = new Label("Level: "+gameLevel);
+		Image lvls = new Image(getClass().getResourceAsStream("/pics/invader1.png"));
+		levelNum.setGraphic(new ImageView(lvls));
 		//VBox vbox = new VBox();
 		//vbox.getChildren().addAll(camAngleLBL,camLoc);
 		camList = mc.makeCamList();                                                 //make all the cameras required for scene
-
-		Button tester = new Button("-Z");           //move camera
+		ImageView mov = new ImageView(new Image("/pics/move.png"));
+		Button tester = new Button("",mov);           //move camera
 		tester.setOnAction(e->{
-			System.out.println("held down in tester button");
 		});
 
 		Button camMIUNSz = new Button("-Z");           //move camera
@@ -271,8 +278,11 @@ public class MainView extends Application{
 		});
 		Button camCenter = new Button("0.0");           //move camera
 		camCenter.setOnAction(e->{
-			camera.setRotationAxis(Rotate.Y_AXIS);
-			camera.setRotate(0.0);
+			cameraGroup.getChildren().remove(camera);
+			camera = camList.get(7);
+			cameraGroup.getChildren().add(camera);
+			subScene.setCamera(camera);
+			tankView=false;
 
 		});
 		Button camROTATEyRight = new Button("RL");           //move camera
@@ -286,7 +296,7 @@ public class MainView extends Application{
 			camera.setRotate(-90.0);
 		});
 		GridPane gp = new GridPane();
-		Label test = new Label("Camera");
+		GridPane.setConstraints(tester,0,0);
 		GridPane.setConstraints(camPLUSy,1,0);                                         //display boxes grid start
 		GridPane.setConstraints(camPLUSz,2,0);
 		GridPane.setConstraints(camMINUSx,0,1);
@@ -297,7 +307,7 @@ public class MainView extends Application{
 		gp.setPadding(new Insets(5,5,5,5));                                       //style
 		gp.setVgap(5);
 		gp.setHgap(5);
-		gp.getChildren().addAll(camPLUSy,camPLUSz,camMINUSx,camCenter,camPLUSx,camMIUNSz,camMINUSy);
+		gp.getChildren().addAll(tester,camPLUSy,camPLUSz,camMINUSx,camCenter,camPLUSx,camMIUNSz,camMINUSy);
 
 		ImageView cam = new ImageView(new Image("/pics/cam.png"));
 		Button tl = new Button("",cam);                                                //move camera  pos 1
