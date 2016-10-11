@@ -32,7 +32,10 @@ public class Input extends Application {
     public void start(Stage primaryStage) {
         primaryStage.setResizable(false);
         try{
+
             Button button1 = new Button("Done");
+            Image lvls = new Image(getClass().getResourceAsStream("/pics/done.png"));
+            button1.setGraphic(new ImageView(lvls));
             button1.setOnAction(e->{
                 //do database stuff
                 primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {

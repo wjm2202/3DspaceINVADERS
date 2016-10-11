@@ -8,6 +8,7 @@ import camera.CreateCamera;
 import camera.MoveCamera;
 import com.sun.javafx.application.LauncherImpl;
 import controls.MakeGrids;
+import controls.UpdateProgressBars;
 import gameValues.LevelValues;
 import gameValues.Movement;
 import javafx.animation.AnimationTimer;
@@ -25,10 +26,7 @@ import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.control.ToolBar;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -131,12 +129,13 @@ public class MainView extends Application{
 	private Homing homing = new Homing();
 	private NewLevelStart nls = new NewLevelStart();
 	private CameraPath cp = new CameraPath();
+	private UpdateProgressBars upb = new UpdateProgressBars();
 
 	private Node grnd;
 //VARIABLES
 	private int trigger=0;                                                       //the limiter to the number of bombs dropped
 	private int score=0;                                                         //the player score
-	private int health=100;                                                      //the player health
+	public static int health=100;                                                      //the player health
 	public static boolean gameIsRunning = false;                                       //game state started or stoped
 	private int currHitsOnTank =0;                                               //the amount of hits on the tank since last update
 	private int gameLevel = 1;                                                   //track the game level
@@ -233,6 +232,8 @@ public class MainView extends Application{
 		tfs = new Label("SCORE: "+score);       //add the score to tool bar
 		Image bar = new Image(getClass().getResourceAsStream("/pics/bar.png"));
 		tfs.setGraphic(new ImageView(bar));
+		ProgressBar pb = new ProgressBar();
+		pb.setProgress(1.0);
 		tfh = new Label("Health: "+health);
 		Image hea = new Image(getClass().getResourceAsStream("/pics/health.png"));
 		tfh.setGraphic(new ImageView(hea));
@@ -447,7 +448,7 @@ public class MainView extends Application{
 			}
 		});
 
-		toolBar = new ToolBar(new Separator(),start,pause,exit,new Separator(),new Separator(),gp,new Separator(),new Separator(),gp2,new Separator(),new Separator(),tfs,new Separator(),tfh,new Separator(),levelNum,new Separator(),isAlive,new Separator(),new Separator());         //                              //tool bar add button and box
+		toolBar = new ToolBar(new Separator(),gp,new Separator(),new Separator(),start,pause,exit,new Separator(),new Separator(),gp2,new Separator(),new Separator(),tfs,new Separator(),tfh,pb,new Separator(),levelNum,new Separator(),isAlive,new Separator(),new Separator());         //                              //tool bar add button and box
 
 		toolBar.setOrientation(Orientation.HORIZONTAL);                             //set tool bar horizontal
 		pane.setBottom(toolBar);
@@ -580,6 +581,7 @@ public class MainView extends Application{
 						camera.setTranslateY(oldCameraView.getY());
 						camera.setTranslateZ(oldCameraView.getZ());
 					}
+					pb.setProgress(upb.getNewHealthStatus(health));
 					oldCameraView = new Point3D(tankGroup.getTranslateX(),tankGroup.getTranslateY(),tankGroup.getTranslateZ());
 					tankGroup.setTranslateX((tankGroup.getTranslateX()+moveX));
 					tankGroup.setTranslateZ((tankGroup.getTranslateZ()+moveZ));
@@ -633,8 +635,8 @@ public class MainView extends Application{
 					}
 
 					tfs.setText("SCORE: "+gvg.getPlayerScore());                                                        //display new score
-					tfh.setText("Health: "+gvg.getPlayerHealth());
-					levelNum.setText("Level: "+gvg.getPlayerLevel());
+					tfh.setText("Health: "+health);
+					levelNum.setText("Level: "+gameLevel);
 					trigger++;
 					if(enemy.size()>0){
 						bombStart = update.dropBombLocation(enemy);
@@ -655,6 +657,7 @@ public class MainView extends Application{
 					//test if level is complete and then make new level nodes
 				    if(((invaderGroup.getChildren().size()==0)&&(started==true)&&(numEnimies==0))){
 							gvg.levelUP(gvg.getGameDiffucultyIncrease());
+						gameLevel++;
 							enemy = nls.initLevel();
 							for (int i = 0; i < enemy.size(); i++) {
 

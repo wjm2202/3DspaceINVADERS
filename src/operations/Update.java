@@ -107,7 +107,8 @@ public class Update {
                             gvg.setBulletRate(gvg.getBulletRate()+1);
                             break;
                         case 1:                      //increase health
-                            gvg.setPlayerHealth(gvg.getPlayerHealth()*2);
+                            //gvg.setPlayerHealth(gvg.getPlayerHealth()*2);
+                            MainView.health += 50;
                             break;
                         case 2:                      //give shield
                             gvg.setPlayerSheild(gvg.getPlayerSheild()+80);
