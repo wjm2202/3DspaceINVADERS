@@ -1,12 +1,13 @@
 package application;
 
 import java.util.ArrayList;
-import java.util.Observable;
 import java.util.Random;
 
+import camera.CameraPath;
 import camera.CreateCamera;
 import camera.MoveCamera;
 import com.sun.javafx.application.LauncherImpl;
+import controls.MakeGrids;
 import gameValues.LevelValues;
 import gameValues.Movement;
 import javafx.animation.AnimationTimer;
@@ -14,6 +15,7 @@ import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Point3D;
 import javafx.geometry.Rectangle2D;
@@ -25,8 +27,10 @@ import javafx.scene.SceneAntialiasing;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Separator;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
@@ -34,12 +38,14 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
+import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import operations.*;
 
 import javax.swing.*;
+import javax.tools.Tool;
 
 /**
  * This is where the control logic goes for the main flow of the Model Veiw Controller
@@ -51,6 +57,7 @@ import javax.swing.*;
  */
 public class MainView extends Application{
 
+	Point3D tankViewnow;
 	private Label camLoc;
 	private Label camAngleLBL;
 	private Label levelNum;
@@ -62,6 +69,7 @@ public class MainView extends Application{
 	private PickResult selectedNode;                                     //mouse has clicked this object
 	private Node node;                                                   //a single 3D object
 	private ToolBar toolBar;                                             //the button bar at the bottom of scene
+	private ToolBar toolBarRight;
 //GROUPS
 	private static Group invaderGroup = new Group();                    //a group of 3D objects of type invader
 	private static Group boarderGroup = new Group();                     //a group of 3D objects that make up the world box
@@ -86,27 +94,29 @@ public class MainView extends Application{
 	private double cRoll = 0;                                                    //camera start roll amount
 	private double mousePosX, mousePosY;                                 //mouse drag position
 	private double mouseOldX, mouseOldY;                                 //mouse drag position
-	private final Rotate rotateX = new Rotate(0, Rotate.X_AXIS);         //rotate transform X
-	private final Rotate rotateY = new Rotate(20, Rotate.Y_AXIS);        //rotate transform Y
-	private final Rotate rotateZ = new Rotate(0, Rotate.Z_AXIS);         //rotate transform Z
+	//private final Rotate rotateX = new Rotate(0, Rotate.X_AXIS);         //rotate transform X
+	//private final Rotate rotateY = new Rotate(20, Rotate.Y_AXIS);        //rotate transform Y
+	//private final Rotate rotateZ = new Rotate(0, Rotate.Z_AXIS);         //rotate transform Z
 //SINGLE CONTRUCT OBJECTS
 	public static WorldCoOrdinates loc3D = Splash.wc;                     //get preset points important for game
 	public static LevelValues gvg = new LevelValues();                   //get gameVariable for invader game
 	public static Img img = new Img();                                                 //image class to get images
 	public static SoundEffects se = new SoundEffects();
 	public static ModelImporter mi = new ModelImporter();
+	private MakeGrids mg = new MakeGrids();
 //OBJECTS
 	private MoveCamera mc = new MoveCamera();
 	private LightingElements lightEle = new LightingElements();                  //lighting
-	private CreateCamera perCamera = new CreateCamera();                         //camera
+	private CreateCamera perCamera = new CreateCamera(8);                        //camera
 	private CreateBox boxOP = new CreateBox();                                   //box factory
-	private PerspectiveCamera camera;                                            //camera variable
+	public static PerspectiveCamera camera;                                            //camera variable
 	private ArrayList<Enemy> removeEnemies = new ArrayList<>();
 	private ArrayList<Node> collectedRewards = new ArrayList<>();
 	FirstPreloader fp = new FirstPreloader();
 	private Update update = new Update();                                        //update all elements locations and detect collisions
 	private ArrayList<Enemy> enemy = new ArrayList<>();                          //array of current enemies
 	private ArrayList<Point3D> startP3d = new ArrayList<>();                     //get pre generated start locations for enemies
+	private ArrayList<PerspectiveCamera> camList = new ArrayList<>();
 	private BoundsClamp bc = new BoundsClamp();                                  //contain the 3D objects inside the 3D world box
 	private Random rand = new Random();                                          //random value used for testing
 	private RotateElements re = new RotateElements();                            //rotate transform for 3D objects
@@ -120,6 +130,7 @@ public class MainView extends Application{
 	private MakeAssets ma = new MakeAssets();
 	private Homing homing = new Homing();
 	private NewLevelStart nls = new NewLevelStart();
+	private CameraPath cp = new CameraPath();
 
 	private Node grnd;
 //VARIABLES
@@ -134,16 +145,16 @@ public class MainView extends Application{
 	private double moveZ = 0.5;
 	private boolean started = false;
 	private int camView = 1;
-	private int camdirection = 1;
+	private static int camdirection = 2;
     public static boolean nextLevel = false;
 	public int boxScale=0;
 	public int numEnimies;
 	private static Stage window;
 	private static boolean tankView = false;
-	private Point3D oldCameraView;
-	public int viewsInTankView = 0;
-	public boolean resetView = false;
-	public boolean firstTime = true;
+	public static Point3D oldCameraView;
+	public static int addValue = 1;
+	public static double rotateAmount = 10.0;
+	public static int firstTime=0;
 
 	@Override
 	public void stop(){                                                  //if the game stops or window is closed these methods will be called
@@ -176,6 +187,7 @@ public class MainView extends Application{
 
 	@Override
 	public void init(){
+
 		enemy =nls.initLevel();
 		for(int i=0;i<enemy.size();i++){
 			invaderGroup.getChildren().add(enemy.get(i).getGroup());
@@ -196,75 +208,225 @@ public class MainView extends Application{
 
 		// Create a Camera to view the 3D Shapes
 		camera = perCamera.getCamera();                                    //add the camera
-		camera.getTransforms().addAll (rotateX, rotateY, rotateZ);  //add transforms to camera
-		camera.setTranslateX(cx);
-		camera.setTranslateY(cy);
-		camera.setTranslateZ(cz);
-		camera.setRotate(cRoll);
+		camera.setTranslateX(500.0);
+		camera.setTranslateY(250.0);
+		camera.setTranslateZ(0.0);
 		camera.setNearClip(0.4);
 		camera.setFarClip(4000.0);
 		camera.setFieldOfView(45);
+		camera.setRotationAxis(Rotate.Y_AXIS);
+		camera.setRotate(-2);
 
 
 		//create sub scene for tool bar
-		SubScene subScene = new SubScene(root, sW, sH-100,true,SceneAntialiasing.DISABLED);                           //make sub scene add group
+		SubScene subScene = new SubScene(root, sW, sH-150,true,SceneAntialiasing.DISABLED);                           //make sub scene add group
+		//set fullscreen size here
+
+
 		subScene.setFill(Color.BLACK);                                          //fill scene with color
 		subScene.setCamera(camera);                                             //add camera to scene
 		cameraGroup.getChildren().add(camera);
-		root.getChildren().add(cameraGroup);
+
 		BorderPane pane = new BorderPane();                                         //make outer display
 		pane.setCenter(subScene);
 		//System.out.println("application test START  at top");
-		tfs = new Label("SCORE: "+score);                                           //add the score to tool bar
-		tfh = new Label("Health: "+health);                                         //add the score to tool bar
+		tfs = new Label("SCORE: "+score);       //add the score to tool bar
+		tfh = new Label("Health: "+health);
 		isAlive = new Label("Alive: "+alive);
 		levelNum = new Label("Level: "+gameLevel);
-		camAngleLBL = new Label("Camera Angle: "+mc.getCameraAngle(camera));
-		camLoc = new Label("Camera Location: X: "+camera.getTranslateX()+" Y: "+camera.getTranslateY()+" Z: "+camera.getTranslateZ());
-		VBox vbox = new VBox();
-		vbox.getChildren().addAll(camAngleLBL,camLoc);
+		//VBox vbox = new VBox();
+		//vbox.getChildren().addAll(camAngleLBL,camLoc);
+		camList = mc.makeCamList();                                                 //make all the cameras required for scene
 
-		Button exit = new Button("Exit game");           //Exit game
+		Button tester = new Button("-Z");           //move camera
+		tester.setOnAction(e->{
+			System.out.println("held down in tester button");
+		});
+
+		Button camMIUNSz = new Button("-Z");           //move camera
+		camMIUNSz.setOnAction(e->{
+			camera.setTranslateZ(camera.getTranslateZ()-10);
+		});
+
+		Button camPLUSz = new Button("+Z");           //move camera
+		camPLUSz.setOnAction(e->{
+			camera.setTranslateZ(camera.getTranslateZ()+10);
+		});
+
+		Button camPLUSx = new Button("+X");           //move camera
+		camPLUSx.setOnAction(e->{
+			camera.setTranslateX(camera.getTranslateX()+10);
+		});
+		Button camMINUSx = new Button("-X");           //move camera
+		camMINUSx.setOnAction(e->{
+			camera.setTranslateX(camera.getTranslateX()-10);
+		});
+		Button camMINUSy = new Button("-Y");           //move camera
+		camMINUSy.setOnAction(e->{
+			camera.setTranslateY(camera.getTranslateY()-10);
+		});
+		Button camPLUSy = new Button("+Y");           //move camera
+		camPLUSy.setOnAction(e->{
+			camera.setTranslateY(camera.getTranslateY()+10);
+		});
+		Button camCenter = new Button("0.0");           //move camera
+		camCenter.setOnAction(e->{
+			camera.setRotationAxis(Rotate.Y_AXIS);
+			camera.setRotate(0.0);
+
+		});
+		Button camROTATEyRight = new Button("RL");           //move camera
+		camROTATEyRight.setOnAction(e->{
+			camera.setRotationAxis(Rotate.Y_AXIS);
+			camera.setRotate(90.0);
+		});
+		Button camROTATEyLeft = new Button("RR");           //move camera
+		camROTATEyLeft.setOnAction(e->{
+			camera.setRotationAxis(Rotate.Y_AXIS);
+			camera.setRotate(-90.0);
+		});
+		GridPane gp = new GridPane();
+		Label test = new Label("Camera");
+		GridPane.setConstraints(camPLUSy,1,0);                                         //display boxes grid start
+		GridPane.setConstraints(camPLUSz,2,0);
+		GridPane.setConstraints(camMINUSx,0,1);
+		GridPane.setConstraints(camCenter,1,1);
+		GridPane.setConstraints(camPLUSx,2,1);
+		GridPane.setConstraints(camMIUNSz,0,2);
+		GridPane.setConstraints(camMINUSy,1,2);
+		gp.setPadding(new Insets(5,5,5,5));                                       //style
+		gp.setVgap(5);
+		gp.setHgap(5);
+		gp.getChildren().addAll(camPLUSy,camPLUSz,camMINUSx,camCenter,camPLUSx,camMIUNSz,camMINUSy);
+
+		ImageView cam = new ImageView(new Image("/pics/cam.png"));
+		Button tl = new Button("",cam);                                                //move camera  pos 1
+		tl.setOnAction(e->{
+
+		});
+		ImageView back = new ImageView(new Image("/pics/down.png"));
+		Button tm = new Button("",back);           //move camera
+		tm.setOnAction(e->{
+
+			cameraGroup.getChildren().remove(camera);
+			camera = camList.get(1);
+			cameraGroup.getChildren().add(camera);
+			subScene.setCamera(camera);
+			tankView=false;
+
+		});
+		ImageView lbi = new ImageView(new Image("/pics/leftbottom.png"));
+		Button tr = new Button("",lbi);           //move camera
+		tr.setOnAction(e->{
+			cameraGroup.getChildren().remove(camera);
+			camera = camList.get(2);
+			cameraGroup.getChildren().add(camera);
+			subScene.setCamera(camera);
+			tankView=false;
+
+		});
+		ImageView left = new ImageView(new Image("/pics/right.png"));
+		Button ml = new Button("",left);           //move camera
+		ml.setOnAction(e->{
+			cameraGroup.getChildren().remove(camera);
+			camera = camList.get(3);
+			cameraGroup.getChildren().add(camera);
+			subScene.setCamera(camera);
+			tankView=false;
+		});
+		ImageView eye = new ImageView(new Image("/pics/eye.png"));
+		Button mm = new Button("",eye);           //move camera
+		mm.setOnAction(e->{
+			cameraGroup.getChildren().remove(camera);
+			camera = camList.get(4);
+			cameraGroup.getChildren().add(camera);
+			subScene.setCamera(camera);
+			if(tankView==false){
+				tankView=true;
+			}
+		});
+		ImageView right = new ImageView(new Image("/pics/left.png"));
+		Button mr = new Button("",right);           //move camera
+		mr.setOnAction(e->{
+			cameraGroup.getChildren().remove(camera);
+			camera = camList.get(5);
+			cameraGroup.getChildren().add(camera);
+			subScene.setCamera(camera);
+			tankView=false;
+		});
+		ImageView rui = new ImageView(new Image("/pics/righttop.png"));
+		Button bl = new Button("",rui);           //move camera
+		bl.setOnAction(e->{
+			cameraGroup.getChildren().remove(camera);
+			camera = camList.get(6);
+			cameraGroup.getChildren().add(camera);
+			subScene.setCamera(camera);
+			tankView=false;
+		});
+		ImageView aup = new ImageView(new Image("/pics/up.png"));
+		Button bm = new Button("",aup);           //move camera
+		bm.setOnAction(e->{
+			cameraGroup.getChildren().remove(camera);
+			camera = camList.get(7);
+			cameraGroup.getChildren().add(camera);
+			subScene.setCamera(camera);
+			tankView=false;
+		});
+
+		Button br = new Button("");           //move camera
+		br.setOnAction(e->{
+			cameraGroup.getChildren().remove(camera);
+			camera = camList.get(8);
+			cameraGroup.getChildren().add(camera);
+			subScene.setCamera(camera);
+			tankView=false;
+		});
+		GridPane gp2 = new GridPane();
+		GridPane.setConstraints(tl,0,0);
+		GridPane.setConstraints(tm,1,0);                                         //display boxes grid start
+		GridPane.setConstraints(tr,2,0);
+		GridPane.setConstraints(ml,0,1);
+		GridPane.setConstraints(mm,1,1);
+		GridPane.setConstraints(mr,2,1);
+		GridPane.setConstraints(bl,0,2);
+		GridPane.setConstraints(bm,1,2);
+		GridPane.setConstraints(br,2,2);
+		gp2.setPadding(new Insets(5,5,5,5));                                       //style
+		gp2.setVgap(5);
+		gp2.setHgap(5);
+		gp2.getChildren().addAll(tl,tm,tr,ml,mm,mr,bl,bm);
+
+		//GridPane gp = mg.makeCameraMoveGrid(camera);
+		ImageView exi = new ImageView(new Image("/pics/exit.png"));
+		Button exit = new Button("Exit",exi);           //Exit game
 		exit.setOnAction(e->{
 			gameIsRunning=false;
 			Platform.exit();
 		});
-		Button changeView = new Button("Camera View");           //Exit game
-		changeView.setOnAction(e->{
-			if(!tankView){
-				if(camView==1){
-					perCamera.birdCamera(1);
-					camdirection = 1;
-				}else if(camView==2){
-					perCamera.birdCamera(2);
-					camdirection = -1;
-				}
-				camView += camdirection;
-				camera = perCamera.getCamera();
-			}
-
-		});
-		Button pause = new Button("Pause/Un-Pause");           //Pause game
+		ImageView pau = new ImageView(new Image("/pics/pause.png"));
+		Button pause = new Button("Pause",pau);           //Pause game
 		pause.setOnAction(e->{
 			gameIsRunning = gameIsRunning != true;
 		});
-		Button tankCamera = new Button("Tank View");           //Pause game
-		tankCamera.setOnAction(e->{
-			if(camView!=3){
-				if(tankView==false){
-					tankView=true;
-
-					//System.out.println("tankCamera clicked resetView is "+resetView);
-				}else if(tankView==true){
-					viewsInTankView=0;
-					tankView=false;
-					resetView=true;
-				}
-				//System.out.println("tankCamera clicked state is "+tankView);
+		Button up = new Button("View");           //Pause game
+		up.setOnAction(e->{
+			if(camdirection==1){
+				cp.viewSwitch(camera, camdirection);
+				addValue=1;
+				camdirection += addValue;
+				rotateAmount = -rotateAmount;
+			}else if(camdirection==2){
+				cp.viewSwitch(camera, camdirection);
+				camdirection += addValue;
+			}else if(camdirection==3){
+				cp.viewSwitch(camera, camdirection);
+				addValue= -1;
+				camdirection += addValue;
+				firstTime++;
 			}
-
 		});
-		Button start = new Button("Start game");           //Start game
+		ImageView invicon = new ImageView(new Image("/pics/invicon.png"));
+		Button start = new Button("Start",invicon);           //Start game
 		start.setOnAction(e->{
 
 			if(!gameIsRunning){
@@ -275,10 +437,10 @@ public class MainView extends Application{
 			}
 		});
 
-		toolBar = new ToolBar(start,pause,exit,tfs,tfh,levelNum,isAlive,camLoc,tankCamera,changeView);         //                              //tool bar add button and box
+		toolBar = new ToolBar(new Separator(),start,pause,exit,new Separator(),new Separator(),gp,new Separator(),new Separator(),gp2,new Separator(),new Separator(),tfs,new Separator(),tfh,new Separator(),levelNum,new Separator(),isAlive,new Separator(),new Separator());         //                              //tool bar add button and box
 
 		toolBar.setOrientation(Orientation.HORIZONTAL);                             //set tool bar horizontal
-		pane.setBottom(toolBar);                                                    //put tool bar in bottom pane
+		pane.setBottom(toolBar);
 		pane.setPrefSize(300,300);                                                  //size of center element
 
 
@@ -400,9 +562,15 @@ public class MainView extends Application{
 
 				double time = (currentNanoTime - startNanoTime) / 1000000000.0;                   //USED TO UPDATE LOCATIONS ECT
 			    //GAME LOOP
-
+				//oldCameraView = new Point3D(tankGroup.getTranslateX(),tankGroup.getTranslateY(),tankGroup.getTranslateZ());
 				if(gameIsRunning){
-
+					if(tankView==true){
+						oldCameraView = new Point3D(tankGroup.getTranslateX()+500,tankGroup.getTranslateY()+480,tankGroup.getTranslateZ()+1050);
+						camera.setTranslateX(oldCameraView.getX());
+						camera.setTranslateY(oldCameraView.getY());
+						camera.setTranslateZ(oldCameraView.getZ());
+					}
+					oldCameraView = new Point3D(tankGroup.getTranslateX(),tankGroup.getTranslateY(),tankGroup.getTranslateZ());
 					tankGroup.setTranslateX((tankGroup.getTranslateX()+moveX));
 					tankGroup.setTranslateZ((tankGroup.getTranslateZ()+moveZ));
 					bc.clamp(enemy);                                                          //trap invaders in bounds and move them
@@ -484,54 +652,6 @@ public class MainView extends Application{
 							}
 							gvg.levelUP(gvg.getGameDiffucultyIncrease());
                     }
-                    if(tankView==true) {
-
-						if (((viewsInTankView == 0) && (camView == 1) || (camView == 2))) {
-							//System.out.println("tank view viewsInTankView ==0"+(viewsInTankView==0));
-							oldCameraView = new Point3D(camera.getTranslateX(), camera.getTranslateX(), camera.getTranslateZ());
-							Point3D tankView = new Point3D(tankGroup.getTranslateX() + 500, tankGroup.getTranslateY() + 500, tankGroup.getTranslateZ() + 1050);
-							viewsInTankView++;
-							camera.setRotationAxis(Rotate.X_AXIS);
-							//System.out.println("camView value "+camView);
-							if (camView == 1) {                                 //front view
-								//System.out.println("camview 1 rotate 90");
-								camera.setRotate(90.0);
-								camera.setTranslateX(tankView.getX());
-								camera.setTranslateY(tankView.getY());
-								camera.setTranslateZ(tankView.getZ());
-							} else if (camView == 2) {                            //top view
-								camera.setRotate(180.0);
-								//System.out.println("camview 2 rotate 180");
-								camera.setTranslateX(tankView.getX());
-								camera.setTranslateY(tankView.getY());
-								camera.setTranslateZ(tankView.getZ());
-							}
-						} else {
-							Point3D tankView = new Point3D(tankGroup.getTranslateX() + 500, tankGroup.getTranslateY() + 500, tankGroup.getTranslateZ() + 1050);  //1050
-							camera.setTranslateX(tankView.getX());
-							camera.setTranslateY(tankView.getY());
-							camera.setTranslateZ(tankView.getZ());
-						}
-					}else if (tankView == false) {
-						if (resetView == true) {
-
-								camera.setRotationAxis(Rotate.X_AXIS);                         //first time through
-								if (camView == 1) {
-									//System.out.println("camview 1 reset tank view 0");
-									camera.setRotate(0.0);
-									camera.setTranslateX(oldCameraView.getX());
-									camera.setTranslateY(oldCameraView.getY()-500);
-									camera.setTranslateZ(oldCameraView.getZ());
-								} else if (camView == 2) {
-									//System.out.println("camview 2 reset tank view 0");
-									camera.setRotate(0.0);
-									camera.setTranslateX(oldCameraView.getX());
-									camera.setTranslateY(oldCameraView.getY()-1000);
-									camera.setTranslateZ(oldCameraView.getZ());
-								}
-								resetView = false;
-						}
-					}
 					moveX=0;                                                                          //reset tank velocity
 					moveZ=0;
                 }
@@ -543,6 +663,7 @@ public class MainView extends Application{
 		facing = Movement.forwards;	//This makes the tank currently face forwards.
 
 		tankGroup = boxOP.makeModel(1, 12);         //first int is model number second int is skin number
+		root.getChildren().add(cameraGroup);
 		root.getChildren().add(invaderGroup);
 		root.getChildren().add(tankGroup);
 		tankGroup.setTranslateY(tankGroup.getTranslateY()-40);
