@@ -470,54 +470,62 @@ public class MainView extends Application{
 				tankLocation = new Point3D((tankGroup.getTranslateX()+500.0),(tankGroup.getTranslateY()+500),(tankGroup.getTranslateZ()+1100.0));
 				switch (event.getCode()){
 					case UP:	//This case executes when the up key is pressed on the keyboard.
-						if(bc.tankZClamp(tankGroup)){
-							re.rotateTank(tankGroup, facing, Movement.forwards, tankLocation);
-							moveZ = -gvg.getTankSpeedZ();
+						if(bc.tankZClamp(tankLocation)){
+							re.rotateTank(tankGroup, facing, Movement.forwards);
+							moveZ = gvg.getTankSpeedY();
 							facing= Movement.forwards;
 							event.consume();
 						}else{
-							re.rotateTank(tankGroup, facing, Movement.forwards, tankLocation);
-							moveZ = gvg.getTankSpeedY();
+							re.rotateTank(tankGroup, facing, Movement.forwards);
+							if(tankLocation.getZ() <= 900){
+								moveZ = gvg.getTankSpeedY();
+							}
 							facing= Movement.forwards;
 							event.consume();
 						}
 						break;
 					case DOWN:	//This case executes when the down key is pressed on the keyboard.
-						if(bc.tankZClamp(tankGroup)){
-							re.rotateTank(tankGroup, facing, Movement.backwards, tankLocation);
-							moveZ = gvg.getTankSpeedY();
+						if(bc.tankZClamp(tankLocation)){
+							re.rotateTank(tankGroup, facing, Movement.backwards);
+							moveZ = -gvg.getTankSpeedY();
 							facing= Movement.backwards;
 							event.consume();
 						}else{
-							re.rotateTank(tankGroup, facing, Movement.backwards, tankLocation);
-							moveZ = -gvg.getTankSpeedY();
+							re.rotateTank(tankGroup, facing, Movement.backwards);
+							if(tankLocation.getZ() >= 1300){
+								moveZ = -gvg.getTankSpeedY();
+							}
 							facing= Movement.backwards;
 							event.consume();
 						}
 						break;
 					case LEFT:	//This case executes when the left key is pressed on the keyboard.
-						if(bc.tankXClamp(tankGroup)){
-							re.rotateTank(tankGroup, facing, Movement.left, tankLocation);
+						if(bc.tankXClamp(tankLocation)){
+							re.rotateTank(tankGroup, facing, Movement.left);
 							moveX = -gvg.getTankSpeedX();
 							facing= Movement.left;
 							event.consume();
 						}
 						else{
-							re.rotateTank(tankGroup, facing, Movement.left, tankLocation);
-							moveX = -gvg.getTankSpeedX();
+							re.rotateTank(tankGroup, facing, Movement.left);
+							if(tankLocation.getX() >= 940){
+								moveX = -gvg.getTankSpeedX();
+							}
 							facing= Movement.left;
 							event.consume();
 						}
 						break;
 					case RIGHT:	//This case executes when the right key is pressed on the keyboard.
-						if(bc.tankXClamp(tankGroup)){
-							re.rotateTank(tankGroup, facing, Movement.right, tankLocation);
+						if(bc.tankXClamp(tankLocation)){
+							re.rotateTank(tankGroup, facing, Movement.right);
 							moveX = gvg.getTankSpeedX();
 							facing= Movement.right;
 							event.consume();
 						}else{
-							re.rotateTank(tankGroup, facing, Movement.right, tankLocation);
-							moveX = -gvg.getTankSpeedX();
+							re.rotateTank(tankGroup, facing, Movement.right);
+							if(tankLocation.getX() <= 60){
+								moveX = gvg.getTankSpeedX();
+							}
 							facing= Movement.right;
 							event.consume();
 						}
@@ -673,7 +681,7 @@ public class MainView extends Application{
 
 		}.start();
 
-		facing = Movement.forwards;	//This makes the tank currently face forwards.
+		facing = Movement.backwards;	//This makes the tank currently face backwards.
 
 		tankGroup = boxOP.makeModel(1, 12);         //first int is model number second int is skin number
 		root.getChildren().add(cameraGroup);
