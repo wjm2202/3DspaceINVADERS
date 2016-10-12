@@ -134,32 +134,35 @@ public class BoundsClamp {
 			} 
 		}
 	}
+
 	/**
 	 * this method stops the tank from going outside the x 
 	 * it returns a boolean to block movement in the MainView class
 	 * @param tank
 	 * @return boolean
 	 */
-	public boolean tankXClamp(Node tank){                                         //ensure tank is within the world X bounds
-		boolean canMove = true;                                                   //boolean test 
-			if((tank.getTranslateX()==wc.case0.getX()+20)                            //if the tank is touching the left X boundary + box width
-			||(tank.getTranslateX()==wc.case3.getX()-20)){                           //or if the tank is touching the right Y boundary - box width
-					  canMove = false;                                            //set the flag to false preventing movement
-			}
+	public boolean tankXClamp(Point3D tank){                                         //ensure tank is within the world X bounds
+		boolean canMove = true;                                                   //boolean test
+		//if the tank is touching the left X boundary + box width or if the tank is touching the right Y boundary - box width
+		if((tank.getX()<=wc.case0.getX()+60) || (tank.getX()>=wc.case3.getX()-40)){
+			canMove = false;                                          //set the flag to false preventing movement
+		}
+
 		return canMove;                                                           //return if the tank can continue to move further in the X direction
 	}
 	/**
-	 * this method stops the tank from going outside the z 
+	 * this method stops the tank from going outside the z
 	 * it returns a boolean to block movement in the MainView class
 	 * @param tank
 	 * @return boolean
 	 */
-	public boolean tankZClamp(Group tank){                                           //ensure tank is within the world X bounds
+	public boolean tankZClamp(Point3D tank){                                           //ensure tank is within the world X bounds
 		boolean canMove = true;                                                     //boolean test
-		if((tank.getTranslateZ()<wc.case0.getZ()+20)                                 //if the tank is touching the left Z boundary + box width               
-		||(tank.getTranslateZ()>wc.case4.getZ()-20)){                                //or if the tank is touching the right Y boundary - box width
+		//if the tank is touching the left Z boundary + box width or if the tank is touching the right Y boundary - box width
+		if((tank.getZ()<=wc.case0.getZ()+100) || (tank.getZ()>=wc.case4.getZ())){
 			canMove = false;                                                         //set the flag to false preventing movement
 		}
+
 		return canMove;                                                              //return if the tank can continue to move further in the Z direction
 	}
 }

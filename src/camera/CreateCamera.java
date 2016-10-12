@@ -1,5 +1,6 @@
 package camera;
 
+import application.MainView;
 import javafx.animation.Animation;
 import javafx.animation.RotateTransition;
 import javafx.geometry.Point3D;
@@ -78,17 +79,125 @@ public class CreateCamera {
 		//System.out.println("actual case 2 location AFTER X "+camera.getTranslateX()+" Y "+camera.getTranslateY()+" Z "+camera.getTranslateZ());
 		return camera;
 	}
-	
-	public void setUp(){
-		camera = new PerspectiveCamera(true);    //add camera view x,y,z
-		camera.getTransforms().addAll (rotateX, rotateY, new Translate(0, 0, 0));  //add transforms to camera
-		camera.setTranslateX(483.0);                              
-		camera.setTranslateY(-36);
-		camera.setTranslateZ(0.0);
-		camera.setRotate(0);
-		camera.setNearClip(0.4);
-		camera.setFarClip(3000.0);
-		camera.setFieldOfView(45);
+	//setup each of the 9 camera views
+	public void setUp(int value){
+		switch(value){
+			case 1:
+				camera = new PerspectiveCamera(true);    //add camera view x,y,z
+				//camera.getTransforms().addAll (rotateX, rotateY, new Translate(0, 0, 0));  //add transforms to camera
+				camera.setTranslateX(483.0);
+				camera.setTranslateY(100);
+				camera.setTranslateZ(0.0);
+				camera.setRotate(0);
+				camera.setNearClip(0.4);
+				camera.setFarClip(3000.0);
+				camera.setFieldOfView(45);
+				camera.setRotationAxis(Rotate.Y_AXIS);
+				camera.setRotate(10);
+				break;
+			case 2:
+				camera = new PerspectiveCamera(true);    //add camera view x,y,z
+				//camera.getTransforms().addAll (rotateX, rotateY, new Translate(0, 0, 0));  //add transforms to camera
+				camera.setTranslateX(500.0);
+				camera.setTranslateY(250);
+				camera.setTranslateZ(2100);
+				camera.setRotate(0);
+				camera.setNearClip(0.4);
+				camera.setFarClip(3000.0);
+				camera.setFieldOfView(45);
+				camera.setRotationAxis(Rotate.Y_AXIS);
+				camera.setRotate(180.0);
+				break;
+			case 3:
+				camera = new PerspectiveCamera(true);    //add camera view x,y,z
+				//camera.getTransforms().addAll (rotateX, rotateY, new Translate(0, 0, 0));  //add transforms to camera
+				camera.setTranslateX(500.0);
+				camera.setTranslateY(-450.0);
+				camera.setTranslateZ(0.0);
+				camera.setRotate(0);
+				camera.setNearClip(0.4);
+				camera.setFarClip(3000.0);
+				camera.setFieldOfView(45);
+				camera.setRotationAxis(Rotate.X_AXIS);
+				camera.setRotate(-35.0);
+				break;
+			case 4:
+				camera = new PerspectiveCamera(true);    //add camera view x,y,z
+				//camera.getTransforms().addAll (rotateX, rotateY, new Translate(0, 0, 0));  //add transforms to camera
+				camera.setTranslateX(-900.0);
+				camera.setTranslateY(250);
+				camera.setTranslateZ(1050.0);
+				camera.setRotate(0);
+				camera.setNearClip(0.4);
+				camera.setFarClip(3000.0);
+				camera.setFieldOfView(45);
+				camera.setRotationAxis(Rotate.Y_AXIS);
+				camera.setRotate(90);
+				break;
+			case 5:
+				camera = new PerspectiveCamera(true);    //add camera view x,y,z
+				//camera.getTransforms().addAll (rotateX, rotateY, new Translate(0, 0, 0));  //add transforms to camera
+				camera.setTranslateX(500);
+				camera.setTranslateY(470);
+				camera.setTranslateZ(1050);
+				//camera.setRotate(0);
+				camera.setNearClip(0.4);
+				camera.setFarClip(3000.0);
+				camera.setFieldOfView(45);
+				camera.setRotationAxis(Rotate.X_AXIS);
+				camera.setRotate(90.0);
+				break;
+			case 6:
+				camera = new PerspectiveCamera(true);    //add camera view x,y,z
+				//camera.getTransforms().addAll (rotateX, rotateY, new Translate(0, 0, 0));  //add transforms to camera
+				camera.setTranslateX(1900.0);
+				camera.setTranslateY(250);
+				camera.setTranslateZ(1050.0);
+				camera.setRotate(0);
+				camera.setNearClip(0.4);
+				camera.setFarClip(3000.0);
+				camera.setFieldOfView(45);
+				camera.setRotationAxis(Rotate.Y_AXIS);
+				camera.setRotate(-90);
+				break;
+			case 7:
+				camera = new PerspectiveCamera(true);    //add camera view x,y,z
+				//camera.getTransforms().addAll (rotateX, rotateY, new Translate(0, 0, 0));  //add transforms to camera
+				camera.setTranslateX(500.0);
+				camera.setTranslateY(1000);
+				camera.setTranslateZ(0.0);
+				camera.setRotate(0);
+				camera.setNearClip(0.4);
+				camera.setFarClip(3000.0);
+				camera.setFieldOfView(45);
+				camera.setRotationAxis(Rotate.X_AXIS);
+				camera.setRotate(35.0);
+				break;
+			case 8:
+				camera = new PerspectiveCamera(true);    //add camera view x,y,z
+				//camera.getTransforms().addAll (rotateX, rotateY, new Translate(0, 0, 0));  //add transforms to camera
+				camera.setTranslateX(500.0);
+				camera.setTranslateY(250);
+				camera.setTranslateZ(0.0);
+				camera.setRotate(0);
+				camera.setNearClip(0.4);
+				camera.setFarClip(3000.0);
+				camera.setFieldOfView(45);
+				camera.setRotationAxis(Rotate.Y_AXIS);
+				camera.setRotate(0.0);
+				break;
+			case 9:
+				camera = new PerspectiveCamera(true);    //add camera view x,y,z
+				//camera.getTransforms().addAll (rotateX, rotateY, new Translate(0, 0, 0));  //add transforms to camera
+				camera.setTranslateX(483.0);
+				camera.setTranslateY(-36);
+				camera.setTranslateZ(0.0);
+				camera.setRotate(0);
+				camera.setNearClip(0.4);
+				camera.setFarClip(3000.0);
+				camera.setFieldOfView(45);
+				break;
+		}
 	}
 	public static void rotateCam(PerspectiveCamera camera){
 		RotateTransition rt = new RotateTransition(Duration.seconds(2), camera);
@@ -99,8 +208,9 @@ public class CreateCamera {
 		rt.setAxis(new Point3D(5,5,5));
 		rt.play();
 	}
-	public CreateCamera(){
-		setUp();
+	public CreateCamera(int value){
+
+		setUp(value);
 	}
 
 	public PerspectiveCamera getCamera(){

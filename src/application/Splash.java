@@ -32,7 +32,7 @@ import java.io.InputStream;
 public class Splash extends Application {
 
     private RotateElements re = new RotateElements();
-    private CreateCamera cc = new CreateCamera();
+    private CreateCamera cc = new CreateCamera(8);
     private CreateBox cb = new CreateBox();
     public static WorldCoOrdinates wc = new WorldCoOrdinates();
     public static int scaleSize=0;
@@ -70,6 +70,9 @@ public class Splash extends Application {
     @Override
     public void start(Stage primaryStage) {
 
+        //call database
+
+
         primaryStage.setResizable(false);
         Class<?> clazz = this.getClass();                                           //get this class
         InputStream input = clazz.getResourceAsStream("/pics/splashShot.jpg");           //get this picture
@@ -77,25 +80,23 @@ public class Splash extends Application {
         ImageView imageView = new ImageView(image);                                 //Make an imageview
         imageView.setFitWidth(Screen.getPrimary().getBounds().getWidth());
         imageView.setFitWidth(Screen.getPrimary().getBounds().getHeight());
-       // InputStream input2 = clazz.getResourceAsStream("/pics/spacebox.jpg");          //get sceond Picture
-        //Image image2 = new Image(input2,200,200,false,true);                         //make as imageV2
-        //ImageView imageView2 = new ImageView(image2);                                //not used
         Pane root = new Pane();                                                      //scene
         root.setPadding(new Insets(20));                                             //style
-
-
-
         try{
-            Button button1 = new Button("Play");                                    //make button1 play
+            ImageView invicon = new ImageView(new Image("/pics/invader11.png"));
+            Button button1 = new Button("Play",invicon);                                    //make button1 play
             button1.setOnAction(e->{                                                //if button 1 is clicked
                 //System.out.println("play clicked");
+               // primaryStage.setm
                 run3Dworld();
             });
-            Button button2 = new Button("Enter Player Details");                   //make button update details
+            ImageView ed = new ImageView(new Image("/pics/details.png"));
+            Button button2 = new Button("Enter Player Details",ed);                   //make button update details
             button2.setOnAction(e->{                                               //if button2 is clicked
                 rundataBase();                                                     //run DataBase Application
             });
-            Button button3 = new Button("EXIT Game");                   //make button update details
+            ImageView ex = new ImageView(new Image("/pics/logout.png"));
+            Button button3 = new Button("EXIT",ex);                   //make button update details
             button3.setOnAction(e->{                                               //if button2 is clicked
     // ADD Database save here
                 Platform.setImplicitExit(true);                           //close down clean
@@ -117,11 +118,10 @@ public class Splash extends Application {
                // System.out.println("Splash scale bounds mouse click "+scaleSize);
             });
             GridPane gp = new GridPane();                                          //layout style
-
-            Label playLbl = new Label("Name:  ");
-            TextField play= new TextField("Player Name");
+            Label playLbl = new Label("Name:  ");  //label
+            TextField play= new TextField("Player Name");    //text box
             Label levelLbl = new Label("Level: ");
-            TextField lvl = new TextField("Current Level");
+            TextField lvl = new TextField("Current Level");  //lvl.settext(""+);
             Label score = new Label("Score: ");
             TextField sc = new TextField("");
             Label numEnimiew = new Label("Enemies: ");
@@ -130,12 +130,9 @@ public class Splash extends Application {
             TextField diff = new TextField("");
             Label bestScore = new Label("Personal Best ");
             TextField best = new TextField("");
-
-
             gp.setPadding(new Insets(20,20,20,20));                                       //style
             gp.setVgap(8);
             gp.setHgap(10);
-
             GridPane.setConstraints(button1,0,0);                                         //display boxes grid start
             GridPane.setConstraints(button2,1,0);
             GridPane.setConstraints(button3,2,0);
@@ -152,7 +149,7 @@ public class Splash extends Application {
             GridPane.setConstraints(diff,1,5);
             GridPane.setConstraints(bestScore,0,6);
             GridPane.setConstraints(best,1,6);                                            //display boxes grid end
-            gp.getChildren().addAll(button1,button2,button3,playLbl,play,levelLbl,lvl,score,sc,numEnimiew,enemyTF,difficulty,diff,bestScore,best);//add everything
+            gp.getChildren().addAll(button1,button2,button3,playLbl,play,levelLbl,lvl,score,sc,numEnimiew,enemyTF,difficulty,diff,bestScore,best,scaleBounds);//add everything
             root.getChildren().add(imageView);                                            //display the screen background picture
             root.getChildren().add(gp);                                                   //add the grid and buttons onto the root node
             Scene scene = new Scene(root, 700,580);                                       //generate the scene

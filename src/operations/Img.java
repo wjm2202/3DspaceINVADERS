@@ -59,7 +59,7 @@ public class Img {
 		image8 = new Image("/pics/meta_brick.png");    //get image to wrap cube in
 		image9 = new Image("/pics/eye_brick.png");    //get image to wrap cube in
 		image10 = new Image("/pics/bolt_brick.png");    //get image to wrap cube in
-		horizon = new Image("/pics/dark.jpg");    //get image to wrap cube in
+		horizon = new Image("/pics/space.jpg");    //get image to wrap cube in
 		tanktex = new Image("/pics/tanktex.png");    //get image to wrap cube in
 		groundtex = new Image("/pics/ground.jpg");    //get image to wrap cube in
 		bullcolor = new Image("/pics/bullcolor.jpg");    //get image to wrap cube in
