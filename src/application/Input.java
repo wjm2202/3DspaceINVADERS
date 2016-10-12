@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import database.*;
 
+import javax.swing.*;
 import java.io.InputStream;
 
 public class Input extends Application {
@@ -41,18 +42,7 @@ public class Input extends Application {
             Button button1 = new Button("Done");
             Image lvls = new Image(getClass().getResourceAsStream("/pics/done.png"));
             button1.setGraphic(new ImageView(lvls));
-            button1.setOnAction(e->{
-                //do database stuff
-                primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-                    public void handle(WindowEvent we) {
 
-                        System.out.println("Data is Stored");
-
-                    }
-                });
-                //do DATABASE STUFF HERE
-                primaryStage.close();
-            });
 
             Class<?> clazz = this.getClass();
             InputStream input = clazz.getResourceAsStream("/pics/space.jpg");
@@ -65,7 +55,7 @@ public class Input extends Application {
                 Label playLbl = new Label("Name:  ");
                 TextField play= new TextField("Player Name");
                 Label levelLbl = new Label("Email: ");
-                TextField lvl = new TextField("Your Email");
+                TextField email = new TextField("Your Email");
                 Label score = new Label("Score: ");
                 TextField sc = new TextField("");
                 Label numEnimiew = new Label("Enemies: ");
@@ -82,7 +72,7 @@ public class Input extends Application {
                 GridPane.setConstraints(playLbl,0,1);
                 GridPane.setConstraints(play,1,1);
                 GridPane.setConstraints(levelLbl,0,2);
-                GridPane.setConstraints(lvl,1,2);
+                GridPane.setConstraints(email,1,2);
                 GridPane.setConstraints(score,0,3);
                 GridPane.setConstraints(sc,1,3);
                 GridPane.setConstraints(numEnimiew,0,4);
@@ -91,11 +81,28 @@ public class Input extends Application {
                 GridPane.setConstraints(diff,1,5);
                 GridPane.setConstraints(bestScore,0,6);
                 GridPane.setConstraints(best,1,6);
-                gp.getChildren().addAll(save,button1,playLbl,play,levelLbl,lvl,score,sc,numEnimiew,enemyTF,difficulty,diff,bestScore,best);
+                gp.getChildren().addAll(save,button1,playLbl,play,levelLbl,email,score,sc,numEnimiew,enemyTF,difficulty,diff,bestScore,best);
                 root.getChildren().add(imageView);
                 root.getChildren().add(gp);
 
-            playerName.setNickname(play.getText());
+            button1.setOnAction(e->{
+                //do database stuff
+                Splash.playerName.setNickname(play.getText());
+                Splash.playerName.setEmail(email.getText());
+                if (Splash.playerName.getNickname().equals("") ||
+                        Splash.playerName.getNickname().equals(null)) {
+                    //Check if the textbox is null or empty
+                    JOptionPane.showMessageDialog(null, "Please enter your name", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {//otherwise, insert into database and close the Input Window
+                    Splash.playerName.insert();
+                    //System.out.println("Data is Stored");
+                    Splash.play.setText(Splash.playerName.getNickname());
+                    Splash.email.setText(Splash.playerName.getEmail());
+                    primaryStage.close();
+                }
+                //do DATABASE STUFF HERE
+                primaryStage.close();
+            });
 
             Scene scene = new Scene(root, 400,400);
             scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());

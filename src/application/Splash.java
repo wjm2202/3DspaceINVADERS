@@ -28,6 +28,7 @@ import operations.RotateElements;
 import operations.WorldCoOrdinates;
 
 import java.io.InputStream;
+import database.*;
 
 public class Splash extends Application {
 
@@ -36,6 +37,8 @@ public class Splash extends Application {
     private CreateBox cb = new CreateBox();
     public static WorldCoOrdinates wc = new WorldCoOrdinates();
     public static int scaleSize=0;
+    static Name playerName = new Name();
+    static TextField play, email;
 
 
     public static void main(String[] args) {
@@ -119,9 +122,11 @@ public class Splash extends Application {
             });
             GridPane gp = new GridPane();                                          //layout style
             Label playLbl = new Label("Name:  ");  //label
-            TextField play= new TextField("Player Name");    //text box
+            //TextField play= new TextField("Player Name");    //text box
+            play = new TextField("Player Name");
             Label levelLbl = new Label("Level: ");
-            TextField lvl = new TextField("Current Level");  //lvl.settext(""+);
+            //TextField lvl = new TextField("Current Level");  //lvl.settext(""+);
+            email = new TextField("Email Address");
             Label score = new Label("Score: ");
             TextField sc = new TextField("");
             Label numEnimiew = new Label("Enemies: ");
@@ -140,7 +145,7 @@ public class Splash extends Application {
             GridPane.setConstraints(playLbl,0,1);
             GridPane.setConstraints(play,1,1);
             GridPane.setConstraints(levelLbl,0,2);
-            GridPane.setConstraints(lvl,1,2);
+            GridPane.setConstraints(email,1,2);
             GridPane.setConstraints(score,0,3);
             GridPane.setConstraints(sc,1,3);
             GridPane.setConstraints(numEnimiew,0,4);
@@ -149,7 +154,7 @@ public class Splash extends Application {
             GridPane.setConstraints(diff,1,5);
             GridPane.setConstraints(bestScore,0,6);
             GridPane.setConstraints(best,1,6);                                            //display boxes grid end
-            gp.getChildren().addAll(button1,button2,button3,playLbl,play,levelLbl,lvl,score,sc,numEnimiew,enemyTF,difficulty,diff,bestScore,best,scaleBounds);//add everything
+            gp.getChildren().addAll(button1,button2,button3,playLbl,play,levelLbl,email,score,sc,numEnimiew,enemyTF,difficulty,diff,bestScore,best,scaleBounds);//add everything
             root.getChildren().add(imageView);                                            //display the screen background picture
             root.getChildren().add(gp);                                                   //add the grid and buttons onto the root node
             Scene scene = new Scene(root, 700,580);                                       //generate the scene

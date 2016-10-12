@@ -48,15 +48,16 @@ public class Level {
         this.level = 0;
     }
 
-    public void insert(){//Method is used to insert name and email into database
-        String sqlquery = "insert into LEVELDIFFICULT (NICKNAME, LEVELS) values(?, ?)";
+    public void insert(){//Method is used to insert name and level into database
+        String sqlquery = "insert into LEVELDIFFICULT (NICKNAME, LEVELS) values(?, ?)";//Declare SQL insert statement
         try{
-            ps = connect.prepareStatement(sqlquery);
-            ps.setString(1, this.nickname);//
-            ps.setInt(2, this.level);
+            ps = connect.prepareStatement(sqlquery);//Pass SQL statement into the Preparestatement
+            ps.setString(1, this.nickname);//Pass into SQL Insert Parameter
+            ps.setInt(2, this.level);//Pass into SQL Insert Parameter
             
             ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Saved", "Insert Successfully", JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Saved", "Insert Successfully", JOptionPane.INFORMATION_MESSAGE);
+            System.out.println("Insert Successfully");
             ps.close();
             connect.close();
         }catch(Exception e){

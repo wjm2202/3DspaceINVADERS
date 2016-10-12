@@ -55,7 +55,7 @@ public class Score {
         this.level = level;
     }
     
-    public Score() {
+    public Score() {//Default constructor
         this.nickname = "";
         this.highscore = 0;
         this.numofKill = 0;
@@ -63,6 +63,7 @@ public class Score {
     }
 
     public Score(String nickname, int highscore, int numofKill, int level) {
+        //Constructor with 4 parameters
         this.nickname = nickname;
         this.highscore = highscore;
         this.numofKill = numofKill;
@@ -78,7 +79,8 @@ public class Score {
             ps.setInt(3, this.highscore);
             ps.setInt(4, this.numofKill);
             ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Saved", "Insert Successfully", JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(null, "Saved", "Insert Successfully", JOptionPane.INFORMATION_MESSAGE);
+            System.out.println("Insert Successfully!");
             ps.close();
             connect.close();
         } catch (Exception e) {
@@ -89,14 +91,16 @@ public class Score {
     }
     
         public boolean maketable() {
+            //The boolean method to check if the table is existed inside
+            //the database
         String query = "";
         if (connect != null) {
             try {
                 java.sql.DatabaseMetaData dbmd = connect.getMetaData();
                 ResultSet rs = dbmd.getTables(null, null, "PLAYERNAME", null);
-                if (rs.next()) {
+                if (rs.next()) {//If it is existed
                     System.out.println("table exists");
-                } else {
+                } else {//otherwise, create the table
                     query = "create table score(\n"
                             + "nickname varchar(40) not null,\n"
                             + "levels integer not null,\n"
@@ -105,7 +109,7 @@ public class Score {
                             + "constraint pk_nickname_score PRIMARY KEY (nickname)\n"
                             + ")";
                     ps = connect.prepareStatement(query);
-                    ps.execute();
+                    ps.execute();//Execute the SQL statement
                     System.out.println("new table created");
                 }
             } catch (SQLException ex) {
@@ -118,7 +122,7 @@ public class Score {
         return true;
     }
         
-        public Score getHighScore(String name){
+        public Score getHighScore(String name){//This method is to get the player's highscore
             Score playerscore = new Score();
             ResultSet rs = null;
             String sqlS = "";

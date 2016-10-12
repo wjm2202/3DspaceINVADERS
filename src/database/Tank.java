@@ -76,7 +76,8 @@ public class Tank {
         
     }
     
-        public boolean maketable() {
+        public boolean maketable() {//The boolean method to check if the table is existed inside
+                                    // the database
         String query = "";
         if (connect != null) {
             try {

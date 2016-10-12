@@ -29,7 +29,7 @@ public class derbyDBConnection {
 
         } catch (Exception e) {//Catch exception if it fail to connect to Derby Database
             JOptionPane.showMessageDialog(null, e.getMessage());
-            //e.printStackTrace();
+            e.printStackTrace();
             System.out.println("Connect fail.");
             return null;
         }

@@ -17,9 +17,10 @@ import javax.swing.JOptionPane;
  * @author Thi
  */
 public class Name {
-    private Connection connect = database.derbyDBConnection.dbconnect(); //Declare connection for derby
+    private Connection connect = derbyDBConnection.dbconnect(); //Declare connection for derby
     private String nickname;
     private String email;
+    private ResultSet rs = null;
     private PreparedStatement ps= null; //Declare preparestatement
     
 
@@ -51,23 +52,38 @@ public class Name {
     
     public void insert(){//Method is used to insert name and email into database
         String sqlquery = "insert into PLAYERNAME (NICKNAME, EMAILADD) values(?, ?)";
+        String sqlquery1 = "select NICKNAME, EMAILADD from TEAMGLEN.PLAYERNAME where " +
+                "NICKNAME = ? AND EMAILADD = ?";
         try{
-            ps = connect.prepareStatement(sqlquery);
+            ps = connect.prepareStatement(sqlquery1);
             ps.setString(1, this.nickname);
             ps.setString(2, this.email);
-            
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Saved", "Insert Successfully", JOptionPane.INFORMATION_MESSAGE);
-            ps.close();
-            connect.close();
-        }catch(Exception e){
+            rs = ps.executeQuery();
+            if(rs.next()){//If it is existed, it will display the message
+                JOptionPane.showMessageDialog(null, "The nickname: " + this.nickname
+                        + "and email: " + this.email + "\n" +
+                        " are already existed.", "Existed", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println("Existed");
+            }else {//Otherwise, add into the database
+                ps = connect.prepareStatement(sqlquery);
+                ps.setString(1, this.nickname);
+                ps.setString(2, this.email);
+                ps.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Saved", "Insert Successfully", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println("Insert Successfully");
+            }
+            rs.close();//Close resultset
+            ps.close();//Close Statement
+            connect.close();//Close connection
+        }catch(Exception e){//Capture the exception
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
         
     }
     
-    public boolean maketable() {
+    public boolean maketable() {//The boolean method to check if the table is existed inside
+                                //the database
         String query = "";
         if (connect != null) {
             try {

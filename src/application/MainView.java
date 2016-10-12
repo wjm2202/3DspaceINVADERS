@@ -41,7 +41,7 @@ import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import operations.*;
-
+import database.*;
 import javax.swing.*;
 import javax.tools.Tool;
 
@@ -154,6 +154,8 @@ public class MainView extends Application{
 	public static int addValue = 1;
 	public static double rotateAmount = 10.0;
 	public static int firstTime=0;
+    Score playerScore = new Score();
+    Level playerLevel = new Level();
 
 	@Override
 	public void stop(){                                                  //if the game stops or window is closed these methods will be called
@@ -629,6 +631,13 @@ public class MainView extends Application{
 							alive=false;                                                           //change alive flag
 							isAlive.setText("Alive: "+alive);                                      //temp display of state
 							gameIsRunning=false;
+                            playerLevel.setNickname(Splash.playerName.getNickname());
+                            playerLevel.setLevel(gameLevel);
+                            playerScore.setNickname(Splash.playerName.getNickname());
+                            playerScore.setHighscore(score);
+                            playerScore.setLevel(gameLevel);
+                            playerLevel.insert();//Insert into db
+                            playerScore.insert();//Insert into db
 							int reply = JOptionPane.showConfirmDialog(null,
 									"Score: "+score+"\n Health: "+health+"\n Level: "+gameLevel, " Restart Level?", JOptionPane.YES_NO_OPTION);
 							if (reply == JOptionPane.YES_OPTION) {
