@@ -109,6 +109,9 @@ public class Update {
                         case 1:                      //increase health
                             //gvg.setPlayerHealth(gvg.getPlayerHealth()*2);
                             MainView.health += 50;
+                            if(MainView.health>100){
+                                MainView.health = 100;
+                            }
                             break;
                         case 2:                      //give shield
                             gvg.setPlayerSheild(gvg.getPlayerSheild()+80);

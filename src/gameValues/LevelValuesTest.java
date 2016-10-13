@@ -10,7 +10,11 @@ import static org.junit.Assert.*;
  */
 public class LevelValuesTest {
 
-
+    /**
+     * this test will test for change of levels triggering
+     * new values to be used on the next level
+     * @throws Exception
+     */
     @Test
     public void levelChange() throws Exception {
         double changeValue = 0.2;

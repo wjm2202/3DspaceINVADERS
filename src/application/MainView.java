@@ -665,8 +665,8 @@ public class MainView extends Application{
 						bombGroup.getChildren().add(bomb);
 
 					}
-					if(((trigger%5)==0)&&(explosionGroup.getChildren().size()>0)){
-						for(int i =0;i<explosionGroup.getChildren().size();i++){
+					if(((trigger%5)==0)&&(explosionGroup.getChildren().size()>0)) {
+						for (int i = 0; i < explosionGroup.getChildren().size(); i++) {
 
 							explosionGroup.getChildren().remove(i);
 						}
