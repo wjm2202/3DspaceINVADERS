@@ -7,6 +7,7 @@ import javafx.geometry.Point3D;
 import java.util.ArrayList;
 
 /**
+ * create an array of new invaders at new start locations and return arraylist
  * Created by Liandri on 1/10/2016.
  */
 public class NewLevelStart {

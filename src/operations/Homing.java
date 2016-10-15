@@ -6,6 +6,7 @@ import javafx.scene.Node;
 
 /**
  * Created by Liandri on 28/09/2016.
+ * testing different seeking statagies for missles
  */
 public class Homing {
 

@@ -6,6 +6,8 @@ import camera.CreateCamera;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
+import javafx.geometry.Point2D;
+import javafx.geometry.Point3D;
 import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
@@ -30,21 +32,34 @@ import operations.WorldCoOrdinates;
 import java.io.InputStream;
 import database.*;
 
+/**
+ * This application is the entry point into the program and controls which stage is viewed by the user
+ * there are switches that allow the various screens to be displayed controlled by buttons
+ *
+ */
+
 public class Splash extends Application {
 
-    private RotateElements re = new RotateElements();
-    private CreateCamera cc = new CreateCamera(8);
-    private CreateBox cb = new CreateBox();
-    public static WorldCoOrdinates wc = new WorldCoOrdinates();
-    public static int scaleSize=0;
-    static Name playerName = new Name();
-    static TextField play, email;
+    private RotateElements re = new RotateElements();                //transoforms for rotation
+    private CreateCamera cc = new CreateCamera(8);                   //camera transforms
+    private CreateBox cb = new CreateBox();                          //box creator
+    public static WorldCoOrdinates wc = new WorldCoOrdinates();      //world boundries
+    public static int scaleSize=0;                                   //world scale value
+    static Name playerName = new Name();                             //name of the player
+    static TextField play, email;                                    //text feilds for data entry
 
-
+    /**
+     * the stage launcher is used to start different stages
+     * the stages are set to run at the end of the screen update cycle
+     * @param args
+     */
     public static void main(String[] args) {
         launch(args);
     }
 
+    /**
+     * launch the 3D game world
+     */
     public static void run3Dworld() {                               //method run 3D world Application
         Platform.runLater(new Runnable() {                          //GUI SAFE thread
             public void run() {                                     //run
@@ -55,6 +70,10 @@ public class Splash extends Application {
             }
         });
     }
+
+    /**
+     * launch the data entry screen
+     */
     public static void rundataBase() {                             //method run 3D world Application
         Platform.runLater(new Runnable() {                         //GUI SAFE thread
             public void run() {                                    //run
@@ -65,11 +84,17 @@ public class Splash extends Application {
         });
     }
 
-    public void init(){
+    /**
+     * carry out pre loading tasks
+     */
+    public void init(){                                           //pre load any resources before display
 
     }
 
-
+    /**
+     * create the scenes layout and form and set button actions
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
 
@@ -78,39 +103,37 @@ public class Splash extends Application {
 
         primaryStage.setResizable(false);
         Class<?> clazz = this.getClass();                                           //get this class
-        InputStream input = clazz.getResourceAsStream("/pics/splashShot.jpg");           //get this picture
-        Image image = new Image(input,800,600,false,true);                                             //Make an image
+        InputStream input = clazz.getResourceAsStream("/pics/splashshot.jpg");       //get this picture
+        Image image = new Image(input,800,600,false,true);                           //Make an image
         ImageView imageView = new ImageView(image);                                 //Make an imageview
-        imageView.setFitWidth(Screen.getPrimary().getBounds().getWidth());
-        imageView.setFitWidth(Screen.getPrimary().getBounds().getHeight());
+        imageView.setFitWidth(Screen.getPrimary().getBounds().getWidth());          //fit the image to stage size width
+        imageView.setFitWidth(Screen.getPrimary().getBounds().getHeight());         //fit the image to stage size height
         Pane root = new Pane();                                                      //scene
         root.setPadding(new Insets(20));                                             //style
         try{
-            ImageView invicon = new ImageView(new Image("/pics/invader11.png"));
-            Button button1 = new Button("Play",invicon);                                    //make button1 play
-            button1.setOnAction(e->{                                                //if button 1 is clicked
-                //System.out.println("play clicked");
-               // primaryStage.setm
-                run3Dworld();
+            ImageView invicon = new ImageView(new Image("/pics/invader11.png"));     //make icon for button
+            Button button1 = new Button("Play",invicon);                             //make button1 play
+            button1.setOnAction(e->{
+                run3Dworld();                                                        //run the stage for the game
             });
-            ImageView ed = new ImageView(new Image("/pics/details.png"));
+            ImageView ed = new ImageView(new Image("/pics/details.png"));            //make icon for button
             Button button2 = new Button("Enter Player Details",ed);                   //make button update details
             button2.setOnAction(e->{                                               //if button2 is clicked
                 rundataBase();                                                     //run DataBase Application
             });
-            ImageView ex = new ImageView(new Image("/pics/logout.png"));
+            ImageView ex = new ImageView(new Image("/pics/logout.png"));            //make icon for button
             Button button3 = new Button("EXIT",ex);                   //make button update details
             button3.setOnAction(e->{                                               //if button2 is clicked
     // ADD Database save here
-                Platform.setImplicitExit(true);                           //close down clean
-                System.exit(0);
+                Platform.setImplicitExit(true);                           //close down clean up
+                System.exit(0);                                           //exit with code 0
             });
 
             Button scaleBounds = new Button("Scale Box");                   //make button update details
             scaleBounds.setOnAction(e->{                                               //if button2 is clicked
-                if(scaleSize==0) {                                                     //run DataBase Application
-                    wc.resetScaleGameBox();
-                    scaleSize++;
+                if(scaleSize==0) {                                                     //test world scale size
+                    wc.resetScaleGameBox();                                            //rescale size
+                    scaleSize++;                                                       //update scale size
                 }else if(scaleSize==1){
                     wc.scaleUpGameBox();
                     scaleSize++;
@@ -118,14 +141,13 @@ public class Splash extends Application {
                     wc.scaleDownGameBox();
                     scaleSize = 0;
                 }
-               // System.out.println("Splash scale bounds mouse click "+scaleSize);
             });
-            GridPane gp = new GridPane();                                          //layout style
-            Label playLbl = new Label("Name:  ");  //label
-            //TextField play= new TextField("Player Name");    //text box
+            GridPane gp = new GridPane();                                               //layout style
+            Label playLbl = new Label("Name:  ");                                       //label
+            //TextField play= new TextField("Player Name");                             //text box
             play = new TextField("Player Name");
             Label levelLbl = new Label("Level: ");
-            //TextField lvl = new TextField("Current Level");  //lvl.settext(""+);
+            //TextField lvl = new TextField("Current Level");                           //lvl.settext(""+);
             email = new TextField("Email Address");
             Label score = new Label("Score: ");
             TextField sc = new TextField("");
@@ -136,8 +158,8 @@ public class Splash extends Application {
             Label bestScore = new Label("Personal Best ");
             TextField best = new TextField("");
             gp.setPadding(new Insets(20,20,20,20));                                       //style
-            gp.setVgap(8);
-            gp.setHgap(10);
+            gp.setVgap(8);                                                                //set verticle gap between buttons
+            gp.setHgap(10);                                                               //set horizontal gap between buttons
             GridPane.setConstraints(button1,0,0);                                         //display boxes grid start
             GridPane.setConstraints(button2,1,0);
             GridPane.setConstraints(button3,2,0);

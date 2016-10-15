@@ -5,6 +5,10 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 
+/**
+ * Image importing class
+ * create useable images and phong material for use to texture models
+ */
 public class Img {
 
 	private Group groundGroup;                                                //group tanks together
@@ -45,7 +49,11 @@ public class Img {
 	private PhongMaterial expPH;
 	private PhongMaterial cratePH;
 	private PhongMaterial splashPH;
-	
+
+	/**
+	 * import and set up images and textures used in a game
+	 */
+
 	public void setupTextures(){
 		Group boarderGroup = new Group();
 		groundGroup = new Group();                                          //make group able to hold tanks
@@ -63,7 +71,7 @@ public class Img {
 		tanktex = new Image("/pics/tanktex.png");    //get image to wrap cube in
 		groundtex = new Image("/pics/ground.jpg");    //get image to wrap cube in
 		bullcolor = new Image("/pics/bullcolor.jpg");    //get image to wrap cube in
-		explosion = new Image("/pics/impact Sparks.png");	//get image for explosion
+		explosion = new Image("/pics/ImpactSparks.png");	//get image for explosion
 		crate = new Image("/pics/crate_1.jpg");
 		splash = new Image("/pics/splashshot.jpg");
 
@@ -161,6 +169,13 @@ public class Img {
 		}
 		return getTextureMaterial;
 	}
+
+	/**
+	 * return the image ready to use
+	 * @param imgNum
+	 * @return
+	 */
+
 	public Image getImg(int imgNum){
 		Image selImage =new Image("/pics/bullcolor.jpg");
 		switch(imgNum){

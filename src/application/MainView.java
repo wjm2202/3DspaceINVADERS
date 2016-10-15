@@ -55,9 +55,7 @@ import javax.tools.Tool;
  */
 public class MainView extends Application{
 
-	Point3D tankViewnow;
-	private Label camLoc;
-	private Label camAngleLBL;
+
 	private Label levelNum;
 	private Label isAlive;
 	private Group root;                                                  //array that holds all objects on screen
@@ -67,40 +65,25 @@ public class MainView extends Application{
 	private PickResult selectedNode;                                     //mouse has clicked this object
 	private Node node;                                                   //a single 3D object
 	private ToolBar toolBar;                                             //the button bar at the bottom of scene
-	private ToolBar toolBarRight;
 //GROUPS
 	private static Group invaderGroup = new Group();                    //a group of 3D objects of type invader
-	private static Group boarderGroup = new Group();                     //a group of 3D objects that make up the world box
 	private static Group cameraGroup = new Group();                      //a group of view objects that give you a scene to look at
 	private static Group tankGroup = new Group();                        //a group of tanks
 	private static Group bulletGroup = new Group();                      //a group of bullets
 	private static Group bombGroup = new Group();                        //a group of bombs
-	private static Group homingGroup = new Group();
-	private static Group explosionGroup = new Group();
-	private static Group rewardGroup = new Group();
+	private static Group homingGroup = new Group();                      //a group of homing missles
+	private static Group explosionGroup = new Group();                   //a group of explosions
+	private static Group rewardGroup = new Group();                      //a group of rewards
 //CAMERA stuff
 	private static boolean picked;                                       //is an object selected
-	private double centX = screen.getMaxX()/2;                           //location of center of the screen width
-	private double centY = screen.getMaxY()/2;                           //location of center of the screem height
-	private int translocateX = (int)centX;                               //center X
-	private int translocateY = (int)centY;                               //center Y
-	private double sW = screen.getMaxX();
-	private double sH = screen.getMaxY();
-	private double cx= 483;                                                      //camera start location X
-	private double cy= -36;                                                      //camera start location Y
-	private double cz= 0.0;                                                      //camera start location Z
-	private double cRoll = 0;                                                    //camera start roll amount
-	private double mousePosX, mousePosY;                                 //mouse drag position
-	private double mouseOldX, mouseOldY;                                 //mouse drag position
-	//private final Rotate rotateX = new Rotate(0, Rotate.X_AXIS);         //rotate transform X
-	//private final Rotate rotateY = new Rotate(20, Rotate.Y_AXIS);        //rotate transform Y
-	//private final Rotate rotateZ = new Rotate(0, Rotate.Z_AXIS);         //rotate transform Z
+	private double sW = screen.getMaxX();                                //get the screen width
+	private double sH = screen.getMaxY();                                //get the screen height
 //SINGLE CONTRUCT OBJECTS
 	public static WorldCoOrdinates loc3D = Splash.wc;                     //get preset points important for game
 	public static LevelValues gvg = new LevelValues();                   //get gameVariable for invader game
-	public static Img img = new Img();                                                 //image class to get images
-	public static SoundEffects se = new SoundEffects();
-	public static ModelImporter mi = new ModelImporter();
+	public static Img img = new Img();                                   //image class to get images for 3D objects
+	public static SoundEffects se = new SoundEffects();                  //sound effects
+	public static ModelImporter mi = new ModelImporter();                //model generation
 	private MakeGrids mg = new MakeGrids();
 //OBJECTS
 	private MoveCamera mc = new MoveCamera();
@@ -114,7 +97,7 @@ public class MainView extends Application{
 	private Update update = new Update();                                        //update all elements locations and detect collisions
 	private ArrayList<Enemy> enemy = new ArrayList<>();                          //array of current enemies
 	private ArrayList<Point3D> startP3d = new ArrayList<>();                     //get pre generated start locations for enemies
-	private ArrayList<PerspectiveCamera> camList = new ArrayList<>();
+	private ArrayList<PerspectiveCamera> camList = new ArrayList<>();            //list of camera views
 	private BoundsClamp bc = new BoundsClamp();                                  //contain the 3D objects inside the 3D world box
 	private Random rand = new Random();                                          //random value used for testing
 	private RotateElements re = new RotateElements();                            //rotate transform for 3D objects
@@ -122,53 +105,49 @@ public class MainView extends Application{
 	private Movement facing = Movement.forwards;                                 //ENUM starting value
 	private Point3D bulletStart = new Point3D(0.0,0.0,0.0);                      //the location of the start of the bullet
 	private Point3D bombStart;                                                   //the location of the start of the bomb
-	private Point3D invaderStart;
-	private Point3D tankLocation;
-	private Point3D homingStart;
-	private MakeAssets ma = new MakeAssets();
-	private Homing homing = new Homing();
-	private NewLevelStart nls = new NewLevelStart();
-	private CameraPath cp = new CameraPath();
-	private UpdateProgressBars upb = new UpdateProgressBars();
-
-	private Node grnd;
+	private Point3D tankLocation;                                                //the current location of the tank
+	private Point3D homingStart;                                                 //the start location of the tank
+	private MakeAssets ma = new MakeAssets();                                    //generate finished 3D objects
+	private Homing homing = new Homing();                                        //missle objects
+	private NewLevelStart nls = new NewLevelStart();                             //changing level values between levels
+	private CameraPath cp = new CameraPath();                                    //make a camera path
+	private UpdateProgressBars upb = new UpdateProgressBars();                   //make a progress bar for health
 //VARIABLES
+	public int numEnimies = 0;                                                   //number of eneimies left on screen
 	private int trigger=0;                                                       //the limiter to the number of bombs dropped
 	private int score=0;                                                         //the player score
-	public static int health=100;                                                      //the player health
-	public static boolean gameIsRunning = false;                                       //game state started or stoped
-	private int currHitsOnTank =0;                                               //the amount of hits on the tank since last update
+	public static int health=100;                                                //the player health
+	public static boolean gameIsRunning = false;                                 //game state started or stoped
 	private int gameLevel = 1;                                                   //track the game level
-	private boolean alive = true;
-	private double moveX = 0.5;
-	private double moveZ = 0.5;
-	private boolean started = false;
-	private int camView = 1;
-	private static int camdirection = 2;
-    public static boolean nextLevel = false;
-	public int boxScale=0;
-	public int numEnimies;
-	private static Stage window;
-	private static boolean tankView = false;
-	public static Point3D oldCameraView;
-	public static int addValue = 1;
-	public static double rotateAmount = 10.0;
-	public static int firstTime=0;
-    Score playerScore = new Score();
-    Level playerLevel = new Level();
+	private boolean alive = true;                                                //tank alive status
+	private double moveX = 0.5;                                                  //move the tank by this amount
+	private double moveZ = 0.5;                                                  //move the tank by this amount
+	private boolean started = false;                                             //game start status
+    public static boolean nextLevel = false;                                     //next level switch
+	private static Stage window;                                                 //stage pointer
+	private static boolean tankView = false;                                     //verticle camera view
+	public static Point3D oldCameraView;                                         //previous camera view
+	public static int addValue = 1;                                              //switch view direction 1 or -1
+	public static double rotateAmount = 10.0;                                    //rotate transform
+	public static int firstTime=0;                                               //first run through loop
+    Score playerScore = new Score();                                             //database class
+    Level playerLevel = new Level();                                             //data base class
 
 	@Override
 	public void stop(){                                                  //if the game stops or window is closed these methods will be called
 		Platform.exit();
-	}
+	}                                      //platform exit
 
 	public static void main(String[] args)//DO NOT CODE HERE
 	{                                     //DO NOT CODE HERE
 		//Application.launch(args);         //DO NOT CODE HERE
-		LauncherImpl.launchApplication(MainView.class, FirstPreloader.class, args);
+		LauncherImpl.launchApplication(MainView.class, FirstPreloader.class, args);    //launch with preloader
 
 	}                                     //DO NOT CODE HERE
 
+	/**
+	 * launch the next level stage
+	 */
     public static void nextLevel() {
         Platform.runLater(new Runnable() {
             public void run() {
@@ -177,15 +156,21 @@ public class MainView extends Application{
             }
         });
     }
+
+	/**
+	 * return the game window to front of views
+	 */
 	public static void worldToFront() {
 		Platform.runLater(new Runnable() {
 			public void run() {
-				//run another application from here
 				window.toFront();
 			}
 		});
 	}
 
+	/**
+	 * initialize the game assets before the scene is displayed
+	 */
 	@Override
 	public void init(){
 
@@ -209,14 +194,14 @@ public class MainView extends Application{
 
 		// Create a Camera to view the 3D Shapes
 		camera = perCamera.getCamera();                                    //add the camera
-		camera.setTranslateX(500.0);
-		camera.setTranslateY(250.0);
-		camera.setTranslateZ(0.0);
-		camera.setNearClip(0.4);
-		camera.setFarClip(4000.0);
-		camera.setFieldOfView(45);
-		camera.setRotationAxis(Rotate.Y_AXIS);
-		camera.setRotate(-2);
+		camera.setTranslateX(500.0);                                       //set start x
+		camera.setTranslateY(250.0);                                       //set start y
+		camera.setTranslateZ(0.0);                                         //set start z
+		camera.setNearClip(0.4);                                           //scene clip size
+		camera.setFarClip(4000.0);                                         //set far clip size
+		camera.setFieldOfView(45);                                         //set viewing angle
+		camera.setRotationAxis(Rotate.Y_AXIS);                             //set angle of rotation
+		camera.setRotate(-2);                                              //adjust the angle
 
 
 		//create sub scene for tool bar
@@ -248,7 +233,7 @@ public class MainView extends Application{
 		//VBox vbox = new VBox();
 		//vbox.getChildren().addAll(camAngleLBL,camLoc);
 		camList = mc.makeCamList();                                                 //make all the cameras required for scene
-		ImageView mov = new ImageView(new Image("/pics/move.png"));
+		ImageView mov = new ImageView(new Image("/pics/move.png"));                 //make all the buttons
 		Button tester = new Button("",mov);           //move camera
 		tester.setOnAction(e->{
 		});
@@ -312,7 +297,7 @@ public class MainView extends Application{
 		gp.setHgap(5);
 		gp.getChildren().addAll(tester,camPLUSy,camPLUSz,camMINUSx,camCenter,camPLUSx,camMIUNSz,camMINUSy);
 
-		ImageView cam = new ImageView(new Image("/pics/cam.png"));
+		ImageView cam = new ImageView(new Image("/pics/cam.png"));                     //create camera buttons
 		Button tl = new Button("",cam);                                                //move camera  pos 1
 		tl.setOnAction(e->{
 
@@ -410,7 +395,7 @@ public class MainView extends Application{
 		gp2.getChildren().addAll(tl,tm,tr,ml,mm,mr,bl,bm);
 
 		//GridPane gp = mg.makeCameraMoveGrid(camera);
-		ImageView exi = new ImageView(new Image("/pics/exit.png"));
+		ImageView exi = new ImageView(new Image("/pics/exit.png"));                //create game state buttons
 		Button exit = new Button("Exit",exi);           //Exit game
 		exit.setOnAction(e->{
 			gameIsRunning=false;
@@ -421,23 +406,7 @@ public class MainView extends Application{
 		pause.setOnAction(e->{
 			gameIsRunning = gameIsRunning != true;
 		});
-		Button up = new Button("View");           //Pause game
-		up.setOnAction(e->{
-			if(camdirection==1){
-				cp.viewSwitch(camera, camdirection);
-				addValue=1;
-				camdirection += addValue;
-				rotateAmount = -rotateAmount;
-			}else if(camdirection==2){
-				cp.viewSwitch(camera, camdirection);
-				camdirection += addValue;
-			}else if(camdirection==3){
-				cp.viewSwitch(camera, camdirection);
-				addValue= -1;
-				camdirection += addValue;
-				firstTime++;
-			}
-		});
+
 		ImageView invicon = new ImageView(new Image("/pics/invicon.png"));
 		Button start = new Button("Start",invicon);           //Start game
 		start.setOnAction(e->{
@@ -456,14 +425,10 @@ public class MainView extends Application{
 		pane.setBottom(toolBar);
 		pane.setPrefSize(300,300);                                                  //size of center element
 
-
         Scene scene = new Scene(pane);                                              //add pane to scene
-
-
-        scene.setOnMousePressed((MouseEvent me) -> {                                //add mouse PRESSED event
-			mouseOldX = me.getSceneX();                                             //get starting location X
-			mouseOldY = me.getSceneY();                                             //get starting location Y
-		});
+/**
+ * key actions for tank control
+ */
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
@@ -565,6 +530,7 @@ public class MainView extends Application{
 				}
 			}
 		});
+
 		scene.setOnMouseClicked((event)->{                                          //make picked objects red
 			PickResult res = event.getPickResult();                                 //pick 3d object
 			if (res.getIntersectedNode() instanceof Box){                           //if object is box
@@ -585,44 +551,43 @@ public class MainView extends Application{
 			    //GAME LOOP
 				//oldCameraView = new Point3D(tankGroup.getTranslateX(),tankGroup.getTranslateY(),tankGroup.getTranslateZ());
 				if(gameIsRunning){
-					if(tankView==true){
+					if(tankView==true){                                                          //set camera view inside the tank
 						oldCameraView = new Point3D(tankGroup.getTranslateX()+500,tankGroup.getTranslateY()+480,tankGroup.getTranslateZ()+1050);
 						camera.setTranslateX(oldCameraView.getX());
 						camera.setTranslateY(oldCameraView.getY());
 						camera.setTranslateZ(oldCameraView.getZ());
 					}
-					pb.setProgress(upb.getNewHealthStatus(health));
+					pb.setProgress(upb.getNewHealthStatus(health));                             //update the health
 					oldCameraView = new Point3D(tankGroup.getTranslateX(),tankGroup.getTranslateY(),tankGroup.getTranslateZ());
-					tankGroup.setTranslateX((tankGroup.getTranslateX()+moveX));
-					tankGroup.setTranslateZ((tankGroup.getTranslateZ()+moveZ));
+					tankGroup.setTranslateX((tankGroup.getTranslateX()+moveX));                 //move tank if value is present
+					tankGroup.setTranslateZ((tankGroup.getTranslateZ()+moveZ));                 //move tank if value is present
 					bc.clamp(enemy);                                                          //trap invaders in bounds and move them
 					update.updateBullets(bulletGroup);                                            //make bullets move
-					update.updateReward(rewardGroup);
-					removeEnemies = update.bulletCollision(enemy, bulletGroup);                                    //test bullets for collision with invaders
-					update.homingColision(enemy, homingGroup);
-					health -= update.bombCollision(tankGroup, bombGroup);
-					gvg.setPlayerHealth(health);
-					update.updateBombs(bombGroup);
-					explosionGroup.getChildren().add(update.bombColisionGround(bombGroup));
-					collectedRewards = update.collectReward(tankGroup,rewardGroup);
+					update.updateReward(rewardGroup);                                             //check for new rewards
+					removeEnemies = update.bulletCollision(enemy, bulletGroup);                   //test bullets for collision with invaders
+					update.homingColision(enemy, homingGroup);                                    //test if homing missle hits enemy
+					health -= update.bombCollision(tankGroup, bombGroup);                         //test if tank hit by bomb
+					gvg.setPlayerHealth(health);                                                  //update health value
+					update.updateBombs(bombGroup);                                                //move bombs
+					explosionGroup.getChildren().add(update.bombColisionGround(bombGroup));       //if bomb explodes add explosion
+					collectedRewards = update.collectReward(tankGroup,rewardGroup);               //test if rewards are collected
 					for(int i =0;i<collectedRewards.size();i++){
-						rewardGroup.getChildren().remove(collectedRewards.get(i));
+						rewardGroup.getChildren().remove(collectedRewards.get(i));                //remove rewards if collected
 					}
 					collectedRewards.clear();
 					for(int i =0;i<removeEnemies.size();i++){
 
 							if(invaderGroup.getChildren().contains(removeEnemies.get(i).getGroup())) {     //test if in invader hit is in invadergroup
 
-								Point3D genPoint = new Point3D(0.0,-150.0,0.0);
-								//System.out.println("reward gernerated at  X "+genPoint.getX()+" Y "+genPoint.getY()+" Z "+genPoint.getZ());
-								Group temp = update.generateReward(genPoint);
+								Point3D genPoint = new Point3D(0.0,-150.0,0.0);                            //point 3D of location of tank
+								Group temp = update.generateReward(genPoint);                              //random chance of rewards
 								invaderGroup.getChildren().remove(removeEnemies.get(i).getGroup());       //remove hit invader from group
-								enemy.remove(removeEnemies.get(i));
-								score += gvg.getPointsPerKill();                                   //add points to score
-								gvg.setPlayerScore(score);
+								enemy.remove(removeEnemies.get(i));                                       //remove the enemies that have been hit
+								score += gvg.getPointsPerKill();                                          //add points to score
+								gvg.setPlayerScore(score);                                                //set new score values
 
 								if (temp.getChildren().size() > 0) {
-									rewardGroup.getChildren().add(temp);
+									rewardGroup.getChildren().add(temp);                                  //add new rewards to graph
 								}
 							}
 					}
@@ -630,84 +595,81 @@ public class MainView extends Application{
 						if((enemy.get(i).isLanded())||(health<1)){                                               //if invader is landed
 							alive=false;                                                           //change alive flag
 							isAlive.setText("Alive: "+alive);                                      //temp display of state
-							gameIsRunning=false;
-                            playerLevel.setNickname(Splash.playerName.getNickname());
+							gameIsRunning=false;                                                   //if invaders have landed stop the gme
+                            playerLevel.setNickname(Splash.playerName.getNickname());              //set database values
                             playerLevel.setLevel(gameLevel);
                             playerScore.setNickname(Splash.playerName.getNickname());
                             playerScore.setHighscore(score);
                             playerScore.setLevel(gameLevel);
-                            playerLevel.insert();//Insert into db
-                            playerScore.insert();//Insert into db
-							int reply = JOptionPane.showConfirmDialog(null,
+                            playerLevel.insert();                                                 //Insert into db
+                            playerScore.insert();                                                 //Insert into db
+							int reply = JOptionPane.showConfirmDialog(null,                       //player dialog
 									"Score: "+score+"\n Health: "+health+"\n Level: "+gameLevel, " Restart Level?", JOptionPane.YES_NO_OPTION);
-							if (reply == JOptionPane.YES_OPTION) {
+							if (reply == JOptionPane.YES_OPTION) {                                //restart level
 								health = 100;
 								gameIsRunning=true;
 								alive=true;
 								isAlive.setText("Alive:  "+alive);
-							}else{
+							}else{                                                               //do not restart level
 								health=100;
 							}
 						}
 					}
 
 					tfs.setText("SCORE: "+gvg.getPlayerScore());                                                        //display new score
-					tfh.setText("Health: "+health);
-					levelNum.setText("Level: "+gameLevel);
-					trigger++;
+					tfh.setText("Health: "+health);                                                                     //display health level
+					levelNum.setText("Level: "+gameLevel);                                                              //display level
+					trigger++;                                                                                          //update reward trigger
 					if(enemy.size()>0){
 						bombStart = update.dropBombLocation(enemy);
 					}
 
-					if(trigger==gvg.getDropsPerSecond()){
-						trigger=0;
-						Node bomb = ma.makeBomb(bombStart);
-						bombGroup.getChildren().add(bomb);
+					if(trigger==gvg.getDropsPerSecond()){                                                               //if trigger = number of bombs per second
+						trigger=0;                                                                                      //reset trigger
+						Node bomb = ma.makeBomb(bombStart);                                                             //create new bomb to drop
+						bombGroup.getChildren().add(bomb);                                                              //add bomb to graph
 
 					}
 					if(((trigger%5)==0)&&(explosionGroup.getChildren().size()>0)) {
 						for (int i = 0; i < explosionGroup.getChildren().size(); i++) {
 
-							explosionGroup.getChildren().remove(i);
+							explosionGroup.getChildren().remove(i);                                                     //if bomb collides with ground show explosion
 						}
 					}
 					//test if level is complete and then make new level nodes
-				    if(((invaderGroup.getChildren().size()==0)&&(started==true)&&(numEnimies==0))){
-							gvg.levelUP(gvg.getGameDiffucultyIncrease());
-						gameLevel++;
-							enemy = nls.initLevel();
-							for (int i = 0; i < enemy.size(); i++) {
+				    if(((invaderGroup.getChildren().size()==0)&&(started==true)&&(numEnimies==0))){                     //change game level
+						gvg.levelUP(gvg.getGameDiffucultyIncrease());
+						gameLevel++;                                                                                    //update level value
+						enemy = nls.initLevel();                                                                        //create enemy array
+						for (int i = 0; i < enemy.size(); i++) {
 
-								invaderGroup.getChildren().add(enemy.get(i).getGroup());
-							}
-							gvg.levelUP(gvg.getGameDiffucultyIncrease());
+							invaderGroup.getChildren().add(enemy.get(i).getGroup());                                    //add new invaders to new level
+						}
                     }
 					moveX=0;                                                                          //reset tank velocity
-					moveZ=0;
+					moveZ=0;                                                                          //reset tank velocity
                 }
-                                                                                          //reset tank velocity
             }
-
 		}.start();
 
 		facing = Movement.backwards;	//This makes the tank currently face backwards.
 
-		tankGroup = boxOP.makeModel(1, 12);         //first int is model number second int is skin number
-		root.getChildren().add(cameraGroup);
-		root.getChildren().add(invaderGroup);
-		root.getChildren().add(tankGroup);
-		tankGroup.setTranslateY(tankGroup.getTranslateY()-40);
-		root.getChildren().add(bulletGroup);
-		root.getChildren().add(bombGroup);
-		root.getChildren().add(homingGroup);
-		root.getChildren().add(explosionGroup);
-		root.getChildren().add(rewardGroup);
-		root.getChildren().add(boxOP.ground());                //add ground to scene
-		root.getChildren().add(boxOP.horizon());               //add background to scene
-		root.getChildren().add(boxOP.gameBox());			   //creating the box environment
-		root.getChildren().add(boxOP.corners());               // corner boxes
+		tankGroup = boxOP.makeModel(1, 12);                                                         //first int is model number second int is skin number
+		root.getChildren().add(cameraGroup);                                                        //add camera to scene graph
+		root.getChildren().add(invaderGroup);                                                       //add invaders to scene graph
+		root.getChildren().add(tankGroup);                                                          //add tank to scene graph
+		tankGroup.setTranslateY(tankGroup.getTranslateY()-40);                                      //adjust tank to center
+		root.getChildren().add(bulletGroup);                                                        //add bullets to scene graph
+		root.getChildren().add(bombGroup);                                                          //add bomb to scene graph
+		root.getChildren().add(homingGroup);                                                        //add homing to scene graph
+		root.getChildren().add(explosionGroup);                                                     //add explosion to scene graph
+		root.getChildren().add(rewardGroup);                                                        //add reward to scene graph
+		root.getChildren().add(boxOP.ground());                                                     //add ground to scene
+		root.getChildren().add(boxOP.horizon());                                                    //add background to scene
+		root.getChildren().add(boxOP.gameBox());			                                        //creating the box environment
+		root.getChildren().add(boxOP.corners());                                                     // corner boxes
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());      //add css to ui
-		stage.getIcons().add(new Image("/pics/spaceinvadericon.png"));
+		stage.getIcons().add(new Image("/pics/spaceinvadericon.png"));                               //set stage icon
 		stage.setScene(scene);                                                     // Add the Scene to the Stage
 		stage.setTitle("3D Space Invaders");                                   // Set the Title of the Stage
 		stage.show();                                                              // show to user

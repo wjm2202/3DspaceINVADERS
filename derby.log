@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Wed Oct 12 19:45:49 NZDT 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0157-b7a3-d230-000006e323a8 
-on database directory C:\Users\Thi\IdeaProjects\3DspaceINVADERS\3DSpaceInvader with class loader sun.misc.Launcher$AppClassLoader@29453f44 
-Loaded from file:/C:/Users/Thi/IdeaProjects/3DspaceINVADERS/lib/derby.jar
+Sun Oct 16 11:34:16 NZDT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0157-ca7b-3cf0-000006fb1190 
+on database directory C:\Users\Liandri\workspac\Box\3DSpaceInvader with class loader sun.misc.Launcher$AppClassLoader@6e0be858 
+Loaded from file:/C:/Users/Liandri/workspac/Box/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_51-b16
-user.dir=C:\Users\Thi\IdeaProjects\3DspaceINVADERS
-os.name=Windows 8.1
+java.runtime.version=1.8.0_91-b14
+user.dir=C:\Users\Liandri\workspac\Box
+os.name=Windows 10
 os.arch=amd64
-os.version=6.3
+os.version=10.0
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''

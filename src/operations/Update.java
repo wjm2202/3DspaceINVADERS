@@ -13,6 +13,7 @@ import static application.MainView.gvg;
 
 
 /**
+ * update game assets that are displayed on the scene graph
  * Created by Liandri on 21/09/2016.
  */
 public class Update {
@@ -24,7 +25,11 @@ public class Update {
     private ArrayList<Node> removeRewards = new ArrayList<>();                          //array of rewards to be removed on the next loop
 
 
-
+    /**
+     * make rewards
+     * @param spot
+     * @return
+     */
     public Group generateReward(Point3D spot){
         Group rewardGroup = new Group();
         int rewardNum = rand.nextInt(20);
@@ -34,12 +39,21 @@ public class Update {
         return rewardGroup;
     }
 
+    /**
+     * move bombs on screen
+     * @param bombGroup
+     */
     public void updateBombs(Group bombGroup){
         for(int i =0;i<bombGroup.getChildren().size();i++){
             bombGroup.getChildren().get(i).setTranslateY(bombGroup.getChildren().get(i).getTranslateY()+lv.getEnemyBombSpeed());
         }
     }
 
+    /**
+     * get a location for a bomb to start dropping
+     * @param enemies
+     * @return
+     */
     public Point3D dropBombLocation(ArrayList<Enemy> enemies){
         int dropper = rand.nextInt(enemies.size());
         Point3D dropPoint = new Point3D(enemies.get(dropper).getGroup().getChildren().get(0).getTranslateX()-490,enemies.get(dropper).getGroup().getChildren().get(0).getTranslateY()-500,enemies.get(dropper).getGroup().getChildren().get(0).getTranslateZ()-1050);
@@ -63,6 +77,11 @@ public class Update {
 
         }
     }
+
+    /**
+     * make a reward drop to ground
+     * @param rewardGroup
+     */
     public void updateReward(Group rewardGroup){
         for(int i =0;i<rewardGroup.getChildren().size();i++){
           if((rewardGroup.getChildren().get(i).getTranslateY())< -60) {
@@ -71,6 +90,12 @@ public class Update {
         }
     }
 
+    /**
+     * test if a bullet has collided with an enemy return a list of enemies hit for removal
+     * @param enemies
+     * @param bullet
+     * @return
+     */
     public ArrayList<Enemy> bulletCollision(ArrayList<Enemy> enemies, Group bullet){
         Node bull;
         Node brick;
@@ -92,6 +117,13 @@ public class Update {
         }
      return remove;
     }
+
+    /**
+     * test if tank has collided with a reward for collection return a list of collected rewards
+     * @param tankGroup
+     * @param rewardGroup
+     * @return
+     */
     public ArrayList<Node> collectReward(Group tankGroup, Group rewardGroup){
 
         for(int i =0;i<tankGroup.getChildren().size();i++){                                                    //loop size of enemy array
@@ -127,6 +159,12 @@ public class Update {
         return removeRewards;
     }
 
+    /**
+     * test for homing collision with enemies return array of eneimies to remove
+     * @param enemies
+     * @param bullet
+     * @return
+     */
     public ArrayList<Enemy> homingColision(ArrayList<Enemy> enemies, Group bullet){
         Node bull;
         Node brick;
@@ -145,6 +183,13 @@ public class Update {
         }
         return enemies;
     }
+
+    /**
+     * test for collision of bomb and tank return health update
+     * @param tank
+     * @param bombs
+     * @return
+     */
     public int bombCollision(Group tank, Group bombs){
         int damage =0;
         for(int i =0;i<bombs.getChildren().size();i++){                                                    //loop size of enemy array
@@ -158,6 +203,12 @@ public class Update {
         }
         return damage;
     }
+
+    /**
+     * test if the bomb has hit the ground for explosion
+     * @param bombs
+     * @return
+     */
     public Group bombColisionGround(Group bombs){
         int damage =0;
         Group explosion = new Group();

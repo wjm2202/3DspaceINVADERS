@@ -5,6 +5,7 @@ import javafx.scene.media.AudioClip;
 import java.net.URL;
 
 /**
+ * create and play sound effect events for game play
  * Created by Liandri on 2/10/2016.
  */
 public class SoundEffects {

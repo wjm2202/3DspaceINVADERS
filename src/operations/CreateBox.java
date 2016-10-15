@@ -32,9 +32,11 @@ public class CreateBox {
 	static ArrayList<Point3D> bo = new ArrayList<>();                       //ArrayList of points of world boundary
 	Random rand = new Random();
 	Img img = MainView.img;
-	
 
-	
+
+	/**
+	 * constructor for box factory
+	 */
 	public CreateBox()
 	{
 		img.setupTextures();                                                    //apply images to textures
@@ -43,6 +45,10 @@ public class CreateBox {
 		invaderGroup = new Group();
 	}
 
+	/**
+	 * create corner markers
+	 * @return
+	 */
 	public Group corners(){
 		Group cnr = new Group();
 		cnr.getChildren().add(makeConers(wc.case0.getX(),wc.case0.getY(),wc.case0.getZ(),5));
@@ -93,6 +99,15 @@ public class CreateBox {
 		ground.setMaterial(img.getTexture(13));
 		return ground;
 	}
+
+	/**
+	 * corner markers
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param sizeX
+	 * @return
+	 */
 	public Cylinder makeConers(double x, double y, double z, double sizeX){
 		Cylinder boarderBox = new Cylinder(sizeX, sizeX);                  //make 3D box
 		boarderBox.setTranslateX(x);                            //set x location
@@ -103,10 +118,17 @@ public class CreateBox {
 		return boarderBox;
 		
 	}
+
+	/**
+	 * make 3D models with shape and skin
+	 * @param modelNumber
+	 * @param skinNum
+	 * @return
+	 */
 	public Group makeModel(int modelNumber, int skinNum){
 		Group beast = new Group();
 		MeshView[] mv = mi.makeMesh(modelNumber);
-		//System.out.println("before test object mi.size "+mv.length);
+		System.out.println("before test object mi.size "+mv.length);
 
 		for (int i = 0; i < mv.length; i++) {
 			mv[i].setTranslateX(500);                  //was 500
@@ -123,9 +145,16 @@ public class CreateBox {
 			beast.getChildren().add(mv[i]);
 
 		}
-		//re.rotateLeft(beast,90.0);
 		return beast;
 	}
+
+	/**
+	 * old invader for testing purposes
+	 * @param modelNumber
+	 * @param skinNum
+	 * @param start
+	 * @return
+	 */
 	public Group makeInvader(int modelNumber, int skinNum, Point3D start){
 		Group beast = new Group();
 		MeshView[] mv = mi.makeMesh(modelNumber);
@@ -147,10 +176,16 @@ public class CreateBox {
 
 		}
 		re.rotateLeft(beast,135.0);
-		//System.out.println(beast.getRotationAxis());
 		return beast;
 	}
 
+	/**
+	 * create mouse pointer shapes for boundry tests pre junit 4 method
+	 * @param xloc
+	 * @param yloc
+	 * @param zloc
+	 * @return
+	 */
 	public Group poly(double xloc, double yloc, double zloc){
 
 		Group g = new Group();
@@ -472,62 +507,7 @@ public class CreateBox {
 		}
 		return boarderGroup;	
 	}
-/**
- * OLD UNUSED method for making a swarm of invaders
- * uses invader to generate a single invader at a time 
- * to add to a group of invaders in a predefined pattern
- * uses an array to arrange the single invaders into a patterned group	
- * @param root
- * @return group of invaders in a patttern
- */
-/*	public Group invaderSwarm(Group root){            //make a group of invaders in a pattern of an invader
-		int posInvaders = 0;
-		int posY = 0;
-		int[][] shape  = {{0,0,0,1,1,0,0,0}          //array of switches to make differnt invaders for different places
-						 ,{2,0,2,2,2,2,0,2}
-						 ,{0,3,0,3,3,0,3,0}
-						 ,{0,4,4,4,4,4,4,0}
-						 ,{0,5,0,0,0,0,5,0}
-						 ,{0,6,0,6,6,0,6,0}
-						 ,{7,0,0,0,0,0,0,7}
-						 ,{8,0,0,0,0,0,0,8}};
-		for(int y =0;y<2;y++){
-			for(int x=0;x<8;x++){
-				switch(shape[y][x]){
-				case 0:
-					break;
-				case 1:
-					invader(root,img.getImg(1), 10, posInvaders,posY);               //make individual invader to add to swarm group
-					break;
-				case 2:
-					invader(root,img.getImg(2), 10, posInvaders,posY);
-					break;
-				case 3:
-					invader(root,img.getImg(3), 10, posInvaders,posY);
-					break;
-				case 4:
-					invader(root,img.getImg(4), 10, posInvaders,posY);
-					break;
-				case 5:
-					invader(root,img.getImg(5), 10, posInvaders,posY);
-					break;
-				case 6:
-					invader(root,img.getImg(6), 10, posInvaders,posY);
-					break;
-				case 7:
-					invader(root,img.getImg(7), 10, posInvaders,posY);
-					break;
-				case 8:
-					invader(root,img.getImg(8), 10, posInvaders,posY);
-					break;
-				}
-				posInvaders+=100;                                              //move to new location after each invader is made
-			}
-			posInvaders-=800;                                                  //move back to start of next line of invaders
-			posY+=100;
-		}
-		return invaderGroup;                                                   //return finished group of invaders
-*	}
+
 /**
  * OLD UNUSED method for testing
  * this method generates a single invader from an array pattern
@@ -614,9 +594,6 @@ public class CreateBox {
                         textbox6.setTranslateY(currY);                             //set y location
                         textbox6.setTranslateZ(currZ);
                         textbox6.setMaterial(img.getTexture(15));   //pasting image to the 3D box created
-                        //temp.setDiffuseColor(Color.BEIGE);        //set dark side color
-                        //temp.setDiffuseMap(image4);                //add texture to box on light side
-                        //textbox6.setMaterial(temp);               //set light side texture
                         is.getChildren().add(textbox6);
                         break;
                     case 0:                                                        //if the array has a 0 do nothing (space)
@@ -655,9 +632,6 @@ public class CreateBox {
                         textbox6.setTranslateX(currX);                            //set x location
                         textbox6.setTranslateY(currY);                             //set y location
                         textbox6.setTranslateZ(currZ);
-                        //temp.setDiffuseColor(Color.BEIGE);        //set dark side color
-                        //temp.setDiffuseMap(image4);                //add texture to box on light side
-                        //textbox6.setMaterial(temp);               //set light side texture
                         is.getChildren().add(textbox6);
                         break;
                     case 0:                                                        //if the array has a 0 do nothing (space)
@@ -692,9 +666,6 @@ public class CreateBox {
                         textbox6.setTranslateX(currX);                            //set x location
                         textbox6.setTranslateY(currY);                             //set y location
                         textbox6.setTranslateZ(currZ);
-                        //temp.setDiffuseColor(Color.BEIGE);        //set dark side color
-                        //temp.setDiffuseMap(image4);                //add texture to box on light side
-                        //textbox6.setMaterial(temp);               //set light side texture
                         is.getChildren().add(textbox6);
                         break;
                     case 0:                                                        //if the array has a 0 do nothing (space)
@@ -734,9 +705,6 @@ public class CreateBox {
                         textbox6.setTranslateX(currX);                            //set x location
                         textbox6.setTranslateY(currY);                             //set y location
                         textbox6.setTranslateZ(currZ);
-                        //temp.setDiffuseColor(Color.BEIGE);        //set dark side color
-                        //temp.setDiffuseMap(image4);                //add texture to box on light side
-                        //textbox6.setMaterial(temp);               //set light side texture
                         is.getChildren().add(textbox6);
                         break;
                     case 0:                                                        //if the array has a 0 do nothing (space)
@@ -750,5 +718,4 @@ public class CreateBox {
         }
         return is;
     }
-
 }
