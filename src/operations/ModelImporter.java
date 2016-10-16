@@ -57,10 +57,7 @@ public class ModelImporter {
      * @return
      */
     public MeshView[] makeMesh(int modelNum){
-        //ObjModelImporter objImporter = new ObjModelImporter();
         URL modelUrl=  null;
-        CodeSource src = ModelImporter.class.getProtectionDomain().getCodeSource();
-        //System.out.println("the path to model 1 "+this.getClass().getResource("/models/aliens_APC.obj"));
         try {
             switch (modelNum){
                 case 0:

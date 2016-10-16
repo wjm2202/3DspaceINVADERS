@@ -10,10 +10,10 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
+ * this class will only be displayed on computers where the assets are slow to load
  * Created by Liandri on 5/10/2016.
  */
 public class FirstPreloader extends Preloader {
-    Rectangle2D primaryScreenBounds = Screen.getPrimary().getVisualBounds();
     ProgressBar bar;
     Stage stage;
 

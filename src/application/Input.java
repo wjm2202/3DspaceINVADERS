@@ -1,4 +1,8 @@
-package application;/**
+package application;
+
+
+/**
+ * this application is a simple progress bar for progress in loading assets
  * Created by Liandri on 9/10/2016.
  */
 

@@ -1,8 +1,8 @@
 ----------------------------------------------------------------
-Sun Oct 16 11:34:16 NZDT 2016:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0157-ca7b-3cf0-000006fb1190 
-on database directory C:\Users\Liandri\workspac\Box\3DSpaceInvader with class loader sun.misc.Launcher$AppClassLoader@6e0be858 
-Loaded from file:/C:/Users/Liandri/workspac/Box/lib/derby.jar
+Sun Oct 16 17:02:07 NZDT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.12.1.1 - (1704137): instance a816c00e-0157-cba7-62a9-000006aa97a0 
+on database directory C:\Users\Liandri\workspac\Box\3DSpaceInvader with class loader sun.misc.Launcher$AppClassLoader@55f96302 
+Loaded from file:/C:/Users/Liandri/workspac/Box/out/artifacts/Box_jar/Box.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.8.0_91-b14
 user.dir=C:\Users\Liandri\workspac\Box
