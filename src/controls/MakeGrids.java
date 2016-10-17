@@ -73,7 +73,8 @@ public class MakeGrids {
             camera.setRotate(-90.0);
         });
         GridPane gp = new GridPane();
-        Label test = new Label("Camera");
+        //Label test = new Label("Camera");
+
         GridPane.setConstraints(camROTATEyRight,0,0);
         GridPane.setConstraints(camPLUSy,1,0);                                         //display boxes grid start
         GridPane.setConstraints(camPLUSz,2,0);
