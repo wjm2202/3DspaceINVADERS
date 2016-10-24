@@ -2,12 +2,11 @@ package application;
 
 
 /**
- * this application is a simple progress bar for progress in loading assets
+ * this application is FOR COLLECTION of user details for the DB
  * Created by Liandri on 9/10/2016.
  */
 
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -15,13 +14,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import database.*;
 
 import javax.swing.*;
@@ -29,8 +25,8 @@ import java.io.InputStream;
 
 public class Input extends Application {
 
-    Name playerName = new Name();
-    Score playerscore = new Score();
+    Name playerName = new Name();                                        //name class
+    Score playerscore = new Score();                                     //score class
 
 
     public static void main(String[] args) {
@@ -43,19 +39,19 @@ public class Input extends Application {
         primaryStage.setResizable(false);
         try{
 
-            Button button1 = new Button("Done");
+            Button button1 = new Button("Done");                                                //the enter details into DB button
             Image lvls = new Image(getClass().getResourceAsStream("/pics/done.png"));
             button1.setGraphic(new ImageView(lvls));
 
 
-            Class<?> clazz = this.getClass();
-            InputStream input = clazz.getResourceAsStream("/pics/space.jpg");
-            Image image = new Image(input,500,500,false,true);
-            ImageView imageView = new ImageView(image);
-            Pane root = new Pane();
-            root.setPadding(new Insets(20));
-                GridPane gp = new GridPane();
-                Label save = new Label("Save");
+            Class<?> clazz = this.getClass();                                                  //get the class as a location
+            InputStream input = clazz.getResourceAsStream("/pics/space.jpg");                  //get the image
+            Image image = new Image(input,500,500,false,true);                                 //set the image
+            ImageView imageView = new ImageView(image);                                        //create image view for working image
+            Pane root = new Pane();                                                            //make the root pane
+            root.setPadding(new Insets(20));                                                   //style
+                GridPane gp = new GridPane();                                                  //make the grid for the buttons and boxes
+                Label save = new Label("Save");                                                //details feilds
                 Label playLbl = new Label("Name:  ");
                 TextField play= new TextField("Player Name");
                 Label levelLbl = new Label("Email: ");
@@ -68,10 +64,10 @@ public class Input extends Application {
                 TextField diff = new TextField("");
                 Label bestScore = new Label("Personal Best ");
                 TextField best = new TextField("");
-                gp.setPadding(new Insets(20,20,20,20));
+                gp.setPadding(new Insets(20,20,20,20));                                     //style
                 gp.setVgap(8);
                 gp.setHgap(10);
-                GridPane.setConstraints(save,0,0);
+                GridPane.setConstraints(save,0,0);                                          //make layout using grid pane
                 GridPane.setConstraints(button1,1,0);
                 GridPane.setConstraints(playLbl,0,1);
                 GridPane.setConstraints(play,1,1);
@@ -86,37 +82,37 @@ public class Input extends Application {
                 GridPane.setConstraints(bestScore,0,6);
                 GridPane.setConstraints(best,1,6);
                 gp.getChildren().addAll(save,button1,playLbl,play,levelLbl,email,score,sc,numEnimiew,enemyTF,difficulty,diff,bestScore,best);
-                root.getChildren().add(imageView);
-                root.getChildren().add(gp);
+                root.getChildren().add(imageView);                                                             //add image to background
+                root.getChildren().add(gp);                                                                    //add buttons and boxes
 
-            button1.setOnAction(e->{
+            button1.setOnAction(e->{                                                                          //enter into Db button
                 //do database stuff
-                Splash.playerName.setNickname(play.getText());
+                Splash.playerName.setNickname(play.getText());                                                //set name
                 Splash.playerName.setEmail(email.getText());
                 if (Splash.playerName.getNickname().equals("") ||
-                        Splash.playerName.getNickname().equals(null)) {
+                        Splash.playerName.getNickname().equals(null)) {                                       //test that name was set
                     //Check if the textbox is null or empty
-                    JOptionPane.showMessageDialog(null, "Please enter your name", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {//otherwise, insert into database and close the Input Window
-                    Splash.playerName.insert();
+                    JOptionPane.showMessageDialog(null, "Please enter your name", "Error", JOptionPane.ERROR_MESSAGE);   //user error dialog
+                } else {                                                                                      //otherwise, insert into database and close the Input Window
+                    Splash.playerName.insert();                                                               //Insert into DB
                     //System.out.println("Data is Stored");
-                    Splash.play.setText(Splash.playerName.getNickname());
-                    Splash.email.setText(Splash.playerName.getEmail());
-                    primaryStage.close();
+                    Splash.play.setText(Splash.playerName.getNickname());                                     //show name in text box
+                    Splash.email.setText(Splash.playerName.getEmail());                                       //show email in text box
+                    primaryStage.close();                                                                     //close stage
                 }
                 //do DATABASE STUFF HERE
-                primaryStage.close();
+                primaryStage.close();                                                                //close this stage
             });
 
-            Scene scene = new Scene(root, 400,400);
-            scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
-            primaryStage.setScene(scene);
-            primaryStage.setTitle("3D Space Invaders");
-            primaryStage.getIcons().add(new Image("/pics/spaceinvadericon.png"));
-            scene.setFill(Color.BLACK);
-            primaryStage.show();
+            Scene scene = new Scene(root, 400,400);                                                   //set size
+            scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());   //apply css style
+            primaryStage.setScene(scene);                                                             //set the scene to the stage
+            primaryStage.setTitle("3D Space Invaders");                                               //set tittle
+            primaryStage.getIcons().add(new Image("/pics/spaceinvadericon.png"));                     //set game icon
+            scene.setFill(Color.BLACK);                                                               //set fill
+            primaryStage.show();                                                                      //make stage visible
         }catch(Exception e){
-            System.out.println("Input.java Application failed to load");
+            System.out.println("Input.java Application failed to load");                              //error loading application module
         }
     }
 }

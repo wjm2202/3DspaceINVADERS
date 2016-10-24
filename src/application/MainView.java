@@ -2,7 +2,6 @@ package application;
 
 import java.util.ArrayList;
 import java.util.Random;
-
 import camera.CameraPath;
 import camera.CreateCamera;
 import camera.MoveCamera;
@@ -30,20 +29,17 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Box;
-import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import operations.*;
 import database.*;
 import javax.swing.*;
-import javax.tools.Tool;
 
 /**
  * This is where the control logic goes for the main flow of the Model Veiw Controller
@@ -78,13 +74,12 @@ public class MainView extends Application{
 	private static boolean picked;                                       //is an object selected
 	private double sW = screen.getMaxX();                                //get the screen width
 	private double sH = screen.getMaxY();                                //get the screen height
-//SINGLE CONTRUCT OBJECTS
+//SINGLE CONSTRUCT OBJECTS
 	public static WorldCoOrdinates loc3D = Splash.wc;                     //get preset points important for game
 	public static LevelValues gvg = new LevelValues();                   //get gameVariable for invader game
 	public static Img img = new Img();                                   //image class to get images for 3D objects
 	public static SoundEffects se = new SoundEffects();                  //sound effects
 	public static ModelImporter mi = new ModelImporter();                //model generation
-	private MakeGrids mg = new MakeGrids();
 //OBJECTS
 	private MoveCamera mc = new MoveCamera();
 	private LightingElements lightEle = new LightingElements();                  //lighting
@@ -215,8 +210,7 @@ public class MainView extends Application{
 
 		BorderPane pane = new BorderPane();                                         //make outer display
 		pane.setCenter(subScene);
-		//System.out.println("application test START  at top");
-		tfs = new Label("SCORE: "+score);       //add the score to tool bar
+		tfs = new Label("SCORE: "+score);                                           //add the score to tool bar
 		Image bar = new Image(getClass().getResourceAsStream("/pics/bar.png"));
 		tfs.setGraphic(new ImageView(bar));
 		ProgressBar pb = new ProgressBar();
@@ -230,8 +224,6 @@ public class MainView extends Application{
 		levelNum = new Label("Level: "+gameLevel);
 		Image lvls = new Image(getClass().getResourceAsStream("/pics/invader1.png"));
 		levelNum.setGraphic(new ImageView(lvls));
-		//VBox vbox = new VBox();
-		//vbox.getChildren().addAll(camAngleLBL,camLoc);
 		camList = mc.makeCamList();                                                 //make all the cameras required for scene
 		ImageView mov = new ImageView(new Image("/pics/move.png"));                 //make all the buttons
 		Button tester = new Button("",mov);           //move camera
@@ -393,22 +385,20 @@ public class MainView extends Application{
 		gp2.setVgap(5);
 		gp2.setHgap(5);
 		gp2.getChildren().addAll(tl,tm,tr,ml,mm,mr,bl,bm);
-
-		//GridPane gp = mg.makeCameraMoveGrid(camera);
 		ImageView exi = new ImageView(new Image("/pics/exit.png"));                //create game state buttons
-		Button exit = new Button("Exit",exi);           //Exit game
+		Button exit = new Button("Exit",exi);                                      //Exit game
 		exit.setOnAction(e->{
 			gameIsRunning=false;
 			Platform.exit();
 		});
 		ImageView pau = new ImageView(new Image("/pics/pause.png"));
-		Button pause = new Button("Pause",pau);           //Pause game
+		Button pause = new Button("Pause",pau);                                     //Pause game
 		pause.setOnAction(e->{
 			gameIsRunning = gameIsRunning != true;
 		});
 
 		ImageView invicon = new ImageView(new Image("/pics/invicon.png"));
-		Button start = new Button("Start",invicon);           //Start game
+		Button start = new Button("Start",invicon);                                 //Start game
 		start.setOnAction(e->{
 
 			if(!gameIsRunning){

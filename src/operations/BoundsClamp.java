@@ -1,7 +1,6 @@
 package operations;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import application.MainView;
 import application.Splash;

@@ -6,23 +6,14 @@ import camera.CreateCamera;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.geometry.Point2D;
-import javafx.geometry.Point3D;
-import javafx.scene.PerspectiveCamera;
 import javafx.scene.Scene;
-import javafx.scene.SceneAntialiasing;
-import javafx.scene.SubScene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Box;
-import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import operations.CreateBox;
@@ -128,7 +119,7 @@ public class Splash extends Application {
                 Platform.setImplicitExit(true);                           //close down clean up
                 System.exit(0);                                           //exit with code 0
             });
-
+/*                                                                         SPRINT 3 ROLL OUT
             Button scaleBounds = new Button("Scale Box");                   //make button update details
             scaleBounds.setOnAction(e->{                                               //if button2 is clicked
                 if(scaleSize==0) {                                                     //test world scale size
@@ -141,7 +132,7 @@ public class Splash extends Application {
                     wc.scaleDownGameBox();
                     scaleSize = 0;
                 }
-            });
+            });                                               */
             GridPane gp = new GridPane();                                               //layout style
             Label playLbl = new Label("Name:  ");                                       //label
             //TextField play= new TextField("Player Name");                             //text box
@@ -151,32 +142,32 @@ public class Splash extends Application {
             email = new TextField("Email Address");
             Label score = new Label("Score: ");
             TextField sc = new TextField("");
-            Label numEnimiew = new Label("Enemies: ");
-            TextField enemyTF = new TextField("");
-            Label difficulty = new Label("Difficultly: ");
-            TextField diff = new TextField("");
-            Label bestScore = new Label("Personal Best ");
-            TextField best = new TextField("");
+           // Label numEnimiew = new Label("Enemies: ");                                //add once DB user stories are finished
+            //TextField enemyTF = new TextField("");                                    //
+            //Label difficulty = new Label("Difficultly: ");                            //
+            //TextField diff = new TextField("");                                       //
+            //Label bestScore = new Label("Personal Best ");                            //
+           // TextField best = new TextField("");                                       //add once DB user stories are finished
             gp.setPadding(new Insets(20,20,20,20));                                       //style
             gp.setVgap(8);                                                                //set verticle gap between buttons
             gp.setHgap(10);                                                               //set horizontal gap between buttons
             GridPane.setConstraints(button1,0,0);                                         //display boxes grid start
             GridPane.setConstraints(button2,1,0);
             GridPane.setConstraints(button3,2,0);
-            GridPane.setConstraints(scaleBounds,4,0);
+           // GridPane.setConstraints(scaleBounds,4,0);                                 //sprint 3
             GridPane.setConstraints(playLbl,0,1);
             GridPane.setConstraints(play,1,1);
             GridPane.setConstraints(levelLbl,0,2);
             GridPane.setConstraints(email,1,2);
             GridPane.setConstraints(score,0,3);
             GridPane.setConstraints(sc,1,3);
-            GridPane.setConstraints(numEnimiew,0,4);
-            GridPane.setConstraints(enemyTF,1,4);
-            GridPane.setConstraints(difficulty,0,5);
-            GridPane.setConstraints(diff,1,5);
-            GridPane.setConstraints(bestScore,0,6);
-            GridPane.setConstraints(best,1,6);                                            //display boxes grid end
-            gp.getChildren().addAll(button1,button2,button3,playLbl,play,levelLbl,email,score,sc,numEnimiew,enemyTF,difficulty,diff,bestScore,best,scaleBounds);//add everything
+           // GridPane.setConstraints(numEnimiew,0,4);                                  //add once DB user stories are finsihed
+            //GridPane.setConstraints(enemyTF,1,4);                                     //
+            //GridPane.setConstraints(difficulty,0,5);                                  //
+            //GridPane.setConstraints(diff,1,5);                                         //
+            //GridPane.setConstraints(bestScore,0,6);                                       //add once DB user stories are finishes
+            //GridPane.setConstraints(best,1,6);                                            //display boxes grid end
+            gp.getChildren().addAll(button1,button2,button3,playLbl,play,levelLbl,email,score,sc);//add everything
             root.getChildren().add(imageView);                                            //display the screen background picture
             root.getChildren().add(gp);                                                   //add the grid and buttons onto the root node
             Scene scene = new Scene(root, 700,580);                                       //generate the scene

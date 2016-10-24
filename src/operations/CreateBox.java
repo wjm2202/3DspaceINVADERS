@@ -3,7 +3,6 @@ package operations;
 import application.MainView;
 import application.Splash;
 import javafx.geometry.Point3D;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -12,7 +11,6 @@ import javafx.scene.shape.Box;
 import javafx.scene.shape.Cylinder;
 import javafx.scene.shape.MeshView;
 import javafx.scene.shape.Polygon;
-import javafx.stage.Screen;
 
 import java.util.ArrayList;
 import java.util.Random;

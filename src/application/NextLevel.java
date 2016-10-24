@@ -2,7 +2,7 @@ package application;
 
 
 /**
- * level displaying values between level changes
+ * level displaying values between level changes SPRINT 3 user story
  * Created by Liandri on 9/10/2016.
  */
 

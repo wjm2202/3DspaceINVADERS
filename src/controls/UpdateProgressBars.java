@@ -5,7 +5,7 @@ package controls;
  */
 public class UpdateProgressBars {
 
-    public double getNewHealthStatus(int health){;
+    public double getNewHealthStatus(int health){
         double answer = (double)health/100;
         return answer;
     }

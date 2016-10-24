@@ -41,8 +41,8 @@ public class Name {
     }
 
     public Name() {
-        this.nickname = "";
-        this.email = "";
+        this.nickname = "Anon";
+        this.email = "Anon@anon.com";
     }
 
     public Name(String nickname, String email) {
