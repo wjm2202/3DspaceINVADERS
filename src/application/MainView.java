@@ -524,8 +524,9 @@ public class MainView extends Application{
 		scene.setOnMouseClicked((event)->{                                          //make picked objects red
 			PickResult res = event.getPickResult();                                 //pick 3d object
 			if (res.getIntersectedNode() instanceof Box){                           //if object is box
-				((Box)res.getIntersectedNode()).setMaterial(                        //set material
-						new PhongMaterial(event.isShiftDown() ? Color.BLACK : Color.RED));  //hold shift click 3D object for black else red
+				//((Box)res.getIntersectedNode()).setMaterial(                        //set material
+						//testing mouse selection of 3D object for future user story
+						//new PhongMaterial(event.isShiftDown() ? Color.BLACK : Color.RED));          //hold shift click 3D object for black else red
 				root.getChildren().remove(res);
 			}
 		});

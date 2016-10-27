@@ -126,7 +126,7 @@ public class CreateBox {
 	public Group makeModel(int modelNumber, int skinNum){
 		Group beast = new Group();
 		MeshView[] mv = mi.makeMesh(modelNumber);
-		System.out.println("before test object mi.size "+mv.length);
+		//System.out.println("before test object mi.size "+mv.length);
 
 		for (int i = 0; i < mv.length; i++) {
 			mv[i].setTranslateX(500);                  //was 500

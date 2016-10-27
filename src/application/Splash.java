@@ -137,7 +137,7 @@ public class Splash extends Application {
             Label playLbl = new Label("Name:  ");                                       //label
             //TextField play= new TextField("Player Name");                             //text box
             play = new TextField("Player Name");
-            Label levelLbl = new Label("Level: ");
+            Label levelLbl = new Label("Email: ");
             //TextField lvl = new TextField("Current Level");                           //lvl.settext(""+);
             email = new TextField("Email Address");
             Label score = new Label("Score: ");

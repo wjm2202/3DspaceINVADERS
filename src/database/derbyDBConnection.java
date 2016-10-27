@@ -24,7 +24,7 @@ public class derbyDBConnection {
             Class.forName(driver);
             //myconn = DriverManager.getConnection("jdbc:derby://localhost:1527/3DSpaceInvader", "teamGlen", "glen1234");
             myconn = DriverManager.getConnection(jdbc_derby, "teamGlen", "glen1234");
-            System.out.println("Connect Successful");
+            //System.out.println("Connect Successful");
             return myconn;
 
         } catch (Exception e) {//Catch exception if it fail to connect to Derby Database
